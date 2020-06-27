@@ -1,0 +1,73 @@
+Routes  
+    -Login/Register : [
+                        Username : '',
+                        Password : '',
+                        Name : '',
+                        email : '',
+                        settings : '',
+                        status : ''
+                      ],
+    -Hotels : [
+                id : '',
+                name : '',
+                email : '',
+                phone : '',
+                address : '',
+                gst_no : ''
+                    operation : [
+                        {add hotel},
+                        {update hotel},
+                        {delete hotel}
+                        ]
+               ],
+    -vendors : [
+                id : '',
+                name : '',
+                email : '',
+                phone : '',
+                address : '',
+                gst_no : ''
+                    operation : [
+                        {add vendor},
+                        {update vendor},
+                        {delete vendor}
+                        ]
+               ],
+    -Products : [
+                id : '',
+                name : '',
+                M_name : '',
+                H_name : '',
+                Wieght_type : '',
+                gst : ''
+                    operation : [
+                        {add Products},
+                        {update Products},
+                        {delete Products}
+                        ]
+               ],           
+    -Order : [
+                id : '',
+                Order_type : [
+                                {vendor_order},
+                                {hotel_order}
+                              ],
+                Products : [
+                             Ordered_products : [
+                                                    {
+                                                        product_id : '',
+                                                        quantity : '',
+                                                        price : ''
+                                                     }
+                                                ],
+                            ],
+                Total_amount : '',
+                Paid_amount : '',
+                    operation : [
+                        {add Order},
+                        {update order},
+                        {delete order},
+                        {add Products},
+                        {update/delete Products},
+                        ]
+               ],

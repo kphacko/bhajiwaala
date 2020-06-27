@@ -1,0 +1,24 @@
+Bhajiwala 
+
+[ ] Login !
+[ ] Add new hotel !
+[ ] Update hotel !
+[ ] Delete hotel ! 
+
+[ ] Add new Vendor !
+[ ] Update Vendor !
+[ ] Delete Vendor !
+
+[ ] Add new Products !
+[ ] Update Products !
+[ ] Delete Products !
+
+[ ] Add new Order !
+[ ] Update Order !
+[ ] Delete Order !
+
+[ ] View Total order (date wise) !
+[ ] View orders Hotel wise !
+[ ] View order vendor wise ! 
+
+
