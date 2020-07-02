@@ -23,6 +23,8 @@ app.use(session({
 //******* IMPORTING ROUTES *******\\
 const userRoutes = require('./bin/routes/user');
 const interactRoutes = require('./bin/routes/interact');
+const productsRoutes = require('./bin/routes/products');
+
 
 
 
@@ -30,7 +32,7 @@ const interactRoutes = require('./bin/routes/interact');
 //******* USING THE IMPORTED ROUTES *******\\
 app.use('/user', userRoutes);
 app.use('/interact', interactRoutes);
-// app.use('/product', productRoutes);
+app.use('/products', productsRoutes);
 // app.use('/order', orderRoutes);
 // app.use('/images', express.static('uploads/images'));
 
