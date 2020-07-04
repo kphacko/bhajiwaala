@@ -1,36 +1,36 @@
 {
-  "name": "bhajiwaala",
-  "version": "1.0.0",
-  "description": "",
-  "main": "connection.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js",
-    "server": "nodemon server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kphacko/bhajiwaala.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kphacko/bhajiwaala/issues"
-  },
-  "homepage": "https://github.com/kphacko/bhajiwaala#readme",
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
-    "dot-env": "0.0.1",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "express-session": "^1.17.1",
-    "http": "0.0.1-security",
-    "mysql": "^2.18.1",
-    "password-hash": "^1.2.2",
-    "session": "^0.1.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.4"
-  }
+    "name": "bhajiwaala",
+    "version": "1.0.0",
+    "description": "",
+    "main": "connection.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon server.js",
+        "server": "nodemon server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kphacko/bhajiwaala.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/kphacko/bhajiwaala/issues"
+    },
+    "homepage": "https://github.com/kphacko/bhajiwaala#readme",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.19.0",
+        "dot-env": "0.0.1",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "express-session": "^1.17.1",
+        "http": "0.0.1-security",
+        "mysql": "^2.18.1",
+        "password-hash": "^1.2.2",
+        "session": "^0.1.0"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.4"
+    }
 }

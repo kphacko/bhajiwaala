@@ -14,8 +14,8 @@ app.use(require('body-parser').json({ limit: '100mb' }));
 
 app.use(session({
     secret: "newkpsecretkey",
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: false
 }));
 
 
@@ -24,6 +24,8 @@ app.use(session({
 const userRoutes = require('./bin/routes/user');
 const interactRoutes = require('./bin/routes/interact');
 const productsRoutes = require('./bin/routes/products');
+const orderRoutes = require('./bin/routes/order');
+
 
 
 
@@ -33,7 +35,7 @@ const productsRoutes = require('./bin/routes/products');
 app.use('/user', userRoutes);
 app.use('/interact', interactRoutes);
 app.use('/products', productsRoutes);
-// app.use('/order', orderRoutes);
+app.use('/order', orderRoutes);
 // app.use('/images', express.static('uploads/images'));
 
 

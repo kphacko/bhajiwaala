@@ -13,15 +13,23 @@ exports.login = async(req, res, next) => {
 
                 const userValidated = await bcrypt.compare(req.body.password, results[0].password);
                 if (!userValidated) reject(customError.authFailed);
-
+                // console.log(results);
                 req.session.login = true;
                 req.session.phone = results[0].phone;
-                req.session.data = results[0];
+                // req.session.data = results[0];
                 //    res.redirect(req.baseUrl);
+                req.session.u_id = results[0].id;
+                req.session.email = results[0].email;
+                sendData = {
+                    "id": req.session.u_id,
+                    "email": req.session.email
+                }
+
+
                 resolve({
                     status: 200,
                     error: false,
-                    details: results
+                    details: sendData
                 })
             });
         })
