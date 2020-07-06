@@ -178,46 +178,46 @@ exports.addOrder = async(req, res, next) => {
 
 //some action edit ordered products
 
-exports.editOrder = async(req, res) => {
-    function editOrder(req, res) {
-        return new Promise((resolve, reject) => {
+// exports.editOrder = async(req, res) => {
+//     function editOrder(req, res) {
+//         return new Promise((resolve, reject) => {
 
 
-            sql.query(`SELECT * FROM ordered_products WHERE order_id=${req.body.order_id}`, (err, results) => {
-                if (!results[0]) {
-                    reject(customError.productNotFound);
-                } else {
-                    if (!err) {
+//             sql.query(`SELECT * FROM ordered_products WHERE order_id=${req.body.order_id}`, (err, results) => {
+//                 if (!results[0]) {
+//                     reject(customError.productNotFound);
+//                 } else {
+//                     if (!err) {
 
-                        resolve({
-                            error: false,
-                            details: results
-                        });
-                    } else {
-                        reject(
-                            mess = new Custom('Database error', err.code, 401)
+//                         resolve({
+//                             error: false,
+//                             details: results
+//                         });
+//                     } else {
+//                         reject(
+//                             mess = new Custom('Database error', err.code, 401)
 
-                        );
-                    }
-                }
-            });
-
-
-
+//                         );
+//                     }
+//                 }
+//             });
 
 
 
-        });
-    }
 
-    editOrder(req, res).then(message => {
-        res.json(message);
-    }).catch(error => {
-        // console.log(error);
-        res.status(error.code).json({
-            error: true,
-            details: error
-        });
-    });
 
-}
+
+//         });
+//     }
+
+//     editOrder(req, res).then(message => {
+//         res.json(message);
+//     }).catch(error => {
+//         // console.log(error);
+//         res.status(error.code).json({
+//             error: true,
+//             details: error
+//         });
+//     });
+
+// }
