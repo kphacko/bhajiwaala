@@ -7,31 +7,34 @@ exports.login = async(req, res, next) => {
     function login(req, res, next) {
         return new Promise((resolve, reject) => {
             const { phone, password, } = req.body;
-            if (!phone || !password) reject(customError.dataInvalid);
+            if (!phone || !password) {
+                reject(customError.dataInvalid)
+            } else {
 
-            sql.query(`SELECT * FROM user WHERE phone = '${req.body.phone}' OR email = '${req.body.phone}'`, async function(err, results) {
+                sql.query(`SELECT * FROM user WHERE phone = '${req.body.phone}' OR email = '${req.body.phone}'`, async function(err, results) {
 
-                const userValidated = await bcrypt.compare(req.body.password, results[0].password);
-                if (!userValidated) reject(customError.authFailed);
-                // console.log(results);
-                req.session.login = true;
-                req.session.phone = results[0].phone;
-                // req.session.data = results[0];
-                //    res.redirect(req.baseUrl);
-                req.session.u_id = results[0].id;
-                req.session.email = results[0].email;
-                sendData = {
-                    "id": req.session.u_id,
-                    "email": req.session.email
-                }
+                    const userValidated = await bcrypt.compare(req.body.password, results[0].password);
+                    if (!userValidated) reject(customError.authFailed);
+                    // console.log(results);
+                    req.session.login = true;
+                    req.session.phone = results[0].phone;
+                    // req.session.data = results[0];
+                    //    res.redirect(req.baseUrl);
+                    req.session.u_id = results[0].id;
+                    req.session.email = results[0].email;
+                    sendData = {
+                        "id": req.session.u_id,
+                        "email": req.session.email
+                    }
 
 
-                resolve({
-                    status: 200,
-                    error: false,
-                    details: sendData
-                })
-            });
+                    resolve({
+                        status: 200,
+                        error: false,
+                        details: sendData
+                    })
+                });
+            }
         })
     }
     login(req, res, next).then(message => {

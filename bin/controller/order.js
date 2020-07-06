@@ -112,13 +112,41 @@ exports.addOrder = async(req, res, next) => {
                             count--;
                             // console.log(ordered_products);
                         }
+                        let invoice = [
+                            [
+                                req.session.u_id,
+                                rows.insertId,
+                                stamp
+                            ]
+                        ]
+                        sq = 'INSERT INTO invoice (u_id,ref_id,date) VALUES ?';
+                        sql.query(sq, [invoice], (err, rows, result) => {
+                            if (!err) {
+                                resolve({
+                                    error: false,
+                                    details: rows
+                                });
+                            } else {
+                                reject(
+                                    // console.log(err),
+                                    mess = new Custom('Database error', err.code, 401)
+                                );
+                            }
 
+                        });
                         sq = 'INSERT INTO ordered_products (order_id,p_id,quantity,price) VALUES ?';
                         sql.query(sq, [ordered_products], (err, rows, result) => {
-                            resolve({
-                                error: false,
-                                details: rows
-                            });
+                            if (!err) {
+                                resolve({
+                                    error: false,
+                                    details: rows
+                                });
+                            } else {
+                                reject(
+                                    console.log(err),
+                                    mess = new Custom('Database error', err.code, 401)
+                                );
+                            }
                         });
 
 
@@ -145,5 +173,51 @@ exports.addOrder = async(req, res, next) => {
             details: error
         });
     })
+
+}
+
+//some action edit ordered products
+
+exports.editOrder = async(req, res) => {
+    function editOrder(req, res) {
+        return new Promise((resolve, reject) => {
+
+
+            sql.query(`SELECT * FROM ordered_products WHERE order_id=${req.body.order_id}`, (err, results) => {
+                if (!results[0]) {
+                    reject(customError.productNotFound);
+                } else {
+                    if (!err) {
+
+                        resolve({
+                            error: false,
+                            details: results
+                        });
+                    } else {
+                        reject(
+                            mess = new Custom('Database error', err.code, 401)
+
+                        );
+                    }
+                }
+            });
+
+
+
+
+
+
+        });
+    }
+
+    editOrder(req, res).then(message => {
+        res.json(message);
+    }).catch(error => {
+        // console.log(error);
+        res.status(error.code).json({
+            error: true,
+            details: error
+        });
+    });
 
 }

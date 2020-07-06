@@ -1,39 +1,43 @@
-// function changeTimezone(date, ianatz) {
-
-//     // suppose the date is 12:00 UTC
-//     var invdate = new Date(date.toLocaleString('en-US', {
-//         timeZone: ianatz
-//     }));
-
-//     // then invdate will be 07:00 in Toronto
-//     // and the diff is 5 hours
-//     var diff = date.getTime() - invdate.getTime();
-
-//     // so 12:00 in Toronto is 17:00 UTC
-//     return new Date(date.getTime() + diff);
-
-// }
-
-// // E.g.
-// var there = new Date();
-// // var here = changeTimezone(there, "America/Toronto");
-
-// // console.log(`Here: \nToronto: ${there.toString()}`);
-// console.log(there);
+require('dotenv/config');
+// const mysql = require('mysql');
+const express = require('express');
+const bodyParser = require('body-parser');
+const mysql = require('mysql2/promise');
+const app = express();
+app.use(express.json());
+app.use(require('body-parser').json());
+app.use(require('body-parser').urlencoded({ extended: true, limit: '100mb' }));
+app.use(require('body-parser').json({ limit: '100mb' }));
 
 
+const pool = mysql.createPool({
+    host: '107.178.102.117',
+    user: 'techmyli_user',
+    password: 'DX7@karan',
+    database: 'techmyli_bhajiwaala',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+});
 
-// var foo1 = 'foo';
-// var foo2 = 'bar';
-// var foo3 = 'baz';
 
-// var index = 2;
-// console.log(eval('foo'= + index));
 
-let kp = [];
-let kp1 = new Array('name', 'age', 'surname');
-let kp2 = new Array('2name', '1age', '1surname');
-kp.push(kp1);
-kp.push(kp2);
 
-console.log(kp);
+
+
+
+// let kp = getBlogPost(11);
+// console.log(kp);
+
+app.get('/', (req, res) => {
+    res.send(
+        pool.query(`SELECT * from ordered_products WHERE order_id = ${req.body.id}`, (error, result) => {
+            res.send(result);
+            console.log(result);
+        })
+    );
+});
+
+app.listen(5000, () => {
+    console.log('listening on port 5000');
+});
