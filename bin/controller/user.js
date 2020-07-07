@@ -8,37 +8,58 @@ exports.login = async(req, res, next) => {
         return new Promise((resolve, reject) => {
             const { phone, password, } = req.body;
             if (!phone || !password) {
-                reject(customError.dataInvalid)
+                reject({
+                    error: customError.dataInvalid,
+                    page: 'login',
+                    data: {
+                        loginStatus: 'empty'
+                    }
+                })
             } else {
 
                 sql.query(`SELECT * FROM user WHERE phone = '${req.body.phone}' OR email = '${req.body.phone}'`, async function(err, results) {
 
                     const userValidated = await bcrypt.compare(req.body.password, results[0].password);
-                    if (!userValidated) reject(customError.authFailed);
-                    // console.log(results);
-                    req.session.login = true;
-                    req.session.phone = results[0].phone;
-                    // req.session.data = results[0];
-                    //    res.redirect(req.baseUrl);
-                    req.session.u_id = results[0].id;
-                    req.session.email = results[0].email;
-                    sendData = {
-                        "id": req.session.u_id,
-                        "email": req.session.email
+                    if (!userValidated) {
+                        reject({
+                            error: customError.authFailed,
+                            page: 'login',
+                            data: {
+                                loginStatus: 'invalid'
+                            }
+                        });
+                    } else {
+                        // console.log(results);
+                        req.session.login = true;
+                        req.session.phone = results[0].phone;
+                        // req.session.data = results[0];
+                        //    res.redirect(req.baseUrl);
+                        req.session.u_id = results[0].id;
+                        req.session.email = results[0].email;
+                        sendData = {
+                            "id": req.session.u_id,
+                            "email": req.session.email
+                        }
+                        resolve({
+                            error: {
+                                code: 200
+                            },
+                            page: 'index',
+                            data: {
+                                userData: sendData
+                            }
+                        });
                     }
-                    resolve(res.render('index', { userData: sendData }))
                 });
             }
         })
     }
     login(req, res, next).then(message => {
-        res.json(message);
+        console.log(message.data);
+        res.status(message.error.code).render(message.page, { data: message.data });
     }).catch(error => {
         // console.log(error);
-        res.status(error.code).json({
-            error: true,
-            details: error
-        });
+        res.status(error.error.code).render(error.page, { data: error.data.loginStatus });
     })
 
 }
