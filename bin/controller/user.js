@@ -26,13 +26,7 @@ exports.login = async(req, res, next) => {
                         "id": req.session.u_id,
                         "email": req.session.email
                     }
-
-
-                    resolve({
-                        status: 200,
-                        error: false,
-                        details: sendData
-                    })
+                    resolve(res.render('index', { userData: sendData }))
                 });
             }
         })
