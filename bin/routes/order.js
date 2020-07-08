@@ -8,8 +8,10 @@ router.get('/getOrder/:id', userController.getOrder);
 router.post('/addOrder', userController.addOrder);
 router.get('/addOrder', (req, res) => {
     res.render('createOrder');
-})
-
+});
+router.get('/totalOrder', (req, res) => {
+    res.render('totalOrder');
+});
 //some action to edit product
 // router.patch('/editOrder', userController.editOrder);
 
