@@ -113,6 +113,16 @@
     font-size: 14px;
 }
 
+.button1 {
+    width: 63%;
+}
+
+@media (min-width: 1200px) {
+    .button1 {
+        width: 108% !important;
+    }
+}
+
 
 /* Chrome, Safari, Edge, Opera */
 

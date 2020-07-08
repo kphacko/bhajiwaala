@@ -12,6 +12,10 @@ router.get('/addOrder', (req, res) => {
 router.get('/totalOrder', (req, res) => {
     res.render('totalOrder');
 });
+router.get('/editOrder', (req, res) => {
+    res.render('editOrder');
+});
+
 //some action to edit product
 // router.patch('/editOrder', userController.editOrder);
 
