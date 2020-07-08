@@ -13,7 +13,7 @@ exports.getProducts = async(req, res, next) => {
 
             if (req.params.id == 'all') {
 
-                sql.query(`SELECT * FROM products `, (err, results) => {
+                sql.query(`SELECT * FROM products WHERE status=0`, (err, results) => {
                     // console.log(results);
                     if (!results[0]) {
                         reject(customError.userNotFound);
@@ -35,7 +35,7 @@ exports.getProducts = async(req, res, next) => {
 
             } else {
 
-                sql.query(`SELECT * FROM products WHERE id=${req.params.id}`, (err, results) => {
+                sql.query(`SELECT * FROM products WHERE status=0 AND id=${req.params.id}`, (err, results) => {
                     if (!results[0]) {
                         reject(customError.userNotFound);
                     } else {
@@ -88,7 +88,7 @@ exports.addProducts = async(req, res, next) => {
 
 
             } else {
-                sql.query(`SELECT * FROM products WHERE name = '${req.body.name}' `, (err, results) => {
+                sql.query(`SELECT * FROM products WHERE status=0 AND name = '${req.body.name}' `, (err, results) => {
                     // console.log(err);
                     if (results[0]) {
                         reject(customError.productExists);
@@ -152,7 +152,7 @@ exports.editProducts = async(req, res, next) => {
                 }
 
             } else {
-                sql.query(`SELECT * FROM products WHERE id = ${req.body.id}`, (err, results) => {
+                sql.query(`SELECT * FROM products WHERE status=0 AND id = ${req.body.id}`, (err, results) => {
                     if (!results[0]) {
                         reject(customError.productNotFound);
                     } else {
@@ -202,14 +202,14 @@ exports.deleteProducts = async(req, res, next) => {
 
 
             if (!req.params.id) reject(mess = new Custom('Data is incorrect', 'Send appropriate id!!', 401));
-            sql.query(`SELECT * FROM products WHERE id = ${req.params.id}`, (err, results) => {
+            sql.query(`SELECT * FROM products WHERE status=0 AND id = ${req.params.id}`, (err, results) => {
                 // console.log(err);
 
                 if (!results[0]) {
                     reject(customError.productNotFound);
                 } else {
 
-                    sq = `DELETE FROM products WHERE id=${req.params.id}`;
+                    sq = `UPDATE products SET status=1 WHERE id=${req.params.id}`;
                     sql.query(sq, (err, rows, result) => {
                         if (!err) {
                             resolve({

@@ -13,7 +13,7 @@ exports.getHotel = async(req, res, next) => {
 
             if (req.params.id == 'all') {
 
-                sql.query(`SELECT * FROM hotel `, (err, results) => {
+                sql.query(`SELECT * FROM hotel WHERE status=0`, (err, results) => {
                     // console.log(results);
                     if (!results[0]) {
                         reject(customError.userNotFound);
@@ -35,7 +35,7 @@ exports.getHotel = async(req, res, next) => {
 
             } else {
 
-                sql.query(`SELECT * FROM hotel WHERE id=${req.params.id}`, (err, results) => {
+                sql.query(`SELECT * FROM hotel WHERE status=0 AND id=${req.params.id}`, (err, results) => {
                     if (!results[0]) {
                         reject(customError.userNotFound);
                     } else {
@@ -92,7 +92,7 @@ exports.addHotel = async(req, res, next) => {
                 }
 
             } else {
-                sql.query(`SELECT * FROM hotel WHERE phone = ${req.body.phone} OR email= '${req.body.email}'`, (err, results) => {
+                sql.query(`SELECT * FROM hotel WHERE status=0 AND phone = ${req.body.phone} OR email= '${req.body.email}'`, (err, results) => {
                     if (results[0]) {
                         reject(customError.userExists);
                     } else {
@@ -155,7 +155,7 @@ exports.editHotel = async(req, res, next) => {
                 }
 
             } else {
-                sql.query(`SELECT * FROM hotel WHERE id = ${req.body.id}`, (err, results) => {
+                sql.query(`SELECT * FROM hotel WHERE status=0 AND id = ${req.body.id}`, (err, results) => {
                     if (!results[0]) {
                         reject(customError.userNotFound);
                     } else {
@@ -205,14 +205,14 @@ exports.deleteHotel = async(req, res, next) => {
 
 
             if (!req.params.id) reject(mess = new Custom('Data is incorrect', 'Send appropriate id!!', 401));
-            sql.query(`SELECT * FROM hotel WHERE id = ${req.params.id}`, (err, results) => {
+            sql.query(`SELECT * FROM hotel WHERE status=0 AND id = ${req.params.id}`, (err, results) => {
                 // console.log(err);
 
                 if (!results[0]) {
                     reject(customError.userNotFound);
                 } else {
 
-                    sq = `DELETE FROM hotel WHERE id=${req.params.id}`;
+                    sq = `UPDATE hotel SET status=1 WHERE id=${req.params.id}`;
                     sql.query(sq, (err, rows, result) => {
                         if (!err) {
                             resolve({
@@ -258,7 +258,7 @@ exports.getVendor = async(req, res, next) => {
 
             if (req.params.id == 'all') {
 
-                sql.query(`SELECT * FROM vendor `, (err, results) => {
+                sql.query(`SELECT * FROM vendor WHERE status=0`, (err, results) => {
                     console.log(results);
                     if (!results[0]) {
                         reject(customError.userNotFound);
@@ -280,7 +280,7 @@ exports.getVendor = async(req, res, next) => {
 
             } else {
 
-                sql.query(`SELECT * FROM vendor WHERE id=${req.params.id}`, (err, results) => {
+                sql.query(`SELECT * FROM vendor WHERE status=0 AND id=${req.params.id}`, (err, results) => {
                     if (!results[0]) {
                         reject(customError.userNotFound);
                     } else {
@@ -336,7 +336,7 @@ exports.addVendor = async(req, res, next) => {
                 }
 
             } else {
-                sql.query(`SELECT * FROM vendor WHERE phone = ${req.body.phone} OR email= '${req.body.email}'`, (err, results) => {
+                sql.query(`SELECT * FROM vendor WHERE status=0 AND phone = ${req.body.phone} OR email= '${req.body.email}'`, (err, results) => {
                     if (results[0]) {
                         reject(customError.userExists);
                     } else {
@@ -400,7 +400,7 @@ exports.editVendor = async(req, res, next) => {
                 }
 
             } else {
-                sql.query(`SELECT * FROM vendor WHERE id = ${req.body.id}`, (err, results) => {
+                sql.query(`SELECT * FROM vendor WHERE status=0 AND id = ${req.body.id}`, (err, results) => {
                     if (!results[0]) {
                         reject(customError.userNotFound);
                     } else {
@@ -450,14 +450,14 @@ exports.deleteVendor = async(req, res, next) => {
         return new Promise((resolve, reject) => {
 
             if (!req.params.id) reject(mess = new Custom('Data is incorrect', 'Send appropriate id!!', 401));
-            sql.query(`SELECT * FROM vendor WHERE id = ${req.params.id}`, (err, results) => {
+            sql.query(`SELECT * FROM vendor WHERE status=0 AND id = ${req.params.id}`, (err, results) => {
                 // console.log(err);
 
                 if (!results[0]) {
                     reject(customError.userNotFound);
                 } else {
 
-                    sq = `DELETE FROM vendor WHERE id=${req.params.id}`;
+                    sq = `UPDATE vendor SET status=1 WHERE id=${req.params.id}`;
                     sql.query(sq, (err, rows, result) => {
                         if (!err) {
                             resolve({
