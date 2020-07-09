@@ -12,23 +12,28 @@ router.get('/addHotel', (req, res) => {
 });
 //some action to edit hotel
 router.patch('/editHotel', userController.editHotel);
-
+router.get('/editdeleteHotel', (req, res) => {
+    res.render('editdeleteHotel')
+});
 //some action to delete hotel 
 router.delete('/deleteHotel/:id', userController.deleteHotel);
 
 //some action to get vendor
 router.get('/getVendor/:id', userController.getVendor);
 
-//some action to add hotel
+//some action to add vendor
 router.post('/addVendor', userController.addVendor);
 router.get('/addVendor', (req, res) => {
     res.render('addVendor');
 });
 
-//some action to edit hotel
+//some action to edit vendor
 router.patch('/editVendor', userController.editVendor);
+router.get('/editdeleteVendor', (req, res) => {
+    res.render('editdeleteVendor');
+});
 
-//some action to delete hotel 
+//some action to delete vendor 
 router.delete('/deleteVendor/:id', userController.deleteVendor);
 
 module.exports = router;

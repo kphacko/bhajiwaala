@@ -13,7 +13,7 @@
     });
 </script>
 <script>
-    $(".disabled-results").select2();
+    // $(".disabled-results").select2();
 </script>
 <script src="/assets/js/custom.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
@@ -108,6 +108,21 @@
     multiCheck(c3);
 </script>
 <!-- table js end -->
+
+<!-- search button js start  -->
+<script src="/assets/js/scrollspyNav.js"></script>
+<script src="/plugins/select2/select2.min.js"></script>
+<script src="/plugins/select2/custom-select2.js"></script>
+<!-- sraech button js end  -->
+<!-- select js start  -->
+<script>
+    $(".placeholder").select2({
+        placeholder: "Make a Selection",
+        allowClear: true
+    });
+</script>
+<!-- select js end -->
+
 </body>
 
 </html>
