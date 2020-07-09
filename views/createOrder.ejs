@@ -9,6 +9,7 @@
                         <div class="row">
                             <div class="col-xl-12 col-md-12 col-sm-12 col-12">
                                 <h3><b>Create Order</b></h3>
+
                                 <div class="mt-4">
                                     <h5>order details</h5>
                                 </div>
@@ -16,86 +17,78 @@
                         </div>
                     </div>
 
+                    <form action="/order/addOrder" method="POST">
+                        <input name="type" value="HOTEL" hidden>
 
+                        <div class="input-group mt-4 mb-4">
+                            <p>Select hotel</p>
 
-                    <div class="input-group mt-4 mb-4">
-                        <p>Select hotel</p>
-
-                        <select class="placeholder js-states form-control">
-    <option>Choose...</option>
-    <option value="one">First</option>
-    <option value="two">Second</option>
-    <option value="three">Third</option>
-    <option value="four">Fourth</option>
-    <option value="five">Fifth</option>
+                            <select name="ref" id="list" class="placeholder js-states form-control">
+   
 </select>
-                    </div>
-                    <p>delivery date</p>
-
-                    <div class="input-group mb-4">
-                        <input type="date" class="form-control" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy">
-                    </div>
-                    <div class="table-responsive mb-4">
-                        <p>Product & Quantity</p>
-
-                        <table id="style-3" class="table style-3  table-hover">
-                            <thead>
-                                <tr>
-                                    <th class="checkbox-column text-center"> Record Id </th>
-                                    <th> Name</th>
-                                    <th>Marathi Name</th>
-                                    <th>quantity</th>
-                                    <th>price</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="checkbox-column text-center"> 1 </td>
-                                    <td>Donna</td>
-                                    <td>Rogers</td>
-                                    <td>
-                                        <input type="number" placeholder=" quantity" aria-label="enter the quantity">
-
-                                    </td>
-                                    <td>
-                                        <input type="number" placeholder=" quantity" aria-label="enter the quantity">
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="checkbox-column text-center"> 2 </td>
-                                    <td>Andy</td>
-                                    <td>King</td>
-                                    <td>
-                                        <div class="input-group mb-4">
-                                            <div class="input-group-prepend">
-                                                <input type="number" placeholder="quantity" aria-label="enter the quantity">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="input-group mb-4">
-                                            <div class="input-group-prepend">
-                                                <input type="number" placeholder=" amount" aria-label="amount">
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="container">
-                        <div class="center">
-                            <button class="mt-4 btn btn-primary">Submit</button>
-
                         </div>
-                    </div>
+                        <p>delivery date</p>
+
+                        <div class="input-group mb-4">
+                            <input type="date" name="date" class="form-control" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy">
+                        </div>
+                        <div class="table-responsive mb-4">
+                            <p>Product & Quantity</p>
+
+                            <table id="style-3" class="table style-3  table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="checkbox-column text-center"> Record Id </th>
+                                        <th> Name</th>
+                                        <th>Marathi Name</th>
+                                        <th>quantity</th>
+                                        <th>price</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%  let c=1;
+                                data.forEach((product)=>{ %>
+                                        <tr>
+                                            <td class="checkbox-column text-center">
+                                                <%= c %>
+                                            </td>
+                                            <td>
+                                                <%= product.name %>
+                                            </td>
+                                            <td>
+                                                <%= product.marathi %>
+                                            </td>
+                                            <td>
+                                                <input name="quantity<%= c %>" type="number" placeholder=" quantity" aria-label="enter the quantity">
+                                                <input name="product_id<%= c %>" value="<%=product.id%>" hidden>
+
+                                            </td>
+                                            <td>
+                                                <input name="price<%= c%>" type="number" placeholder="price" aria-label="enter the price">
+
+                                            </td>
+                                        </tr>
+                                        <% c++; %>
+                                            <% }); %>
+                                                <input name="count" value="<%=c%>" hidden>
 
 
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="container">
+                            <div class="center">
+                                <button class="mt-4 btn btn-primary">Submit</button>
+
+                            </div>
+                        </div>
+
+                    </form>
                 </div>
             </div>
         </div>
@@ -103,6 +96,27 @@
     </div>
 
 
+    <script src="/assets/axios.js"></script>
 
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script> -->
+    <script>
+        function makeGetRequest(path) {
+            axios.get(path).then(
+                (response) => {
+                    var result = response.data;
+
+                    const sb = document.querySelector('#list');
+                    const option = new Option(result.details[0].name, result.details[0].id);
+                    // add it to the list
+                    sb.add(option, undefined);
+                    // console.log(result.details[0].name);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+        }
+        makeGetRequest('http://localhost:3000/interact/getHotel/all');
+    </script>
 
     <%- include("footer") %>

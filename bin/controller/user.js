@@ -22,11 +22,7 @@ exports.login = async(req, res, next) => {
                     const userValidated = await bcrypt.compare(req.body.password, results[0].password);
                     if (!userValidated) {
                         reject({
-                            error: customError.authFailed,
-                            page: 'login',
-                            data: {
-                                loginStatus: 'invalid'
-                            }
+                            error: customError.authFailed
                         });
                     } else {
                         // console.log(results);
@@ -35,19 +31,13 @@ exports.login = async(req, res, next) => {
                         // req.session.data = results[0];
                         //    res.redirect(req.baseUrl);
                         req.session.u_id = results[0].id;
+                        req.session.role = results[0].privilege;
                         req.session.email = results[0].email;
-                        sendData = {
-                            "id": req.session.u_id,
-                            "email": req.session.email
-                        }
                         resolve({
                             error: {
                                 code: 200
                             },
-                            page: 'index',
-                            data: {
-                                userData: sendData
-                            }
+                            req: req
                         });
                     }
                 });
@@ -55,11 +45,11 @@ exports.login = async(req, res, next) => {
         })
     }
     login(req, res, next).then(message => {
-        console.log(message.data);
-        res.status(message.error.code).render(message.page, { data: message.data });
+        // console.log(message.data);
+        res.status(message.error.code).redirect('/');
     }).catch(error => {
         // console.log(error);
-        res.status(error.error.code).render(error.page, { data: error.data.loginStatus });
+        res.status(error.error.code).redirect(`/user/login?status=invalid`);
     })
 
 }

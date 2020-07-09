@@ -6,7 +6,8 @@ const session = require('express-session');
 const mysqlConnection = require('./connection');
 const CustomError = require('./bin/custom/error');
 const moment = require('moment-timezone');
-
+const middleware = require('./bin/middleware/auth');
+const cors = require('cors');
 const app = express();
 
 
@@ -25,6 +26,7 @@ const app = express();
 //     ].join(' ')
 // }));
 app.use(express.json());
+app.use(cors({ origin: true, credentials: true }));
 app.use(require('body-parser').json());
 app.use(require('body-parser').urlencoded({ extended: true, limit: '100mb' }));
 app.use(require('body-parser').json({ limit: '100mb' }));
@@ -44,6 +46,7 @@ const userRoutes = require('./bin/routes/user');
 const interactRoutes = require('./bin/routes/interact');
 const productsRoutes = require('./bin/routes/products');
 const orderRoutes = require('./bin/routes/order');
+const { checkAdmin } = require('./bin/middleware/auth');
 
 
 
@@ -55,7 +58,9 @@ app.use('/interact', interactRoutes);
 app.use('/products', productsRoutes);
 app.use('/order', orderRoutes);
 app.use('/images', express.static('uploads/images'));
-
+app.use('/', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, (req, res) => {
+    res.render('index');
+});
 
 
 //******* ERROR HANDLING *******\\

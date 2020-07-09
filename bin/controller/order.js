@@ -75,7 +75,7 @@ exports.addOrder = async(req, res, next) => {
     function addOrder(req, res, next) {
 
         return new Promise((resolve, reject) => {
-            if (!req.session.u_id) reject(mess = new Custom('login error', 'please login first then try', 401));
+            // if (!req.session.u_id) reject(mess = new Custom('login error', 'please login first then try', 401));
             const { ref, type } = req.body;
             // console.log(name, phone);
             if (!ref || !type) {
@@ -85,7 +85,7 @@ exports.addOrder = async(req, res, next) => {
 
 
             } else {
-                let stamp = new Date();
+                let stamp = req.body.date;
                 let data = [
                     [
                         req.session.u_id,
@@ -165,13 +165,10 @@ exports.addOrder = async(req, res, next) => {
         })
     }
     addOrder(req, res, next).then(message => {
-        res.json(message);
+        res.status(message.code).redirect('/order/addOrder?status=added');
     }).catch(error => {
         // console.log(error);
-        res.status(error.code).json({
-            error: true,
-            details: error
-        });
+        res.status(error.code).redirect('/order/addOrder?status=error');
     })
 
 }
