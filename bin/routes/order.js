@@ -8,8 +8,11 @@ const superagent = require('superagent');
 
 //some action to get products
 router.get('/getOrder/:id', userController.getOrder);
+
 //some action to add product
 router.post('/addOrder', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, userController.addOrder);
+
+//ejs route
 router.get('/addOrder', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, (req, res) => {
 
     // callback
@@ -30,17 +33,41 @@ router.get('/addOrder', (req, res, next) => { checkAdmin(req, res, next, ['admin
 
 
 });
+
+//ejs route
 router.get('/totalOrder', (req, res) => {
     res.render('totalOrder');
 });
+
+//ejs route
 router.get('/editOrder', (req, res) => {
-    res.render('editOrder');
+    if (!req.query.id) {
+        // callback
+        superagent
+            .get('http://localhost:3000/order/getOrder/all')
+            .set('accept', 'json')
+            .end((err, result) => {
+                if (!err) {
+                    let data = JSON.parse(result.text);
+                    // console.log(data);
+                    res.render('selectOrder', { data: data.details });
+                } else {
+                    res.render('index');
+                }
+
+                // Calling the end function will send the request
+            });
+
+    } else {
+        res.render('editOrder');
+
+    }
 });
 
-//some action to edit product
-// router.patch('/editOrder', userController.editOrder);
+// some action to edit order
+router.post('/editOrder', userController.editOrder);
 
-// //some action to delete product 
+// //some action to delete order 
 // router.delete('/deleteOrder/:id', userController.deleteOrder);
 
 module.exports = router;
