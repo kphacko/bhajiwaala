@@ -48,42 +48,25 @@ const { compareSync } = require("bcryptjs");
 
 let kp = (message) => {
     return new Promise((resolve, reject) => {
-        console.log('inside kp');
+        console.log('inside kp1');
         resolve(1);
     });
 
 }
-let response;
-let name = async() => {
-    response = await kp('12');
-    console.log(response);
+let kp1 = (message) => {
+    return new Promise((resolve, reject) => {
+        console.log('inside kp2');
+        resolve(2);
+    });
+
 }
-name();
+let kp2 = (message) => {
+    return new Promise((resolve, reject) => {
+        console.log('inside kp3');
+        resolve(3);
+    });
 
+}
 
-// kp('kp').then((message) => {
-//     console.log(message);
-//     return (message + 1);
-// }).then((message) => {
-//     console.log(message);
-
-//     function cal(message) {
-//         return new Promise((resolve, reject) => {
-//             resolve(message + 1);
-//         });
-//     }
-//     return cal(message);
-// }).then((message) => {
-//     console.log(message);
-
-//     function cal(message) {
-//         return new Promise((resolve, reject) => {
-//             resolve(message + 1);
-//         });
-//     }
-//     return cal(message);
-// }).then((message) => {
-//     console.log(message);
-// }).catch((message) => {
-//     console.log(message);
-// });
+let out = Promise.all(kp(), kp1('hyfhyf'), kp2('ytf'));
+console.log(out);

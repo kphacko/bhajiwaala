@@ -34,9 +34,11 @@
                                 data.forEach((order)=>{ %>
                                         <tr>
                                             <td class=" text-center">
-                                                <% order.id%>
+                                                <%= order.id%>
                                             </td>
-                                            <td></td>
+                                            <td>
+                                                <%= order.hotel[0].name%>
+                                            </td>
                                             <td>9874651230</td>
                                             <td> 27 AAAAA1111A 1 Z F </td>
                                             <td> xyz@gmail.com</td>
@@ -47,7 +49,7 @@
                                                 </ul>
                                             </td>
                                         </tr>
-                                        <% }%>
+                                        <% })%>
 
                                 </tbody>
                             </table>

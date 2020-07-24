@@ -50,7 +50,7 @@ router.get('/editOrder', (req, res) => {
                 if (!err) {
                     let data = JSON.parse(result.text);
                     // console.log(data);
-                    res.render('selectOrder', { data: data.details });
+                    res.render('selectOrder', { data: data });
                 } else {
                     res.render('index');
                 }

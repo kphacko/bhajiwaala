@@ -96,27 +96,5 @@
     </div>
 
 
-    <script src="/assets/axios.js"></script>
-
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script> -->
-    <script>
-        function makeGetRequest(path) {
-            axios.get(path).then(
-                (response) => {
-                    var result = response.data;
-
-                    const sb = document.querySelector('#list');
-                    const option = new Option(result.details[0].name, result.details[0].id);
-                    // add it to the list
-                    sb.add(option, undefined);
-                    // console.log(result.details[0].name);
-                },
-                (error) => {
-                    console.log(error);
-                }
-            );
-        }
-        makeGetRequest('http://localhost:3000/interact/getHotel/all');
-    </script>
 
     <%- include("footer") %>

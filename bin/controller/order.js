@@ -2,101 +2,119 @@ const sql = require('../../connection');
 const customError = require('../custom/errors');
 const Custom = require('../custom/error');
 const { PerformanceObserver, performance } = require('perf_hooks');
+const functions = require('../custom/function');
+const e = require('express');
 
-
-let getAllOrders = () => {
-    return new Promise((resolve, reject) => {
-        try {
-            sql.query(`SELECT * FROM orders ORDER BY date DESC `, (err, results) => {
-                if (err) throw err;
-                if (!results[0]) throw customError.productNotFound;
-                resolve(results);
-            });
-        } catch (err) {
-            console.log(err);
-            reject(mess = new Custom('Database error', err.code, 401))
-        }
-
-    });
-}
-
-let getAlltotal = async(orderArray) => {
-    try {
-        var t0 = performance.now()
-
-        let query1 = (x) => {
-            return new Promise((resolve, reject) => {
-                sql.query(`SELECT * FROM hotel WHERE id=${x}`, (err, results) => {
-                    if (err) throw err;
-                    if (!results[0]) throw customError.productNotFound;
-                    resolve(results);
-                })
-            });
-        }
-
-        await Promise.all(orderArray.map(async(e, i) => orderArray[i].hotel = await query1(e.ref_id)));
-
-        var t1 = performance.now();
-        console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
-
-        return orderArray;
-    } catch (err) {
-        console.log(err);
-        reject(mess = new Custom('Database error', err.code, 401))
-    }
-
-}
-
-// let getAlltotal = (orderArray) => {
-
-
-//     orderArray.forEach((element, e) => {
-//         asynchronousProcess(sql.query(`SELECT * FROM hotel WHERE id=${element.ref_id}`, (err, results) => {
-//             console.log(e);
-//             orderArray[e].hotel = results;
-//         }));
-
+// let getAllOrders = () => {
+//     return new Promise((resolve, reject) => {
+//         try {
+//             sql.query(`SELECT * FROM orders ORDER BY date DESC `, (err, results) => {
+//                 if (err) throw err;
+//                 if (!results[0]) throw customError.productNotFound;
+//                 resolve(results);
+//             });
+//         } catch (err) {
+//             console.log(err);
+//             reject(mess = new Custom('Database error', err.code, 401))
+//         }
 
 //     });
+// }
 
+// let getAlltotal = async(orderArray) => {
+//     try {
+
+
+//         let query1 = (x) => {
+//             return new Promise((resolve, reject) => {
+//                 sql.query(`SELECT * FROM hotel WHERE id=${x}`, (err, results) => {
+//                     if (err) throw err;
+//                     if (!results[0]) throw customError.productNotFound;
+//                     resolve(results);
+//                 })
+//             });
+//         }
+
+//         await Promise.all(orderArray.map(async(e, i) => orderArray[i].hotel = await query1(e.ref_id)));
+
+
+
+//         return orderArray;
+//     } catch (err) {
+//         console.log(err);
+//         reject(mess = new Custom('Database error', err.code, 401))
+//     }
 
 // }
 
-let allproducts = async(orderArray) => {
 
-    try {
-        var t0 = performance.now()
+// let allproducts = async(orderArray) => {
 
-        let query1 = (x) => {
-            return new Promise((resolve, reject) => {
-                sql.query(`SELECT * FROM ordered_products WHERE order_id=${x}`, (err, results) => {
-                    if (err) throw err;
-                    if (!results[0]) throw customError.productNotFound;
-                    resolve(results);
-                })
-            });
-        }
+//     try {
 
-        await Promise.all(orderArray.map(async(e, i) => orderArray[i].ordered_products = await query1(e.id)));
+//         let query1 = (x) => {
+//             return new Promise((resolve, reject) => {
+//                 sql.query(`SELECT * FROM ordered_products WHERE order_id=${x}`, (err, results) => {
+//                     if (err) throw err;
+//                     if (!results[0]) throw customError.productNotFound;
+//                     resolve(results);
+//                 })
+//             });
+//         }
 
-        var t1 = performance.now();
-        console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
+//         await Promise.all(orderArray.map(async(e, i) => orderArray[i].ordered_products = await query1(e.id)));
 
-        return orderArray;
-    } catch (err) {
-        console.log(err);
-        reject(mess = new Custom('Database error', err.code, 401))
-    }
 
-}
+//         return orderArray;
+//     } catch (err) {
+//         console.log(err);
+//         reject(mess = new Custom('Database error', err.code, 401))
+//     }
+
+// }
 
 exports.getOrder = async(req, res) => {
     try {
-        let allOrders = await getAllOrders();
-        let alltotal = await getAlltotal(allOrders);
-        let allproduct = await allproducts(alltotal);
 
-        res.json(allproduct);
+        let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,hotel.id AS hotel_id,hotel.name 
+        AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity,ordered_products.price FROM orders 
+        INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
+        INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id  ORDER BY orders.date DESC`);
+        // let allOrders = await getAllOrders();
+        // let alltotal = await getAlltotal(allOrders);
+        // let allproduct = await allproducts(alltotal);
+        let orders = allproduct.map((element) => {
+
+            return {
+                "id": element.order_id,
+                "date": element.date,
+                "hotel": { "hotel_id": element.hotel_id, "hotel_name": element.hotel_name },
+                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price }]
+            }
+
+        });
+
+        let exists = [];
+        let updatedOrders = [];
+
+        orders.map((element, j) => {
+
+            for (var i = 0; i < orders.length; i++) {
+                if (i != j) {
+                    if (element.id == orders[i].id) {
+                        element.products = element.products.concat(orders[i].products);
+                    }
+                }
+            }
+            if (exists.indexOf(element.id) == -1) {
+                updatedOrders.push(element);
+                exists.push(element.id);
+            }
+        })
+
+        console.log(exists);
+
+        res.json(updatedOrders);
     } catch (error) {
         console.log(error);
     }

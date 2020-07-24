@@ -5,8 +5,8 @@ const mysqlConnection = mysql.createConnection({
     // user : 'root',
     // password : '',
     // database : 'bhajiwaala',
-    host: '107.178.102.117',
-    user: 'techmyli_user',
+    host: '107.178.108.59',
+    user: 'techmyli_new',
     password: 'DX7@karan',
     database: 'techmyli_bhajiwaala',
 
