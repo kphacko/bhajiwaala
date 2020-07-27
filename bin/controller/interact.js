@@ -1,73 +1,20 @@
 const sql = require('../../connection');
 const customError = require('../custom/errors');
 const Custom = require('../custom/error');
-
+const functions = require('../custom/function');
 
 // action to get hotels
 
 exports.getHotel = async(req, res, next) => {
+    try {
 
-    function getHotel(req, res, next) {
+        let hotels = await functions.querySingle('SELECT * FROM hotel');
+        // console.log(hotels);
+        res.send(hotels);
+    } catch (error) {
+        res.send(error);
 
-        return new Promise((resolve, reject) => {
-
-            if (req.params.id == 'all') {
-
-                sql.query(`SELECT * FROM hotel WHERE status=0`, (err, results) => {
-                    // console.log(results);
-                    if (!results[0]) {
-                        reject(customError.userNotFound);
-                    } else {
-                        if (!err) {
-                            resolve({
-                                error: false,
-                                details: results
-                            });
-                        } else {
-                            reject(
-                                mess = new Custom('Database error', err.code, 401)
-
-                            );
-                        }
-
-                    }
-                });
-
-            } else {
-
-                sql.query(`SELECT * FROM hotel WHERE status=0 AND id=${req.params.id}`, (err, results) => {
-                    if (!results[0]) {
-                        reject(customError.userNotFound);
-                    } else {
-                        if (!err) {
-                            resolve({
-                                error: false,
-                                details: results
-                            });
-                        } else {
-                            reject(
-                                mess = new Custom('Database error', err.code, 401)
-
-                            );
-                        }
-                    }
-                });
-
-            }
-
-
-
-        })
     }
-    getHotel(req, res, next).then(message => {
-        res.json(message);
-    }).catch(error => {
-        // console.log(error);
-        res.status(error.code).json({
-            error: true,
-            details: error
-        });
-    })
 
 }
 

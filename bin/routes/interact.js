@@ -3,7 +3,7 @@ const router = express.Router();
 const userController = require('../controller/interact');
 
 //some action to get hotel
-router.get('/getHotel/:id', userController.getHotel);
+router.get('/getHotel', userController.getHotel);
 
 //some action to add hotel
 router.post('/addHotel', userController.addHotel);

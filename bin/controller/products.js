@@ -1,74 +1,14 @@
 const sql = require('../../connection');
 const customError = require('../custom/errors');
 const Custom = require('../custom/error');
-
+const functions = require('../custom/function');
 
 // action to get products
 
 exports.getProducts = async(req, res, next) => {
 
-    function getProducts(req, res, next) {
-
-        return new Promise((resolve, reject) => {
-
-            if (req.params.id == 'all') {
-
-                sql.query(`SELECT * FROM products WHERE status=0`, (err, results) => {
-                    // console.log(results);
-                    if (!results[0]) {
-                        reject(customError.userNotFound);
-                    } else {
-                        if (!err) {
-                            resolve({
-                                error: false,
-                                details: results
-                            });
-                        } else {
-                            reject(
-                                mess = new Custom('Database error', err.code, 401)
-
-                            );
-                        }
-
-                    }
-                });
-
-            } else {
-
-                sql.query(`SELECT * FROM products WHERE status=0 AND id=${req.params.id}`, (err, results) => {
-                    if (!results[0]) {
-                        reject(customError.userNotFound);
-                    } else {
-                        if (!err) {
-                            resolve({
-                                error: false,
-                                details: results
-                            });
-                        } else {
-                            reject(
-                                mess = new Custom('Database error', err.code, 401)
-
-                            );
-                        }
-                    }
-                });
-
-            }
-
-
-
-        })
-    }
-    getProducts(req, res, next).then(message => {
-        res.json(message);
-    }).catch(error => {
-        // console.log(error);
-        res.status(error.code).json({
-            error: true,
-            details: error
-        });
-    })
-
+    let products = functions.querySingle('SELECT * FROM products WHERE status = 0');
+    return products;
 }
 
 

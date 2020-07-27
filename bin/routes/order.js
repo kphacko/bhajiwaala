@@ -1,36 +1,24 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controller/order');
+const orderController = require('../controller/order');
+const productController = require('../controller/products');
+
 const middleware = require('../middleware/auth');
 const { checkAdmin } = require('../middleware/auth');
 const superagent = require('superagent');
 
 
 //some action to get products
-router.get('/getOrder/:id', userController.getOrder);
+router.get('/getOrder', orderController.getOrder);
 
 //some action to add product
-router.post('/addOrder', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, userController.addOrder);
+router.post('/addOrder', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, orderController.addOrder);
 
 //ejs route
-router.get('/addOrder', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, (req, res) => {
-
-    // callback
-    superagent
-        .get('http://localhost:3000/products/getProducts/all')
-        .set('accept', 'json')
-        .end((err, result) => {
-            if (!err) {
-                let data = JSON.parse(result.text);
-                // console.log(data);
-                res.render('createOrder', { data: data.details, status: req.params.status });
-            } else {
-                res.render('index');
-            }
-
-            // Calling the end function will send the request
-        });
-
+router.get('/addOrder', async(req, res) => {
+    let product = await productController.getProducts();
+    // console.log(product);
+    res.render('createOrder', { data: product });
 
 });
 
@@ -40,34 +28,23 @@ router.get('/totalOrder', (req, res) => {
 });
 
 //ejs route
-router.get('/editOrder', (req, res) => {
-    if (!req.query.id) {
-        // callback
-        superagent
-            .get('http://localhost:3000/order/getOrder/all')
-            .set('accept', 'json')
-            .end((err, result) => {
-                if (!err) {
-                    let data = JSON.parse(result.text);
-                    // console.log(data);
-                    res.render('selectOrder', { data: data });
-                } else {
-                    res.render('index');
-                }
 
-                // Calling the end function will send the request
-            });
+router.get('/selectOrder', async(req, res) => {
+    let orders = await orderController.getOrder();
+    // console.log(orders);
+    res.render('selectOrder', { data: orders });
 
-    } else {
-        res.render('editOrder');
+});
 
-    }
+router.get('/editOrder/:id', (req, res) => {
+    res.render('editOrder', { id: req.params.id });
+
 });
 
 // some action to edit order
-router.post('/editOrder', userController.editOrder);
+router.post('/editOrder', orderController.editOrder);
 
 // //some action to delete order 
-// router.delete('/deleteOrder/:id', userController.deleteOrder);
+// router.delete('/deleteOrder/:id', orderController.deleteOrder);
 
 module.exports = router;

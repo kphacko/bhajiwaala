@@ -94,7 +94,29 @@
         </div>
     </div>
     </div>
+    <script src="/assets/axios.js"></script>
 
+    <script>
+        function makeGetRequest(path) {
+            axios.get(path).then(
+                (response) => {
+                    var result = response.data;
 
+                    const sb = document.querySelector('#list');
+                    console.log(result);
+                    result.map((users) => {
+                        let option = new Option(users.name, users.name);
+                        // add it to the list
+                        sb.add(option, undefined);
+                    });
 
+                    // console.log(result.details[0].name);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+        }
+        makeGetRequest('http://localhost:3000/interact/getHotel');
+    </script>
     <%- include("footer") %>

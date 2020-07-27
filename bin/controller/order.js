@@ -112,9 +112,9 @@ exports.getOrder = async(req, res) => {
             }
         })
 
-        console.log(exists);
-
-        res.json(updatedOrders);
+        // console.log(exists);
+        return updatedOrders;
+        // res.json(updatedOrders);
     } catch (error) {
         console.log(error);
     }
