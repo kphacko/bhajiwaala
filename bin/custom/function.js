@@ -10,13 +10,14 @@ let querySingle = async(query) => {
             return new Promise((resolve, reject) => {
                 sql.query(query, (err, results) => {
                     if (err) throw err;
-                    if (!results[0]) throw customError.dataNotFound;
+                    // console.log(results);
+                    // if (!results[0]) throw customError.dataNotFound;
                     resolve(results);
                 })
             });
         }
 
-        await Promise.all(data = await query1(query));
+        data = await query1(query);
 
 
 

@@ -9,6 +9,7 @@
                         <div class="row">
                             <div class="col-xl-12 col-md-12 col-sm-12 col-12">
                                 <h3><b>Edit Order</b></h3>
+
                                 <div class="mt-4">
                                     <h5>order details</h5>
                                 </div>
@@ -16,103 +17,112 @@
                         </div>
                     </div>
 
+                    <form action="/order/editOrder" method="POST">
+                        <input name="type" value="HOTEL" hidden>
 
-                    <div class="input-group mt-4 mb-4">
-                        <p>Select hotel</p>
+                        <div class="input-group mt-4 mb-4">
+                            <p>Select hotel</p>
 
-                        <select class="placeholder js-states form-control">
-        <option>Choose...</option>
-        <option value="one">First</option>
-        <option value="two">Second</option>
-        <option value="three">Third</option>
-        <option value="four">Fourth</option>
-        <option value="five">Fifth</option>
-    </select>
-                    </div>
-
-                    <p>delivery date</p>
-                    <div class="input-group mb-4">
-                        <div class="input-group-prepend">
+                            <select name="ref" id="list" class="placeholder js-states form-control">
+<option value="<%= data[0].hotel.hotel_id%>"><%= data[0].hotel.hotel_name %><option>
+</select>
                         </div>
-                        <input type="date" class="form-control" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy">
-                    </div>
-                    <p>Product & Quantity</p>
-                    <div class="table-responsive mb-4">
-                        <table id="style-3" class="table style-3  table-hover">
-                            <thead>
-                                <tr>
-                                    <th class="checkbox-column text-center"> Record Id </th>
-                                    <th> Name</th>
-                                    <th>Marathi Name</th>
-                                    <th>quantity</th>
-                                    <th>price</th>
+                        <p>delivery date</p>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="checkbox-column text-center"> 1 </td>
-                                    <td>Donna</td>
-                                    <td>Rogers</td>
-                                    <td>
-                                        <input type="number" placeholder=" quantity" aria-label="enter the quantity">
+                        <div class="input-group mb-4">
+                            <input type="date" name="date" class="form-control" value="<%= data[0].date %>" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy">
+                        </div>
+                        <div class="table-responsive mb-4">
+                            <p>Product & Quantity</p>
 
-                                    </td>
-                                    <td>
-                                        <input type="number" placeholder=" quantity" aria-label="enter the quantity">
+                            <table id="style-3" class="table style-3  table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="checkbox-column text-center"> Record Id </th>
+                                        <th> Name</th>
+                                        <th>Marathi Name</th>
+                                        <th>quantity</th>
+                                        <th>price</th>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="checkbox-column text-center"> 2 </td>
-                                    <td>Andy</td>
-                                    <td>King</td>
-                                    <td>
-                                        <div class="input-group mb-4">
-                                            <div class="input-group-prepend">
-                                                <input type="number" placeholder="quantity" aria-label="enter the quantity">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="input-group mb-4">
-                                            <div class="input-group-prepend">
-                                                <input type="number" placeholder=" amount" aria-label="amount">
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%  let c=1
+                                    let exists = [];
+                            data[0].products.forEach((product)=>{ %>
+                                        <tr>
+                                            <td class="checkbox-column text-center">
+                                                <%= c %>
+                                            </td>
+                                            <td>
+                                                <%= product.name %>
+                                            </td>
+                                            <td>
+                                                <%= product.marathi %>
+                                            </td>
+                                            <td>
+                                                <input name="quantity<%= c %>" type="number" value="<%=product.quantity%>" placeholder=" quantity" aria-label="enter the quantity">
+                                                <input name="product_id<%= c %>" value="<%=product.id%>" hidden>
+                                                <% exists.push(product.id);%>
+                                            </td>
+                                            <td>
+                                                <input name="price<%= c%>" value="<%=product.price%>" type="number" placeholder="price" aria-label="enter the price">
+
+                                            </td>
+                                        </tr>
+                                        <% c++; %>
+                                            <% }); %>
+                                                <%  
+                                data1.forEach((product)=>{ %>
+                                                    <tr>
+                                                        <td class="checkbox-column text-center">
+                                                            <%= c %>
+                                                        </td>
+                                                        <td>
+                                                            <%= product.name %>
+                                                        </td>
+                                                        <td>
+                                                            <%= product.marathi %>
+                                                        </td>
+                                                        <td>
+                                                            <input name="quantity<%= c %>" type="number" placeholder=" quantity" aria-label="enter the quantity">
+                                                            <input name="product_id<%= c %>" value="<%=product.id%>" hidden>
+
+                                                        </td>
+                                                        <td>
+                                                            <input name="price<%= c%>" type="number" placeholder="price" aria-label="enter the price">
+
+                                                        </td>
+                                                    </tr>
+                                                    <% c++; %>
+                                                        <% }); %>
+                                                            <input name="count" value="<%=c%>" hidden>
+
+                                                            <input name="orderID" value="<%=data[0].id%>" hidden>
 
 
-                            </tbody>
-                        </table>
-                    </div>
 
-                    <div class="container">
-                        <div class="center">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <button class="btn btn-primary button1">Save
 
-                                        </button>
 
-                                </div>
-                                <div class="col-md-6">
-                                    <button class="mt-4  btn btn-primary">Delete</button>
 
-                                </div>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="container">
+                            <div class="center">
+                                <button class="mt-4 btn btn-primary">Submit</button>
+
                             </div>
-
                         </div>
-                    </div>
 
-
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-
-
+    </div>
 
 
 

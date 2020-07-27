@@ -36,15 +36,18 @@ router.get('/selectOrder', async(req, res) => {
 
 });
 
-router.get('/editOrder/:id', (req, res) => {
-    res.render('editOrder', { id: req.params.id });
+router.get('/editOrder/:id', async(req, res) => {
+    let orders = await orderController.getOrderById(req.params.id);
+    let product = await productController.getProducts();
+
+    res.render('editOrder', { id: req.params.id, data: orders, data1: product });
 
 });
 
 // some action to edit order
-router.post('/editOrder', orderController.editOrder);
+router.post('/editOrder', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, orderController.editOrder);
 
 // //some action to delete order 
-// router.delete('/deleteOrder/:id', orderController.deleteOrder);
+router.get('/deleteOrder/:id', orderController.deleteOrder);
 
 module.exports = router;

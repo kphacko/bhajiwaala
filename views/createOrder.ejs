@@ -105,9 +105,9 @@
                     const sb = document.querySelector('#list');
                     console.log(result);
                     result.map((users) => {
-                        let option = new Option(users.name, users.name);
+                        let option = new Option(users.name, users.id);
                         // add it to the list
-                        sb.add(option, undefined);
+                        sb.add(option, users.id);
                     });
 
                     // console.log(result.details[0].name);
