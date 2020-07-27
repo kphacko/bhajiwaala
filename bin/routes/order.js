@@ -10,6 +10,12 @@ const superagent = require('superagent');
 
 //some action to get products
 router.get('/getOrder', orderController.getOrder);
+router.get('/getOrder/:date', async(req, res) => {
+    // console.log(req.params.date);
+    let orders = await orderController.getOrderByDate(req.params.date);
+    // console.log(orders);
+    res.status(200).send(orders);
+});
 
 //some action to add product
 router.post('/addOrder', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, orderController.addOrder);
@@ -39,7 +45,6 @@ router.get('/selectOrder', async(req, res) => {
 router.get('/editOrder/:id', async(req, res) => {
     let orders = await orderController.getOrderById(req.params.id);
     let product = await productController.getProducts();
-
     res.render('editOrder', { id: req.params.id, data: orders, data1: product });
 
 });

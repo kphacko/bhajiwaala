@@ -79,7 +79,7 @@ exports.getOrder = async(req, res) => {
         let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,hotel.id AS hotel_id,hotel.name 
         AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity,ordered_products.price FROM orders 
         INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
-        INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id  ORDER BY orders.date DESC`);
+        INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id WHERE orders.status = 0  ORDER BY orders.date DESC `);
         // let allOrders = await getAllOrders();
         // let alltotal = await getAlltotal(allOrders);
         // let allproduct = await allproducts(alltotal);
@@ -128,7 +128,7 @@ exports.getOrderById = async(id) => {
         let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,hotel.id AS hotel_id,hotel.name 
         AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity,ordered_products.price FROM orders 
         INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
-        INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id  WHERE orders.id = ${id}`);
+        INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id  WHERE orders.id = ${id} AND orders.status =0`);
         // let allOrders = await getAllOrders();
         // let alltotal = await getAlltotal(allOrders);
         // let allproduct = await allproducts(alltotal);
@@ -170,6 +170,21 @@ exports.getOrderById = async(id) => {
 
 }
 
+exports.getOrderByDate = async(date) => {
+    try {
+        // console.log(date);
+        let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,hotel.id AS hotel_id,hotel.name 
+        AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,SUM(ordered_products.quantity) AS quantity ,SUM(ordered_products.price) AS price FROM orders 
+        INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
+        INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id  WHERE orders.date = '${date}' AND orders.status =0 GROUP BY products.id`);
+
+        return allproduct;
+        // res.json(updatedOrders);
+    } catch (error) {
+        console.log(error);
+    }
+
+}
 
 //action add orders 
 exports.addOrder = async(req, res, next) => {
@@ -370,8 +385,8 @@ exports.deleteOrder = async(req, res) => {
         const Orderid = parseInt(req.params.id);
         // console.log(Orderid);
         if (Orderid <= 0 || !Orderid) throw customError.dataInvalid;
-        let ordered = await functions.querySingle(`DELETE FROM ordered_products WHERE order_id=${Orderid}`);
-        let orders = await functions.querySingle(`DELETE FROM orders WHERE id=${Orderid}`);
+        // let ordered = await functions.querySingle(`DELETE FROM ordered_products WHERE order_id=${Orderid}`);
+        let orders = await functions.querySingle(`UPDATE orders SET status = 1 WHERE id = ${Orderid}`);
         res.status(200).redirect('/order/selectOrder?status=deleted');
 
     } catch (error) {
