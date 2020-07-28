@@ -73,7 +73,9 @@
                                         <% c++; %>
                                             <% }); %>
                                                 <%  
-                                data1.forEach((product)=>{ %>
+                                data1.forEach((product)=>{
+                                    if (!exists.includes(product.id)) {
+                                      %>
                                                     <tr>
                                                         <td class="checkbox-column text-center">
                                                             <%= c %>
@@ -94,7 +96,8 @@
 
                                                         </td>
                                                     </tr>
-                                                    <% c++; %>
+                                                    <% c++;    
+                                    } %>
                                                         <% }); %>
                                                             <input name="count" value="<%=c%>" hidden>
 

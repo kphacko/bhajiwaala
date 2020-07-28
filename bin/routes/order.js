@@ -33,6 +33,7 @@ router.get('/totalOrder', (req, res) => {
     res.render('totalOrder');
 });
 
+
 //ejs route
 
 router.get('/selectOrder', async(req, res) => {
@@ -45,6 +46,7 @@ router.get('/selectOrder', async(req, res) => {
 router.get('/editOrder/:id', async(req, res) => {
     let orders = await orderController.getOrderById(req.params.id);
     let product = await productController.getProducts();
+    // console.log(orders[0].products);
     res.render('editOrder', { id: req.params.id, data: orders, data1: product });
 
 });
