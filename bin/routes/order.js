@@ -13,8 +13,15 @@ router.get('/getOrder', orderController.getOrder);
 router.get('/getOrder/:date', async(req, res) => {
     // console.log(req.params.date);
     let orders = await orderController.getOrderByDate(req.params.date);
-    // console.log(orders);
-    res.status(200).send(orders);
+    // console.log(orders.length);
+    // res.status(200).send(orders);
+    if (orders.length === 0) {
+        // console.log('sd');
+        res.send([]);
+    } else {
+        res.render('TotalOrders', { data: orders });
+
+    }
 });
 
 //some action to add product
@@ -30,7 +37,7 @@ router.get('/addOrder', async(req, res) => {
 
 //ejs route
 router.get('/totalOrder', (req, res) => {
-    res.render('totalOrder');
+    res.render('totalOrder', { domain: process.env.DOMAIN });
 });
 
 

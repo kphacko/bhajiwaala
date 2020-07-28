@@ -1,0 +1,77 @@
+<%- include("header") %>
+    <div id="content" class="main-content">
+
+        <div class="layout-top-spacing">
+
+            <div id="basic" class="col-lg-12 col-sm-12 col-12 layout-spacing">
+                <div class="statbox widget box box-shadow">
+                    <div class="widget-header mb-4">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <h3><b>Total Order</b></h3>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <p>delivery date</p>
+
+                    <div class="input-group mb-4">
+                        <input type="date" name="date" class="form-control" value="<%= data[0].date %>" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy" disabled>
+                    </div>
+                    <div class="table-responsive mb-4">
+                        <p>Product & Quantity</p>
+
+                        <table id="style-3" class="table style-3  table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="checkbox-column text-center"> Record Id </th>
+                                    <th> Name</th>
+                                    <th>Marathi Name</th>
+                                    <th>Total quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%  let c=1
+                                
+                            data.forEach((product)=>{ %>
+                                    <tr>
+                                        <td class="checkbox-column text-center">
+                                            <%= c %>
+                                        </td>
+                                        <td>
+                                            <%= product.name %>
+                                        </td>
+                                        <td>
+                                            <%= product.marathi %>
+                                        </td>
+                                        <td>
+                                            <%=product.quantity%> &nbsp;
+                                                <%=product.weight_type%>
+
+                                        </td>
+
+                                    </tr>
+                                    <%})%>
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+    <%- include("footer") %>

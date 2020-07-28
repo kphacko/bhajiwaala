@@ -14,8 +14,16 @@
                                     <div class="input-group mb-4">
                                         <div class="input-group-prepend">
                                         </div>
-                                        <input type="date" class="form-control" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy">
+                                        <input type="date" id="total" class="form-control" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy">
                                     </div>
+
+                                    <div class="container">
+                                        <div class="center">
+                                            <button onclick="getTotal()" class="mt-4 btn btn-primary">Submit</button>
+
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -53,6 +61,44 @@
             </div>
         </div>
     </div>
+    <script src="/assets/axios.js"></script>
+
+    <script>
+        function getTotal() {
+            let date = document.getElementById("total").value;
+            if (!date) {
+                swal({
+                    title: 'Select Date ?',
+                    text: "Select a valid date",
+                    type: 'question',
+                    padding: '2em'
+                })
+            } else {
 
 
+                function makeGetRequest(path) {
+                    axios.get(path).then(
+                        (response) => {
+                            var result = response.data;
+
+                            if (result.length === 0) {
+                                swal({
+                                    title: 'No orders available',
+                                    text: "Orders is not placed for this date",
+                                    type: 'question',
+                                    padding: '2em'
+                                })
+                            } else {
+                                window.location = `<%=domain%>/order/getOrder/${date}`;
+                            }
+                        },
+                        (error) => {
+                            console.log(error);
+                        }
+                    );
+                }
+                makeGetRequest(`<%=domain%>/order/getOrder/${date}`);
+            }
+        }
+    </script>
     <%- include("footer") %>
