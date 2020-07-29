@@ -8,16 +8,49 @@ const functions = require('../custom/function');
 exports.getHotel = async(req, res, next) => {
     try {
 
-        let hotels = await functions.querySingle('SELECT * FROM hotel');
+        let hotels = await functions.querySingle('SELECT * FROM hotel WHERE status = 0');
         // console.log(hotels);
-        res.send(hotels);
+        // res.send(hotels);
+        return hotels;
+
     } catch (error) {
-        res.send(error);
+        // res.send(error);
+        return error;
 
     }
 
 }
 
+exports.getHotels = async(req, res, next) => {
+    try {
+
+        let hotels = await functions.querySingle('SELECT * FROM hotel WHERE status = 0');
+        // console.log(hotels);
+        res.send(hotels);
+        // return hotels;
+
+    } catch (error) {
+        res.send(error);
+        // return error;
+
+    }
+
+}
+exports.getHotelByid = async(id) => {
+    try {
+
+        let hotels = await functions.querySingle(`SELECT * FROM hotel WHERE id =${id}`);
+        // console.log(hotels);
+        // res.send(hotels);
+        return hotels;
+
+    } catch (error) {
+        // res.send(error);
+        return error;
+
+    }
+
+}
 
 
 
@@ -75,13 +108,17 @@ exports.addHotel = async(req, res, next) => {
         })
     }
     addHotel(req, res, next).then(message => {
-        res.json(message);
+        // res.json(message);
+        res.status(200).redirect('/interact/addHotel?status=Added');
+
     }).catch(error => {
         // console.log(error);
-        res.status(error.code).json({
-            error: true,
-            details: error
-        });
+        // res.status(error.code).json({
+        //     error: true,
+        //     details: error
+        // });
+        res.status(200).redirect(`/interact/addHotel?status=Error&message=${error}`);
+
     })
 
 }
@@ -133,13 +170,17 @@ exports.editHotel = async(req, res, next) => {
         })
     }
     editHotel(req, res, next).then(message => {
-        res.json(message);
+        // res.json(message);
+        res.status(200).redirect('/interact/editdeleteHotel?status=Updated');
+
     }).catch(error => {
         // console.log(error);
-        res.status(error.code).json({
-            error: true,
-            details: error
-        });
+        // res.status(error.code).json({
+        //     error: true,
+        //     details: error
+        // });
+        res.status(200).redirect(`/interact/editdeleteHotel?status=Error&message=${error}`);
+
     })
 
 }
@@ -183,13 +224,17 @@ exports.deleteHotel = async(req, res, next) => {
         })
     }
     deleteHotel(req, res, next).then(message => {
-        res.json(message);
+        // res.json(message);
+        res.status(200).redirect('/interact/editdeleteHotel?status=Deleted');
+
     }).catch(error => {
         // console.log(error);
-        res.status(error.code).json({
-            error: true,
-            details: error
-        });
+        // res.status(error.code).json({
+        //     error: true,
+        //     details: error
+        // });
+        res.status(200).redirect(`/interact/editdeleteHotel?status=Error&message=${error}`);
+
     })
 
 }
@@ -197,73 +242,49 @@ exports.deleteHotel = async(req, res, next) => {
 
 // action to get hotels
 
-exports.getVendor = async(req, res, next) => {
+exports.getVendor = async(status) => {
+    try {
 
-    function getVendor(req, res, next) {
+        let hotels = await functions.querySingle('SELECT * FROM vendor WHERE status = 0');
+        // console.log(hotels);
+        // res.send(hotels);
+        return hotels;
 
-        return new Promise((resolve, reject) => {
+    } catch (error) {
+        // res.send(error);
+        return error;
 
-            if (req.params.id == 'all') {
-
-                sql.query(`SELECT * FROM vendor WHERE status=0`, (err, results) => {
-                    console.log(results);
-                    if (!results[0]) {
-                        reject(customError.userNotFound);
-                    } else {
-                        if (!err) {
-                            resolve({
-                                error: false,
-                                details: results
-                            });
-                        } else {
-                            reject(
-                                mess = new Custom('Database error', err.code, 401)
-
-                            );
-                        }
-
-                    }
-                });
-
-            } else {
-
-                sql.query(`SELECT * FROM vendor WHERE status=0 AND id=${req.params.id}`, (err, results) => {
-                    if (!results[0]) {
-                        reject(customError.userNotFound);
-                    } else {
-                        if (!err) {
-                            resolve({
-                                error: false,
-                                details: results
-                            });
-                        } else {
-                            reject(
-                                mess = new Custom('Database error', err.code, 401)
-
-                            );
-                        }
-                    }
-                });
-
-            }
-
-
-
-        })
     }
-    getVendor(req, res, next).then(message => {
-        res.json(message);
-    }).catch(error => {
-        // console.log(error);
-        res.status(error.code).json({
-            error: true,
-            details: error
-        });
-    })
+}
+exports.getVendors = async(status) => {
+    try {
+
+        let hotels = await functions.querySingle('SELECT * FROM vendor WHERE status = 0');
+        // console.log(hotels);
+        res.send(hotels);
+        // return hotels;
+
+    } catch (error) {
+        res.send(error);
+        // return error;
+
+    }
+}
+exports.getVendorByid = async(id) => {
+    try {
+
+        let Vendor = await functions.querySingle(`SELECT * FROM vendor WHERE id =${id}`);
+        // console.log(hotels);
+        // res.send(hotels);
+        return Vendor;
+
+    } catch (error) {
+        // res.send(error);
+        return error;
+
+    }
 
 }
-
-
 
 //action to add Vendor 
 
@@ -320,13 +341,17 @@ exports.addVendor = async(req, res, next) => {
         })
     }
     addVendor(req, res, next).then(message => {
-        res.json(message);
+        // res.json(message);
+        res.status(200).redirect('/interact/addVendor?status=Added');
+
     }).catch(error => {
         // console.log(error);
-        res.status(error.code).json({
-            error: true,
-            details: error
-        });
+        // res.status(error.code).json({
+        //     error: true,
+        //     details: error
+        // });
+        res.status(200).redirect(`/interact/addVendor?status=Error&message=${error}`);
+
     })
 
 }
@@ -378,13 +403,17 @@ exports.editVendor = async(req, res, next) => {
         })
     }
     editVendor(req, res, next).then(message => {
-        res.json(message);
+        // res.json(message);
+        res.status(200).redirect('/interact/editdeleteVendor?status=Updated');
+
     }).catch(error => {
         // console.log(error);
-        res.status(error.code).json({
-            error: true,
-            details: error
-        });
+        // res.status(error.code).json({
+        //     error: true,
+        //     details: error
+        // });
+        res.status(200).redirect(`/interact/editdeleteVendor?status=Error&message=${error}`);
+
     })
 
 }
@@ -427,13 +456,17 @@ exports.deleteVendor = async(req, res, next) => {
         })
     }
     deleteVendor(req, res, next).then(message => {
-        res.json(message);
+        // res.json(message);
+        res.status(200).redirect('/interact/editdeleteVendor?status=Deleted');
+
     }).catch(error => {
         // console.log(error);
-        res.status(error.code).json({
-            error: true,
-            details: error
-        });
+        // res.status(error.code).json({
+        //     error: true,
+        //     details: error
+        // });
+        res.status(200).redirect(`/interact/editdeleteVendor?status=Error&message=${error}`);
+
     })
 
 }

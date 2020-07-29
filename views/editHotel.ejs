@@ -1,0 +1,63 @@
+<%-include("header")  %>
+
+    <div id="content" class="main-content">
+
+        <div class="layout-top-spacing">
+
+            <div id="basic" class="col-lg-12 col-sm-12 col-12 layout-spacing">
+                <div class="statbox widget box box-shadow">
+                    <div class="widget-header">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <h4><b>edit Hotel </b></h4>
+                                <div class="mt-4">
+                                    <h5>Hotel details</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="widget-content widget-content-area">
+                        <form method="POST" action="/interact/editHotel">
+                            <input id="t-text" name="id" type="text" name="txt" placeholder="Hotel name." class="form-control" value="<%=hotels[0].id%>" hidden>
+
+                            <p>Hotel name</p>
+                            <div class="form-group">
+                                <input id="t-text" name="name" type="text" name="txt" placeholder="Hotel name." class="form-control" value="<%=hotels[0].name%>" required>
+
+
+                            </div>
+                            <p>Hotel phone no.</p>
+                            <div class="form-group">
+                                <input id="tel" name="phone" type="tel" name="phone" placeholder="9876543210" pattern="[0-9]{10}" class="form-control" value="<%=hotels[0].phone%>" required>
+
+
+                            </div>
+                            <p>Hotel GST No.</p>
+                            <div class="form-group">
+                                <input id="input-gst" type="text" name="gstin" placeholder="27 AAAAA1111A 1 Z F " class="form-control" value="<%=hotels[0].gstin%>" required>
+
+                            </div>
+                            <p>Enter E-mail</p>
+                            <div class="form-group">
+                                <input id="e-text" type="email" name="email" placeholder="email@mail.com" class="form-control" value="<%=hotels[0].email%>" required>
+                            </div>
+                    </div>
+                    <div class="container">
+                        <div class="center">
+                            <button class="mt-4 btn btn-primary">Update</button>
+
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+
+
+
+    <%-include("footer")  %>

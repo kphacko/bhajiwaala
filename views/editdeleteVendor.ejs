@@ -1,71 +1,107 @@
 <%- include("header") %>
-    <div id="content" class="main-content">
+    <%if(status=='empty'){
 
-        <div class="layout-top-spacing">
+}else{
+    if (status=='Error') { %>
+        <script>
+            swal({
+                title: 'Something is wrong!',
+                text: "<%= message%>",
+                type: 'question',
+                padding: '2em'
+            })
+        </script>
+        <% }else if (status=='Deleted') {%>
+            <script>
+                swal({
+                    title: 'Hotel deleted',
+                    text: "Record Deleted successfully",
+                    type: 'success',
+                    padding: '2em'
+                })
+            </script>
+            <%}
+        else{%>
+                <script>
+                    swal({
+                        title: 'Details Update',
+                        text: "Record Updated successfully",
+                        type: 'success',
+                        padding: '2em'
+                    })
+                </script>
+                <%}}%>
+                    <div id="content" class="main-content">
 
-            <div id="basic" class="col-lg-12 col-sm-12 col-12 layout-spacing">
-                <div class="statbox widget box box-shadow">
-                    <div class="widget-header">
-                        <div class="row">
-                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                <h4><b>Edit & Delete Vendor </b></h4>
+                        <div class="layout-top-spacing">
+
+                            <div id="basic" class="col-lg-12 col-sm-12 col-12 layout-spacing">
+                                <div class="statbox widget box box-shadow">
+                                    <div class="widget-header">
+                                        <div class="row">
+                                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                                <h4><b>Edit & Delete Vendor </b></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="widget-content widget-content-area">
+
+                                        <div class="table-responsive mb-4">
+                                            <p><b>Vendor details</b></p>
+
+                                            <table id="style-3" class="table style-3  table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th class=" text-center"> Vendor Id </th>
+                                                        <th> Vendor Name</th>
+                                                        <th>Vendor Phone No.</th>
+                                                        <th>GST No.</th>
+                                                        <th>E-Mail</th>
+                                                        <th class="text-center">Action</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% let c=1;
+                                                        vendors.map((vendor)=>{%>
+
+                                                        <tr>
+                                                            <td class=" text-center">
+                                                                <%=c%>
+                                                            </td>
+                                                            <td>
+                                                                <%=vendor.name%>
+                                                            </td>
+                                                            <td>
+                                                                <%=vendor.phone%>
+                                                            </td>
+                                                            <td>
+                                                                <%=vendor.gstin%>
+                                                            </td>
+                                                            <td>
+                                                                <%=vendor.email%>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <ul class="table-controls">
+                                                                    <li><a href="/interact/editVendor/<%=vendor.id%>" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 p-1 br-6 mb-1"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a></li>
+                                                                    <li><a href="/interact/deleteVendor/<%=vendor.id%>" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash p-1 br-6 mb-1"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a></li>
+                                                                </ul>
+                                                            </td>
+                                                        </tr>
+                                                        <% })%>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
 
-                    <div class="widget-content widget-content-area">
-                        <form method="" action="">
-                            <div class="table-responsive mb-4">
-                                <p><b>Vendor details</b></p>
-
-                                <table id="style-3" class="table style-3  table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th class=" text-center"> Vendor Id </th>
-                                            <th> Vendor Name</th>
-                                            <th>Vendor Phone No.</th>
-                                            <th>GST No.</th>
-                                            <th>E-Mail</th>
-                                            <th class="text-center">Action</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class=" text-center"> 1 </td>
-                                            <td>Donna</td>
-                                            <td>9874651230</td>
-                                            <td> 27 AAAAA1111A 1 Z F </td>
-                                            <td> xyz@gmail.com</td>
-                                            <td class="text-center">
-                                                <ul class="table-controls">
-                                                    <li><a href="javascript:void(0);" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 p-1 br-6 mb-1"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a></li>
-                                                    <li><a href="javascript:void(0);" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash p-1 br-6 mb-1"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a></li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class=" text-center"> 2 </td>
-                                            <td>Andy</td>
-                                            <td>1236548970</td>
-                                            <td>27 AAAAA1111A 1 Z F
-
-                                            </td>
-                                            <td>
-                                                abc@gmail.com
-                                            </td>
-                                            <td class="text-center">
-                                                <ul class="table-controls">
-                                                    <li><a href="javascript:void(0);" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 p-1 br-6 mb-1"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a></li>
-                                                    <li><a href="javascript:void(0);" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash p-1 br-6 mb-1"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a></li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-
-
-                                    </tbody>
-                                </table>
-                            </div>
 
 
 
@@ -73,21 +109,4 @@
 
 
 
-
-
-                        </form>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-
-
-
-    <%- include("footer") %>
+                    <%- include("footer") %>

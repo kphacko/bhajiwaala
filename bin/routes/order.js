@@ -25,13 +25,20 @@ router.get('/getOrder/:date', async(req, res) => {
 });
 
 //some action to add product
-router.post('/addOrder', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, orderController.addOrder);
+router.post('/addOrder', orderController.addOrder);
 
 //ejs route
 router.get('/addOrder', async(req, res) => {
     let product = await productController.getProducts();
     // console.log(product);
-    res.render('createOrder', { data: product });
+    if (req.query.status) {
+        res.render('createOrder', { data: product, status: req.query.status, message: req.query.message });
+
+    } else {
+        res.render('createOrder', { data: product, status: 'empty' });
+
+    }
+
 
 });
 
@@ -46,8 +53,12 @@ router.get('/totalOrder', (req, res) => {
 router.get('/selectOrder', async(req, res) => {
     let orders = await orderController.getOrder();
     // console.log(orders);
-    res.render('selectOrder', { data: orders });
+    if (req.query.status) {
+        res.render('selectOrder', { data: orders, status: req.query.status, message: req.query.message });
 
+    } else {
+        res.render('selectOrder', { data: orders, status: 'empty' });
+    }
 });
 
 router.get('/editOrder/:id', async(req, res) => {
