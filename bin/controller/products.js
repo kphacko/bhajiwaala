@@ -11,6 +11,12 @@ exports.getProducts = async(req, res, next) => {
     return products;
 }
 
+exports.getProductById = async(id) => {
+
+    let products = functions.querySingle(`SELECT * FROM products WHERE status = 0 AND id =${id}`);
+    return products;
+}
+
 
 //action add products 
 exports.addProducts = async(req, res, next) => {
@@ -65,13 +71,17 @@ exports.addProducts = async(req, res, next) => {
         })
     }
     addProducts(req, res, next).then(message => {
-        res.json(message);
+        // res.json(message);
+        res.status(message.code).redirect('/product/addProducts?status=added');
+
     }).catch(error => {
         // console.log(error);
-        res.status(error.code).json({
-            error: true,
-            details: error
-        });
+        // res.status(error.code).json({
+        //     error: true,
+        //     details: error
+        // });
+        res.status(error.code).redirect(`/product/addProducts?status=Error&message=${error}`);
+
     })
 
 }
@@ -123,13 +133,17 @@ exports.editProducts = async(req, res, next) => {
         })
     }
     editProducts(req, res, next).then(message => {
-        res.json(message);
+        // res.json(message);
+        res.status(message.code).redirect('/product/editProducts?status=Updated');
+
     }).catch(error => {
         // console.log(error);
-        res.status(error.code).json({
-            error: true,
-            details: error
-        });
+        // res.status(error.code).json({
+        //     error: true,
+        //     details: error
+        // });
+        res.status(error.code).redirect(`/product/editProducts?status=Error&message=${error}`);
+
     })
 
 }
@@ -173,13 +187,17 @@ exports.deleteProducts = async(req, res, next) => {
         })
     }
     deleteProducts(req, res, next).then(message => {
-        res.json(message);
+        // res.json(message);
+        res.status(message.code).redirect('/product/editProducts?status=Deleted');
+
     }).catch(error => {
         // console.log(error);
-        res.status(error.code).json({
-            error: true,
-            details: error
-        });
+        // res.status(error.code).json({
+        //     error: true,
+        //     details: error
+        // });
+        res.status(error.code).redirect(`/product/editProducts?status=Error&message=${error}`);
+
     })
 
 }

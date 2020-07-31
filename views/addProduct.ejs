@@ -14,8 +14,8 @@
         <% }else{%>
             <script>
                 swal({
-                    title: 'Hotel added..',
-                    text: "Hotel registered successfully",
+                    title: 'Product added..',
+                    text: "Product registered successfully",
                     type: 'success',
                     padding: '2em'
                 })
@@ -31,37 +31,37 @@
                                 <div class="widget-header">
                                     <div class="row">
                                         <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                            <h4><b>Add Hotel </b></h4>
+                                            <h4><b>Add Product </b></h4>
                                             <div class="mt-4">
-                                                <h5>Hotel details</h5>
+                                                <h5>Product details</h5>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="widget-content widget-content-area">
-                                    <form method="POST" action="/interact/addHotel">
+                                    <form method="POST" action="/product/addProducts">
 
-                                        <p>Hotel name</p>
+                                        <p>Product name</p>
                                         <div class="form-group">
-                                            <input id="t-text" name="name" type="text" placeholder="Hotel name." class="form-control" required>
+                                            <input id="t-text" name="name" type="text" name="txt" placeholder="Onion" class="form-control" required>
 
 
                                         </div>
-                                        <p>Hotel phone no.</p>
+                                        <p>Marathi Name</p>
                                         <div class="form-group">
-                                            <input id="tel" name="phone" type="tel" name="phone" placeholder="9876543210" pattern="[0-9]{10}" class="form-control" required>
+                                            <input id="tel" name="marathi" type="text" placeholder="कांदा" class="form-control" required>
 
 
                                         </div>
-                                        <p>Hotel GST No.</p>
+                                        <p>Hindi Name</p>
                                         <div class="form-group">
-                                            <input id="input-gst" type="text" name="gstin" placeholder="27 AAAAA1111A 1 Z F " class="form-control" required>
+                                            <input id="input-gst" type="text" name="hindi" placeholder="कांदा" class="form-control" required>
 
                                         </div>
-                                        <p>Enter E-mail</p>
+                                        <p>Weight Type</p>
                                         <div class="form-group">
-                                            <input id="e-text" type="email" name="email" placeholder="email@mail.com" class="form-control" required>
+                                            <input id="e-text" type="text" name="weight_type" placeholder="Kg,Dozen" class="form-control" required>
                                         </div>
                                 </div>
                                 <div class="container">

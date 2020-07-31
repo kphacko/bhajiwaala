@@ -55,7 +55,7 @@ const { checkAdmin } = require('./bin/middleware/auth');
 //******* USING THE IMPORTED ROUTES *******\\
 app.use('/user', userRoutes);
 app.use('/interact', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, interactRoutes);
-app.use('/products', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, productsRoutes);
+app.use('/product', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, productsRoutes);
 app.use('/order', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, orderRoutes);
 // app.use('/images', express.static('uploads/images'));
 app.use('/', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, (req, res) => {

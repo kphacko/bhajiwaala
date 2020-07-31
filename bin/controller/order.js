@@ -218,7 +218,7 @@ exports.addOrder = async(req, res, next) => {
         res.status(message.code).redirect('/order/addOrder?status=added');
     }).catch(error => {
         // console.log(error);
-        res.status(error.code).redirect('/order/addOrder?status=error');
+        res.status(error.code).redirect(`/order/addOrder?status=error&message=${error}`);
     })
 
 }
@@ -309,7 +309,7 @@ exports.editOrder = async(req, res, next) => {
         res.status(message.code).redirect('/order/selectOrder?status=updated');
     }).catch(error => {
         console.log(error);
-        res.status(error.code).redirect('/order/selectOrder?status=error');
+        res.status(error.code).redirect(`/order/selectOrder?status=error&message=${error}`);
     })
 
 }
@@ -325,7 +325,7 @@ exports.deleteOrder = async(req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.status(401).redirect('/order/selectOrder?status=error');
+        res.status(401).redirect(`/order/selectOrder?status=error&message=${error}`);
 
     }
 
@@ -432,7 +432,7 @@ exports.addPurchase = async(req, res, next) => {
         res.status(message.code).redirect('/order/addPurchase?status=added');
     }).catch(error => {
         // console.log(error);
-        res.status(error.code).redirect('/order/addPurchase?status=error');
+        res.status(error.code).redirect(`/order/addPurchase?status=error&message=${error}`);
     })
 
 }
@@ -518,7 +518,7 @@ exports.editPurchase = async(req, res, next) => {
         res.status(message.code).redirect('/order/selectPurchase?status=updated');
     }).catch(error => {
         console.log(error);
-        res.status(error.code).redirect('/order/selectPurchase?status=error');
+        res.status(error.code).redirect(`/order/selectPurchase?status=error&message=${error}`);
     })
 
 }
@@ -644,7 +644,7 @@ exports.deletePurchase = async(req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.status(401).redirect('/order/selectPurchase?status=error');
+        res.status(401).redirect(`/order/selectPurchase?status=error&message=${error}`);
 
     }
 
