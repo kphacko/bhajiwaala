@@ -256,7 +256,7 @@ exports.getVendor = async(status) => {
 
     }
 }
-exports.getVendors = async(status) => {
+exports.getVendors = async(req, res, next) => {
     try {
 
         let hotels = await functions.querySingle('SELECT * FROM vendor WHERE status = 0');

@@ -1,0 +1,104 @@
+<%- include("header") %>
+    <div id="content" class="main-content">
+
+        <div class=" layout-top-spacing">
+
+            <div id="basic" class="col-lg-12 col-sm-12 col-12 layout-spacing">
+                <div class="statbox widget box box-shadow">
+                    <div class="widget-header">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <h3><b>Total Order</b></h3>
+                                <div class="mt-4">
+                                    <p>Select date</p>
+                                    <div class="input-group mb-4">
+                                        <div class="input-group-prepend">
+                                        </div>
+                                        <input type="date" id="total" class="form-control" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy">
+                                    </div>
+
+                                    <div class="container">
+                                        <div class="center">
+                                            <button onclick="getTotal()" class="mt-4 btn btn-primary">Submit</button>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="statbox widget box box-shadow" style="margin-top: 2%;">
+
+                    <div class="widget-header">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <div class="widget-content widget-content-area">
+                                    <h3><b>View Purchase</b></h3>
+
+                                    <div class="input-group mt-4 mb-4">
+                                        <p>Select Vendor</p>
+
+                                        <select class="placeholder js-states form-control">
+                    <option>Choose...</option>
+                    <option value="one">First</option>
+                    <option value="two">Second</option>
+                    <option value="three">Third</option>
+                    <option value="four">Fourth</option>
+                    <option value="five">Fifth</option>
+                </select>
+                                    </div>
+
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/assets/axios.js"></script>
+
+    <script>
+        function getTotal() {
+            let date = document.getElementById("total").value;
+            if (!date) {
+                swal({
+                    title: 'Select Date ?',
+                    text: "Select a valid date",
+                    type: 'question',
+                    padding: '2em'
+                })
+            } else {
+
+
+                function makeGetRequest(path) {
+                    axios.get(path).then(
+                        (response) => {
+                            var result = response.data;
+
+                            if (result.length === 0) {
+                                swal({
+                                    title: 'No orders available',
+                                    text: "Orders is not placed for this date",
+                                    type: 'question',
+                                    padding: '2em'
+                                })
+                            } else {
+                                window.location = `<%=domain%>/order/getPurchase/${date}`;
+                            }
+                        },
+                        (error) => {
+                            console.log(error);
+                        }
+                    );
+                }
+                makeGetRequest(`<%=domain%>/order/getPurchase/${date}`);
+            }
+        }
+    </script>
+    <%- include("footer") %>

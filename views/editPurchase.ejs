@@ -1,0 +1,132 @@
+<%- include("header") %>
+    <div id="content" class="main-content">
+
+        <div class="layout-top-spacing">
+
+            <div id="basic" class="col-lg-12 col-sm-12 col-12 layout-spacing">
+                <div class="statbox widget box box-shadow">
+                    <div class="widget-header">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <h3><b>Edit Purchase</b></h3>
+
+                                <div class="mt-4">
+                                    <h5>Purchase details</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form action="/order/editPurchase" method="POST">
+                        <input name="type" value="VENDOR" hidden>
+
+                        <div class="input-group mt-4 mb-4">
+                            <p>Select vendor</p>
+
+                            <select name="ref" id="list" class="placeholder js-states form-control">
+<option value="<%= data[0].vendor.vendor_id%>"><%= data[0].vendor.vendor_name %><option>
+</select>
+                        </div>
+                        <p>delivery date</p>
+
+                        <div class="input-group mb-4">
+                            <input type="date" name="date" class="form-control" value="<%= data[0].date %>" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy">
+                        </div>
+                        <div class="table-responsive mb-4">
+                            <p>Product & Quantity</p>
+
+                            <table id="style-3" class="table style-3  table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="checkbox-column text-center"> Record Id </th>
+                                        <th> Name</th>
+                                        <th>Marathi Name</th>
+                                        <th>quantity</th>
+                                        <th>price</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%  let c=1
+                                    let exists = [];
+                            data[0].products.forEach((product)=>{ %>
+                                        <tr>
+                                            <td class="checkbox-column text-center">
+                                                <%= c %>
+                                            </td>
+                                            <td>
+                                                <%= product.name %>
+                                            </td>
+                                            <td>
+                                                <%= product.marathi %>
+                                            </td>
+                                            <td>
+                                                <input name="quantity<%= c %>" type="number" value="<%=product.quantity%>" placeholder=" quantity" aria-label="enter the quantity">
+                                                <input name="product_id<%= c %>" value="<%=product.id%>" hidden>
+                                                <% exists.push(product.id);%>
+                                            </td>
+                                            <td>
+                                                <input name="price<%= c%>" value="<%=product.price%>" type="number" placeholder="price" aria-label="enter the price">
+
+                                            </td>
+                                        </tr>
+                                        <% c++; %>
+                                            <% }); %>
+                                                <%  
+                                data1.forEach((product)=>{
+                                    if (!exists.includes(product.id)) {
+                                      %>
+                                                    <tr>
+                                                        <td class="checkbox-column text-center">
+                                                            <%= c %>
+                                                        </td>
+                                                        <td>
+                                                            <%= product.name %>
+                                                        </td>
+                                                        <td>
+                                                            <%= product.marathi %>
+                                                        </td>
+                                                        <td>
+                                                            <input name="quantity<%= c %>" type="number" placeholder=" quantity" aria-label="enter the quantity">
+                                                            <input name="product_id<%= c %>" value="<%=product.id%>" hidden>
+
+                                                        </td>
+                                                        <td>
+                                                            <input name="price<%= c%>" type="number" placeholder="price" aria-label="enter the price">
+
+                                                        </td>
+                                                    </tr>
+                                                    <% c++;    
+                                    } %>
+                                                        <% }); %>
+                                                            <input name="count" value="<%=c%>" hidden>
+
+                                                            <input name="orderID" value="<%=data[0].id%>" hidden>
+
+
+
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="container">
+                            <div class="center">
+                                <button class="mt-4 btn btn-primary">Submit</button>
+
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+    <%- include("footer") %>

@@ -32,10 +32,10 @@ router.get('/addOrder', async(req, res) => {
     let product = await productController.getProducts();
     // console.log(product);
     if (req.query.status) {
-        res.render('createOrder', { data: product, status: req.query.status, message: req.query.message });
+        res.render('createOrder', { data: product, status: req.query.status, message: req.query.message, domain: process.env.DOMAIN });
 
     } else {
-        res.render('createOrder', { data: product, status: 'empty' });
+        res.render('createOrder', { data: product, status: 'empty', domain: process.env.DOMAIN });
 
     }
 
@@ -74,5 +74,69 @@ router.post('/editOrder', (req, res, next) => { checkAdmin(req, res, next, ['adm
 
 // //some action to delete order 
 router.get('/deleteOrder/:id', orderController.deleteOrder);
+
+
+//route to create purchase
+router.get('/addPurchase', async(req, res) => {
+    let product = await productController.getProducts();
+    // console.log(product);
+    if (req.query.status) {
+        res.render('purchase', { data: product, status: req.query.status, message: req.query.message, domain: process.env.DOMAIN });
+
+    } else {
+        res.render('purchase', { data: product, status: 'empty', domain: process.env.DOMAIN });
+
+    }
+
+
+});
+
+router.get('/getPurchase/:date', async(req, res) => {
+    // console.log(req.params.date);
+    let orders = await orderController.getPurchaseByDate(req.params.date);
+    // console.log(orders);
+    // res.status(200).send(orders);
+    if (orders.length === 0) {
+        // console.log('sd');
+        res.send([]);
+    } else {
+        res.render('TotalPurchases', { data: orders });
+
+    }
+});
+
+router.post('/addPurchase', orderController.addPurchase);
+
+
+router.get('/totalPurchase', (req, res) => {
+    res.render('totalPurchase', { domain: process.env.DOMAIN });
+});
+
+router.get('/selectPurchase', async(req, res) => {
+    let orders = await orderController.getPurchase();
+    // console.log(orders);
+    if (req.query.status) {
+        res.render('selectPurchase', { data: orders, status: req.query.status, message: req.query.message });
+
+    } else {
+        res.render('selectPurchase', { data: orders, status: 'empty' });
+    }
+});
+
+router.get('/editPurchase/:id', async(req, res) => {
+    let orders = await orderController.getPurchaseById(req.params.id);
+    let product = await productController.getProducts();
+    // console.log(orders);
+    res.render('editPurchase', { id: req.params.id, data: orders, data1: product });
+
+});
+
+// some action to edit order
+router.post('/editPurchase', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, orderController.editPurchase);
+
+// // //some action to delete order 
+router.get('/deletePurchase/:id', orderController.deletePurchase);
+
+
 
 module.exports = router;

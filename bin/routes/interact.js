@@ -39,8 +39,10 @@ router.get('/editdeleteHotel', async(req, res) => {
 //some action to delete hotel 
 router.get('/deleteHotel/:id', userController.deleteHotel);
 
-//some action to get vendor
-// router.get('/getVendor', userController.getVendor);
+// some action to get vendor
+router.get('/getVendor', userController.getVendor);
+router.get('/getVendors', userController.getVendors);
+
 
 //some action to add vendor
 router.post('/addVendor', userController.addVendor);

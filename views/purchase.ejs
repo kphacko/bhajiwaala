@@ -14,8 +14,8 @@
         <% }else{%>
             <script>
                 swal({
-                    title: 'Order created..',
-                    text: "Order created successfully",
+                    title: 'Purchase created..',
+                    text: "Purchased created successfully",
                     type: 'success',
                     padding: '2em'
                 })
@@ -31,20 +31,20 @@
                                 <div class="widget-header">
                                     <div class="row">
                                         <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                            <h3><b>Create Order</b></h3>
+                                            <h3><b>Create Purchase</b></h3>
 
                                             <div class="mt-4">
-                                                <h5>order details</h5>
+                                                <h5>Purchase details</h5>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <form action="/order/addOrder" method="POST">
-                                    <input name="type" value="HOTEL" hidden>
+                                <form action="/order/addPurchase" method="POST">
+                                    <input name="type" value="VENDOR" hidden>
 
                                     <div class="input-group mt-4 mb-4">
-                                        <p>Select hotel</p>
+                                        <p>Select Vendor</p>
 
                                         <select name="ref" id="list" class="placeholder js-states form-control">
    
@@ -140,6 +140,6 @@
                             }
                         );
                     }
-                    makeGetRequest('<%=domain%>/interact/getHotel');
+                    makeGetRequest('<%=domain%>/interact/getVendors');
                 </script>
                 <%- include("footer") %>
