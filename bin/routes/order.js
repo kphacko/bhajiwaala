@@ -163,4 +163,36 @@ router.get('/deletePurchase/:id', orderController.deletePurchase);
 
 
 
+
+router.get('/getVendorOrders/:id', async(req, res) => {
+
+    let orders = await orderController.getOrderByVendor(req.params.id);
+    // console.log(orders);
+    if (orders.length === 0) {
+
+        res.render('VendorOrders', { data: orders, status: 'empty' });
+
+    } else {
+        res.render('VendorOrders', { data: orders, status: 'order' });
+
+
+    }
+});
+
+router.get('/getVendorOrder', async(req, res) => {
+
+    let orders = await orderController.getOrderByDateVendor(req.query.date, req.query.id);
+
+    // console.log(orders);
+    res.render('viewVendorOrder', {
+        data: orders
+    });
+
+});
+
+
+
+
+
+
 module.exports = router;
