@@ -42,7 +42,7 @@ router.get('/getHotelOrder', async(req, res) => {
 
     let orders = await orderController.getOrderByDateHotel(req.query.date, req.query.id);
 
-
+    // console.log(orders);
     res.render('viewHotelOrder', {
         data: orders
     });
