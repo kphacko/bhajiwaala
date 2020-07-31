@@ -23,7 +23,31 @@ router.get('/getOrder/:date', async(req, res) => {
 
     }
 });
+router.get('/getHotelOrders/:id', async(req, res) => {
 
+    let orders = await orderController.getOrderByHotel(req.params.id);
+    // console.log(orders);
+    if (orders.length === 0) {
+
+        res.render('HotelOrders', { data: orders, status: 'empty' });
+
+    } else {
+        res.render('HotelOrders', { data: orders, status: 'order' });
+
+
+    }
+});
+
+router.get('/getHotelOrder', async(req, res) => {
+
+    let orders = await orderController.getOrderByDateHotel(req.query.date, req.query.id);
+
+
+    res.render('viewHotelOrder', {
+        data: orders
+    });
+
+});
 //some action to add product
 router.post('/addOrder', orderController.addOrder);
 

@@ -52,7 +52,53 @@ exports.getOrder = async(req, res) => {
     }
 
 }
+exports.getOrderByHotel = async(id) => {
+    try {
 
+        let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,hotel.id AS hotel_id,hotel.name 
+        AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity,ordered_products.price FROM orders 
+        INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
+        INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id  WHERE hotel.id = ${id} AND orders.status =0 AND orders.type='HOTEL'`);
+        // let allOrders = await getAllOrders();
+        // let alltotal = await getAlltotal(allOrders);
+        // let allproduct = await allproducts(alltotal);
+        let orders = allproduct.map((element) => {
+
+            return {
+                "id": element.order_id,
+                "date": element.date,
+                "hotel": { "hotel_id": element.hotel_id, "hotel_name": element.hotel_name },
+                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price }]
+            }
+
+        });
+
+        let exists = [];
+        let updatedOrders = [];
+
+        orders.map((element, j) => {
+
+            for (var i = 0; i < orders.length; i++) {
+                if (i != j) {
+                    if (element.id == orders[i].id) {
+                        element.products = element.products.concat(orders[i].products);
+                    }
+                }
+            }
+            if (exists.indexOf(element.id) == -1) {
+                updatedOrders.push(element);
+                exists.push(element.id);
+            }
+        })
+
+        // console.log(exists);
+        return updatedOrders;
+        // res.json(updatedOrders);
+    } catch (error) {
+        console.log(error);
+    }
+
+}
 
 exports.getOrderById = async(id) => {
     try {
@@ -118,7 +164,58 @@ exports.getOrderByDate = async(date) => {
 
 }
 
-//action add orders 
+exports.getOrderByDateHotel = async(date, id) => {
+        try {
+
+            let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,hotel.id AS hotel_id,hotel.name 
+            AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,SUM(ordered_products.quantity) AS quantity,SUM(ordered_products.price) AS price FROM orders 
+            INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
+            INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id  WHERE hotel.id = ${id} AND orders.date ='${date}' AND orders.status =0 AND orders.type='HOTEL' GROUP BY ordered_products.p_id`);
+            // let allOrders = await getAllOrders();
+            // let alltotal = await getAlltotal(allOrders);
+            // let allproduct = await allproducts(alltotal);
+            let orders = allproduct.map((element) => {
+
+                return {
+                    "id": element.order_id,
+                    "date": element.date,
+                    "hotel": { "hotel_id": element.hotel_id, "hotel_name": element.hotel_name },
+                    "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price }]
+                }
+
+            });
+            // console.log(orders);
+
+            let exists = [];
+            let updatedOrders = [];
+            let k = 1;
+            orders.map((element, j) => {
+                if (k == 1) {
+                    for (var i = 0; i < orders.length; i++) {
+                        if (i != j) {
+                            if (element.date == orders[i].date) {
+
+                                element.products = element.products.concat(orders[i].products);
+                            }
+                        }
+                    }
+                    if (exists.indexOf(element.id) == -1) {
+                        updatedOrders.push(element);
+                        exists.push(element.id);
+                    }
+                    k++;
+                }
+            })
+
+            // console.log(updatedOrders);
+            return updatedOrders;
+            // res.json(updatedOrders);
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+    //action add orders 
 exports.addOrder = async(req, res, next) => {
 
     function addOrder(req, res, next) {

@@ -1,0 +1,91 @@
+<%- include("header") %>
+    <div id="content" class="main-content">
+
+        <div class="layout-top-spacing">
+
+            <div id="basic" class="col-lg-12 col-sm-12 col-12 layout-spacing">
+                <div class="statbox widget box box-shadow">
+                    <div class="widget-header">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <h3><b>Edit Order</b></h3>
+
+                                <div class="mt-4">
+                                    <h5>order details</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="input-group mt-4 mb-4">
+                        <p>Select hotel</p>
+
+                        <select name="ref" id="list" class="placeholder js-states form-control" disabled>
+<option value="<%= data[0].hotel.hotel_id%>"><%= data[0].hotel.hotel_name %><option>
+</select>
+                    </div>
+                    <p>delivery date</p>
+
+                    <div class="input-group mb-4">
+                        <input type="date" name="date" class="form-control" value="<%= data[0].date %>" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy" disabled>
+                    </div>
+                    <div class="table-responsive mb-4">
+                        <p>Product & Quantity</p>
+
+                        <table id="style-3" class="table style-3  table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="checkbox-column text-center"> Record Id </th>
+                                    <th> Name</th>
+                                    <th>Marathi Name</th>
+                                    <th>quantity</th>
+                                    <th>price</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%  let c=1
+
+                            data.products.forEach((product)=>{ %>
+                                    <tr>
+                                        <td class="checkbox-column text-center">
+                                            <%= c %>
+                                        </td>
+                                        <td>
+                                            <%= product.name %>
+                                        </td>
+                                        <td>
+                                            <%= product.marathi %>
+                                        </td>
+                                        <td>
+                                            <input name="quantity<%= c %>" type="number" value="<%=product.quantity%>" placeholder=" quantity" aria-label="enter the quantity" disabled>
+
+                                        </td>
+                                        <td>
+                                            <input name="price<%= c%>" value="<%=product.price%>" type="number" placeholder="price" aria-label="enter the price" disabled>
+
+                                        </td>
+                                    </tr>
+                                    <% c++; %>
+                                        <% }); %>
+
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+    <%- include("footer") %>

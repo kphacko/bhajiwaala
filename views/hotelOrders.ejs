@@ -1,0 +1,84 @@
+<%- include("header") %>
+    <div id="content" class="main-content">
+
+        <div class="layout-top-spacing">
+
+            <div id="basic" class="col-lg-12 col-sm-12 col-12 layout-spacing">
+                <div class="statbox widget box box-shadow">
+                    <div class="widget-header">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <h3><b>Hotel Orders</b></h3>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <% if (status=='empty') { %>
+                        <h4 class="mt-5">No orders available</h4>
+                        <%}else{%>
+                            <form action="/order/editOrder" method="POST">
+                                <input name="type" value="HOTEL" hidden>
+
+                                <div class="input-group mt-4 mb-4">
+                                    <p>Hotel Name</p>
+
+                                    <select name="ref" id="list" class="placeholder js-states form-control" disabled>
+<option value="<%= data[0].hotel.hotel_id%>"><%= data[0].hotel.hotel_name %><option>
+</select>
+                                </div>
+
+                                <div class="table-responsive mb-4">
+                                    <p>Order Details</p>
+
+                                    <table id="style-3" class="table style-3  table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="checkbox-column text-center"> Record Id </th>
+                                                <th>Date</th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%  let c=1
+                                   let exist = [];
+                            data.forEach((order,j)=>{ 
+                                if (!exist.includes(order.date)) {
+                                %>
+                                                <tr>
+                                                    <td class="checkbox-column text-center">
+                                                        <a href="/order/getHotelOrder?date=<%= order.date %>&id=<%=data[0].hotel.hotel_id%>">
+                                                            <%= c %>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="/order/getHotelOrder?date=<%= order.date %>&id=<%=data[0].hotel.hotel_id%>">
+                                                            <%= order.date %>
+                                                        </a>
+                                                    </td>
+
+                                                </tr>
+                                                <%exist.push(order.date)%>
+                                                    <% c++; } %>
+                                                        <% }); %>
+
+
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                            </form>
+                            <%   }%>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+    <%- include("footer") %>
