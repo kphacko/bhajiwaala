@@ -46,6 +46,8 @@ const userRoutes = require('./bin/routes/user');
 const interactRoutes = require('./bin/routes/interact');
 const productsRoutes = require('./bin/routes/products');
 const orderRoutes = require('./bin/routes/order');
+const invoiceRoutes = require('./bin/routes/invoice');
+
 const { checkAdmin } = require('./bin/middleware/auth');
 
 
@@ -54,9 +56,11 @@ const { checkAdmin } = require('./bin/middleware/auth');
 
 //******* USING THE IMPORTED ROUTES *******\\
 app.use('/user', userRoutes);
-app.use('/interact', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, interactRoutes);
+app.use('/interact', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, interactRoutes);
 app.use('/product', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, productsRoutes);
 app.use('/order', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, orderRoutes);
+app.use('/invoice', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, invoiceRoutes);
+
 // app.use('/images', express.static('uploads/images'));
 app.use('/', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, (req, res) => {
     res.render('index');

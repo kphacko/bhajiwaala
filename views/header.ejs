@@ -55,6 +55,9 @@
     <script src="/assets/js/scrollspyNav.js"></script>
     <script src="/plugins/sweetalerts/sweetalert2.min.js"></script>
     <script src="/plugins/sweetalerts/custom-sweetalert.js"></script>
+    <link href="/assets/css/apps/invoice.css" rel="stylesheet" type="text/css" />
+    <script src="/assets/axios.js"></script>
+
     <style>
         .svgline>svg {
             position: relative;
@@ -353,6 +356,36 @@
                             </div>
                         </a>
                     </li>
+
+
+
+                    <li class="menu">
+                        <a href="#invoice" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                                <span>invoice</span>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </div>
+                        </a>
+                        <ul class="collapse submenu list-unstyled" id="invoice" data-parent="#accordionExample">
+                            <li>
+                                <a href="/invoice/getInvoice">Invoices</a>
+                            </li>
+                            <li style="overflow: visible !important;">
+                                <a href="/order/totalPurchase">Total Purchase</a>
+                            </li>
+                            <li style="overflow: visible !important;">
+                                <a href="/order/selectPurchase"> Edit & Delete Purchase</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+
+
                     <li class="menu">
                         <a href="#product" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                             <div class="">

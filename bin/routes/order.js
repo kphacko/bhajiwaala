@@ -5,7 +5,7 @@ const productController = require('../controller/products');
 
 const middleware = require('../middleware/auth');
 const { checkAdmin } = require('../middleware/auth');
-const superagent = require('superagent');
+// const superagent = require('superagent');
 
 
 //some action to get products
