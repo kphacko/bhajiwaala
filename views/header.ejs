@@ -346,17 +346,30 @@
 
 
 
+
                     <li class="menu">
-                        <a href="/order/addExpense" aria-expanded="false" class="dropdown-toggle">
+                        <a href="#expense" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                             <div class="">
                                 <svg stroke="currentColor" width=10px height=15px>
                                     <path stroke="black" id="svg_7" d="M0,0 m6.83,14.83 l-6.12,-7.33 m-0.71,-7.5 m0.37,5.75 h9.3 m-9.3,0 m-0.37,-3.89 m0.51,1 h9.3 m-0.51,-1 m-9.3,0 m0.507518,1.001516c3.903211,-0.048188 4.674216,1.060131 5.156094,2.216638c0.481878,1.156507 -0.144564,2.84308 -1.252883,3.662272c-1.108319,0.819193 -3.373145,0.626442 -3.71046,0.626442" stroke-width="1" fill='none'/>
                                  </svg>
-                                <span>Add Expense</span>
+                                <span>Expense</span>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </div>
                         </a>
-                    </li>
+                        <ul class="collapse submenu list-unstyled" id="expense" data-parent="#accordionExample">
+                            <li>
+                                <a href="/order/addExpense"> Add Expense </a>
+                            </li>
 
+                            <li style="overflow: visible !important;">
+                                <a href="/order/select"> Edit & Delete Expense</a>
+                            </li>
+
+                        </ul>
+                    </li>
 
 
                     <li class="menu">
@@ -374,12 +387,8 @@
                                 <a href="/invoice/getInvoice">Invoices</a>
                             </li>
                             <li style="overflow: visible !important;">
-                                <a href="/order/totalPurchase">Total Purchase</a>
+                                <a href="/invoice/expense">Expense</a>
                             </li>
-                            <li style="overflow: visible !important;">
-                                <a href="/order/selectPurchase"> Edit & Delete Purchase</a>
-                            </li>
-
                         </ul>
                     </li>
 

@@ -1,0 +1,87 @@
+<%- include("header")  %>
+    <%if(status=='empty'){
+
+    }else{
+        if (status=='Error') { %>
+        <script>
+            swal({
+                title: 'Something is wrong!',
+                text: "<%= message%>",
+                type: 'question',
+                padding: '2em'
+            })
+        </script>
+        <% }else{%>
+            <script>
+                swal({
+                    title: 'Expense edited',
+                    text: "Record edited successfully",
+                    type: 'success',
+                    padding: '2em'
+                })
+            </script>
+            <%}}%>
+
+                <div id="content" class="main-content">
+
+                    <div class="layout-top-spacing">
+
+                        <div id="basic" class="col-lg-12 col-sm-12 col-12 layout-spacing">
+                            <div class="statbox widget box box-shadow">
+                                <div class="widget-header">
+                                    <div class="row">
+                                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                            <h4><b>edit Expense</b></h4>
+                                            <div class="mt-4">
+                                                <h5>Expense details</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="widget-content widget-content-area">
+                                    <form method="POST" action="/order/editExpense">
+
+                                        <p>Expense title</p>
+                                        <div class="form-group">
+                                            <input id="t-text" value="<%=data[0].id%>" name="id" type="text" placeholder="Rent.." class="form-control" hidden>
+
+                                            <input id="t-text" value="<%=data[0].name%>" name="name" type="text" placeholder="Rent.." class="form-control" required>
+
+
+                                        </div>
+                                        <p>Discription</p>
+                                        <div class="form-group">
+                                            <input id="disc" value="<%=data[0].discription%>" name="discription" type="text" placeholder="Salary. etc" class="form-control" required>
+
+
+                                        </div>
+                                        <p>Amount</p>
+                                        <div class="form-group">
+                                            <input id="amount" value="<%=data[0].amount%>" type="number" name="amount" placeholder="400 $" class="form-control" required>
+
+                                        </div>
+                                        <p>Date</p>
+
+                                        <div class="form-group">
+                                            <input type="date" value="<%=data[0].date%>" name="date" class="form-control" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy">
+                                        </div>
+                                </div>
+                                <div class="container">
+                                    <div class="center">
+                                        <button class="mt-4 btn btn-primary">Update</button>
+
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                </div>
+
+
+
+
+                <%-include("footer")  %>

@@ -1,0 +1,96 @@
+<%- include("header") %>
+
+    <div id="content" class="main-content">
+
+        <div class="layout-top-spacing">
+
+            <div id="basic" class="col-lg-12 col-sm-12 col-12 layout-spacing">
+                <div class="statbox widget box box-shadow">
+                    <div class="widget-header">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <h4><b>Edit & Approve Expense Invoices</b></h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="widget-content widget-content-area">
+
+                        <div class="table-responsive mb-4">
+                            <p><b>Invoice details</b></p>
+
+                            <table id="style-3" class="table style-3  table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class=" text-center">Invoice ID</th>
+                                        <th>Name</th>
+                                        <th>Bill type</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th class="text-center">Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% 
+                                   
+                                        data.map((invoice)=>{
+
+                                       %>
+                                        <tr>
+                                            <td class=" text-center">
+                                                #
+                                                <%=invoice.id%>
+                                            </td>
+                                            <td>
+                                                <%=invoice.name%>
+                                            </td>
+                                            <td>
+                                                Expense
+                                            </td>
+                                            <td>
+                                                <%=invoice.date%>
+                                            </td>
+                                            <td>
+                                                <%if(invoice.status==0){ %>
+                                                    <span class="badge outline-badge-warning">Unpaid</span>
+                                                    <% }else if (invoice.status==1) { %>
+                                                        <span class="badge outline-badge-danger">Pending</span>
+                                                        <% }else if (invoice.status==2) { %>
+                                                            <span class="badge outline-badge-success">Paid</span>
+                                                            <% }%>
+                                            </td>
+                                            <td class="text-center">
+                                                <ul class="table-controls">
+                                                    <li><a href="/invoice/expense/<%=invoice.id%>" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Update payment"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 p-1 br-6 mb-1"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <% })%>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <%- include("footer") %>

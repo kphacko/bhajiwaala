@@ -887,11 +887,69 @@ exports.addExpense = async(req, res, next) => {
         if (amount < 0) throw new Custom('Enter valid amount', 'Enter valid amount', 401);
         let expense = await functions.querySingle(`INSERT INTO expense (name,discription,date,amount) VALUES ('${name}','${discription}','${date}',${amount})`);
 
-        let invoice = await functions.querySingle(`INSERT INTO invoice (u_id,ref_id,date,status,type,paid_amount,TotalPrice) VALUES (${req.session.u_id},${expense.insertId},now(),2,2,${amount},${amount})`);
+        let invoice = await functions.querySingle(`INSERT INTO invoice (u_id,ref_id,date,status,type,paid_amount,TotalPrice) VALUES (${req.session.u_id},${expense.insertId},now(),1,2,${amount},${amount})`);
         res.status(200).redirect('/order/addExpense?status=added');
 
     } catch (error) {
         res.status(error.code).redirect(`/order/addExpense?status=Error&message=${error}`);
 
     }
+}
+
+//action to add expense 
+exports.editExpense = async(req, res, next) => {
+    const { name, discription, amount, id } = req.body;
+    let date = req.body.date;
+    // console.log(date);
+    try {
+        if (!name || !discription || !amount || !id) throw customError.dataInvalid;
+
+        // console.log(date);
+        if (amount < 0) throw new Custom('Enter valid amount', 'Enter valid amount', 401);
+        let expense = await functions.querySingle(`UPDATE expense SET name = '${name}',discription="${discription}",date='${date}',amount=${amount} WHERE id = ${id}`);
+
+        let invoice = await functions.querySingle(`UPDATE invoice SET u_id = ${req.session.u_id},date=now(),status=1,paid_amount=${amount},TotalPrice=${amount} WHERE ref_id= ${id} AND type = 2`);
+        res.status(200).redirect(`/order/editExpense/${id}?status=Edited`);
+
+    } catch (error) {
+        res.status(error.code).redirect(`/order/editExpense/${id}?status=Error&message=${error}`);
+
+    }
+}
+
+//action to add expense 
+exports.deleteExpense = async(req, res, next) => {
+    const { id } = req.params;
+
+    try {
+        if (!id) throw customError.dataInvalid;
+        let expense = await functions.querySingle(`UPDATE expense SET status = 1 WHERE id = ${id}`);
+        res.status(200).redirect(`/order/select?status=Deleted`);
+
+    } catch (error) {
+        res.status(error.code).redirect(`/order/select?status=Error&message=${error}`);
+
+    }
+}
+exports.getExpense = async(req, res) => {
+    try {
+        let expense = await functions.querySingle(`SELECT * FROM expense WHERE status = 0`);
+        return expense;
+    } catch (error) {
+        console.log(error);
+    }
+
+
+
+}
+exports.getExpenseByID = async(id) => {
+    try {
+        let expense = await functions.querySingle(`SELECT * FROM expense WHERE status = 0 AND id = ${id}`);
+        return expense;
+    } catch (error) {
+        console.log(error);
+    }
+
+
+
 }

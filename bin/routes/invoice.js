@@ -9,6 +9,7 @@ const { checkAdmin } = require('../middleware/auth');
 
 // router.get('/getInvoice', invoiceController.getInvoice);
 
+
 router.get('/getInvoice', async(req, res) => {
     let invoice = await invoiceController.getInvoice();
     // console.log(invoice);
@@ -33,7 +34,26 @@ router.get('/invoice/:id', async(req, res) => {
     }
 
 });
+
+router.get('/expense', async(req, res) => {
+    let invoice = await invoiceController.getExpenseInvoice();
+
+    // console.log(invoice);
+
+    res.render('expenseInvoice', { data: invoice, status: 'empty', domain: process.env.DOMAIN });
+});
+router.get('/expense/:id', async(req, res) => {
+    let invoice = await invoiceController.getExpenseInvoiceByID(req.params.id);
+
+    // console.log(invoice);
+
+    res.render('EditexpenseInvoice', { data: invoice, status: 'empty', domain: process.env.DOMAIN });
+});
 router.post('/update', invoiceController.updateInvoice);
 router.post('/close', invoiceController.closeInvoice);
+
+router.post('/updateExpense', invoiceController.updateInvoiceExpense);
+router.post('/closeExpense', invoiceController.closeInvoiceExpense);
+
 
 module.exports = router;

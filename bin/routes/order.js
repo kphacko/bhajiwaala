@@ -209,5 +209,25 @@ router.get('/addExpense', async(req, res) => {
 
 });
 
+router.get('/select', async(req, res) => {
+    let expense = await orderController.getExpense();
+    if (req.query.status) {
+        res.render('selectExpense', { data: expense, status: req.query.status, message: req.query.message });
+    } else {
+        res.render('selectExpense', { data: expense, status: 'empty' });
+
+    }
+});
+router.post('/editExpense', orderController.editExpense);
+
+router.get('/editexpense/:id', async(req, res) => {
+    let expense = await orderController.getExpenseByID(req.params.id);
+    if (req.query.status) {
+        res.render('editExpense', { data: expense, status: req.query.status, message: req.query.message });
+    } else {
+        res.render('editExpense', { data: expense, status: 'empty' });
+    }
+});
+router.get('/deleteExpense/:id', orderController.deleteExpense);
 
 module.exports = router;
