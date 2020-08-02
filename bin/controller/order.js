@@ -5,6 +5,20 @@ const { PerformanceObserver, performance } = require('perf_hooks');
 const functions = require('../custom/function');
 
 
+const updateInvoice = async(id, type) => {
+    try {
+        let totalPrice = await functions.querySingle(`SELECT orders.id,SUM(ordered_products.price) AS price FROM orders 
+        INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
+         INNER JOIN products ON ordered_products.p_id = products.id  WHERE orders.id = ${id}`);
+        let updatedInvoice = await functions.querySingle(`UPDATE invoice SET TotalPrice = ${totalPrice[0].price} WHERE ref_id=${totalPrice[0].id} AND type= ${type}`);
+        return updatedInvoice;
+    } catch (error) {
+        return error;
+    }
+
+
+}
+
 exports.getOrder = async(req, res) => {
     try {
 
@@ -217,6 +231,7 @@ exports.getOrderByDateHotel = async(date, id) => {
     }
     //action add orders 
 exports.addOrder = async(req, res, next) => {
+    let order_id;
 
     function addOrder(req, res, next) {
 
@@ -241,9 +256,9 @@ exports.addOrder = async(req, res, next) => {
                     ]
                 ]
                 sq = 'INSERT INTO orders (u_id,ref_id,type,date) VALUES ?';
-                sql.query(sq, [data], (err, rows, result) => {
+                sql.query(sq, [data], async(err, rows, result) => {
                     if (!err) {
-                        let order_id = rows.insertId;
+                        order_id = rows.insertId;
                         let ordered_products = [];
                         let count = req.body.count;
                         if (count == 0) reject(customError.dataInvalid);
@@ -311,11 +326,12 @@ exports.addOrder = async(req, res, next) => {
 
         })
     }
-    addOrder(req, res, next).then(message => {
+    addOrder(req, res, next).then(async(message) => {
+        let updatedInovice = await updateInvoice(order_id, 0);
         res.status(message.code).redirect('/order/addOrder?status=added');
     }).catch(error => {
         // console.log(error);
-        res.status(error.code).redirect(`/order/addOrder?status=error&message=${error}`);
+        res.status(error.code).redirect(`/order/addOrder?status=Error&message=${error}`);
     })
 
 }
@@ -365,8 +381,10 @@ exports.editOrder = async(req, res, next) => {
                         sql.query(sq, (err, rows, result) => {
                             if (!err) {
                                 sq1 = 'INSERT INTO ordered_products (order_id,p_id,quantity,price) VALUES ?';
-                                sql.query(sq1, [ordered_products], (err, rows, result) => {
+                                sql.query(sq1, [ordered_products], async(err, rows, result) => {
                                     if (!err) {
+                                        let updatedInovice = await updateInvoice(orderID, 0);
+
                                         resolve({
                                             error: false,
                                             details: rows
@@ -378,6 +396,7 @@ exports.editOrder = async(req, res, next) => {
                                         );
                                     }
                                 });
+
                             } else {
                                 reject(
                                     console.log(err),
@@ -406,7 +425,7 @@ exports.editOrder = async(req, res, next) => {
         res.status(message.code).redirect('/order/selectOrder?status=updated');
     }).catch(error => {
         console.log(error);
-        res.status(error.code).redirect(`/order/selectOrder?status=error&message=${error}`);
+        res.status(error.code).redirect(`/order/selectOrder?status=Error&message=${error}`);
     })
 
 }
@@ -422,7 +441,7 @@ exports.deleteOrder = async(req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.status(401).redirect(`/order/selectOrder?status=error&message=${error}`);
+        res.status(401).redirect(`/order/selectOrder?status=Error&message=${error}`);
 
     }
 
@@ -477,10 +496,11 @@ exports.addPurchase = async(req, res, next) => {
                             [
                                 req.session.u_id,
                                 rows.insertId,
-                                new Date()
+                                new Date(),
+                                1
                             ]
                         ]
-                        sq = 'INSERT INTO invoice (u_id,ref_id,date) VALUES ?';
+                        sq = 'INSERT INTO invoice (u_id,ref_id,date,type) VALUES ?';
                         sql.query(sq, [invoice], (err, rows, result) => {
                             if (!err) {
                                 resolve({
@@ -496,8 +516,10 @@ exports.addPurchase = async(req, res, next) => {
 
                         });
                         sq = 'INSERT INTO ordered_products (order_id,p_id,quantity,price) VALUES ?';
-                        sql.query(sq, [ordered_products], (err, rows, result) => {
+                        sql.query(sq, [ordered_products], async(err, rows, result) => {
                             if (!err) {
+                                let updatedInovice = await updateInvoice(order_id, 1);
+
                                 resolve({
                                     error: false,
                                     details: rows
@@ -529,7 +551,7 @@ exports.addPurchase = async(req, res, next) => {
         res.status(message.code).redirect('/order/addPurchase?status=added');
     }).catch(error => {
         // console.log(error);
-        res.status(error.code).redirect(`/order/addPurchase?status=error&message=${error}`);
+        res.status(error.code).redirect(`/order/addPurchase?status=Error&message=${error}`);
     })
 
 }
@@ -574,8 +596,10 @@ exports.editPurchase = async(req, res, next) => {
                         sql.query(sq, (err, rows, result) => {
                             if (!err) {
                                 sq1 = 'INSERT INTO ordered_products (order_id,p_id,quantity,price) VALUES ?';
-                                sql.query(sq1, [ordered_products], (err, rows, result) => {
+                                sql.query(sq1, [ordered_products], async(err, rows, result) => {
                                     if (!err) {
+                                        let updatedInovice = await updateInvoice(orderID, 1);
+
                                         resolve({
                                             error: false,
                                             details: rows
@@ -615,7 +639,7 @@ exports.editPurchase = async(req, res, next) => {
         res.status(message.code).redirect('/order/selectPurchase?status=updated');
     }).catch(error => {
         console.log(error);
-        res.status(error.code).redirect(`/order/selectPurchase?status=error&message=${error}`);
+        res.status(error.code).redirect(`/order/selectPurchase?status=Error&message=${error}`);
     })
 
 }
@@ -741,7 +765,7 @@ exports.deletePurchase = async(req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.status(401).redirect(`/order/selectPurchase?status=error&message=${error}`);
+        res.status(401).redirect(`/order/selectPurchase?status=Error&message=${error}`);
 
     }
 
@@ -846,4 +870,28 @@ exports.getOrderByDateVendor = async(date, id) => {
         console.log(error);
     }
 
+}
+
+
+//action to add expense 
+exports.addExpense = async(req, res, next) => {
+    const { name, discription, amount } = req.body;
+    let date = req.body.date;
+    // console.log(date);
+    try {
+        if (!name || !discription || !amount) throw customError.dataInvalid;
+        if (!date) {
+            date = new Date()
+        }
+        // console.log(date);
+        if (amount < 0) throw new Custom('Enter valid amount', 'Enter valid amount', 401);
+        let expense = await functions.querySingle(`INSERT INTO expense (name,discription,date,amount) VALUES ('${name}','${discription}','${date}',${amount})`);
+
+        let invoice = await functions.querySingle(`INSERT INTO invoice (u_id,ref_id,date,status,type,paid_amount,TotalPrice) VALUES (${req.session.u_id},${expense.insertId},now(),2,2,${amount},${amount})`);
+        res.status(200).redirect('/order/addExpense?status=added');
+
+    } catch (error) {
+        res.status(error.code).redirect(`/order/addExpense?status=Error&message=${error}`);
+
+    }
 }

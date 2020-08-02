@@ -192,7 +192,22 @@ router.get('/getVendorOrder', async(req, res) => {
 
 
 
+router.post('/addExpense', orderController.addExpense);
 
+//ejs route
+router.get('/addExpense', async(req, res) => {
+
+    // console.log(product);
+    if (req.query.status) {
+        res.render('createExpense', { status: req.query.status, message: req.query.message, domain: process.env.DOMAIN });
+
+    } else {
+        res.render('createExpense', { status: 'empty', domain: process.env.DOMAIN });
+
+    }
+
+
+});
 
 
 module.exports = router;
