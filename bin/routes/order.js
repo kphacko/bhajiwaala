@@ -29,10 +29,10 @@ router.get('/getHotelOrders/:id', async(req, res) => {
     // console.log(orders);
     if (orders.length === 0) {
 
-        res.render('HotelOrders', { data: orders, status: 'empty' });
+        res.render('hotelOrders', { data: orders, status: 'empty' });
 
     } else {
-        res.render('HotelOrders', { data: orders, status: 'order' });
+        res.render('hotelOrders', { data: orders, status: 'order' });
 
 
     }
