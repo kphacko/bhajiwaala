@@ -170,10 +170,10 @@ router.get('/getVendorOrders/:id', async(req, res) => {
     // console.log(orders);
     if (orders.length === 0) {
 
-        res.render('VendorOrders', { data: orders, status: 'empty' });
+        res.render('vendorOrders', { data: orders, status: 'empty' });
 
     } else {
-        res.render('VendorOrders', { data: orders, status: 'order' });
+        res.render('vendorOrders', { data: orders, status: 'order' });
 
 
     }

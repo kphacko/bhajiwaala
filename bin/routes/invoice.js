@@ -14,9 +14,9 @@ router.get('/getInvoice', async(req, res) => {
     let invoice = await invoiceController.getInvoice();
     // console.log(invoice);
     if (req.query.status) {
-        res.render('TotalInvoice', { data: invoice, status: req.query.status, message: req.query.message });
+        res.render('totalInvoice', { data: invoice, status: req.query.status, message: req.query.message });
     } else {
-        res.render('TotalInvoice', { data: invoice, status: 'empty' });
+        res.render('totalInvoice', { data: invoice, status: 'empty' });
 
     }
 

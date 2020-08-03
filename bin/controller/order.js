@@ -239,7 +239,7 @@ exports.addOrder = async(req, res, next) => {
             // if (!req.session.u_id) reject(mess = new Custom('login error', 'please login first then try', 401));
             const { ref, type, date, count } = req.body;
             // console.log(name, phone);
-            if (!ref || !type || !count) {
+            if (!ref || !type || !count || !date) {
 
 
                 reject(customError.dataInvalid);
@@ -457,7 +457,7 @@ exports.addPurchase = async(req, res, next) => {
             // if (!req.session.u_id) reject(mess = new Custom('login error', 'please login first then try', 401));
             const { ref, type, date, count } = req.body;
             // console.log(name, phone);
-            if (!ref || !type || !count) {
+            if (!ref || !type || !count || !date) {
 
 
                 reject(customError.dataInvalid);
