@@ -17,28 +17,33 @@ exports.login = async(req, res, next) => {
                 })
             } else {
 
-                sql.query(`SELECT * FROM user WHERE phone = '${req.body.phone}' OR email = '${req.body.phone}'`, async function(err, results) {
-
-                    const userValidated = await bcrypt.compare(req.body.password, results[0].password);
-                    if (!userValidated) {
+                sql.query(`SELECT * FROM user WHERE phone = '${phone}' OR email = '${phone}'`, async function(err, results) {
+                    if (results.length === 0) {
                         reject({
                             error: customError.authFailed
                         });
                     } else {
-                        // console.log(results);
-                        req.session.login = true;
-                        req.session.phone = results[0].phone;
-                        // req.session.data = results[0];
-                        //    res.redirect(req.baseUrl);
-                        req.session.u_id = results[0].id;
-                        req.session.role = results[0].privilege;
-                        req.session.email = results[0].email;
-                        resolve({
-                            error: {
-                                code: 200
-                            },
-                            req: req
-                        });
+                        const userValidated = await bcrypt.compare(password, results[0].password);
+                        if (!userValidated) {
+                            reject({
+                                error: customError.authFailed
+                            });
+                        } else {
+                            // console.log(results);
+                            req.session.login = true;
+                            req.session.phone = results[0].phone;
+                            // req.session.data = results[0];
+                            //    res.redirect(req.baseUrl);
+                            req.session.u_id = results[0].id;
+                            req.session.role = results[0].privilege;
+                            req.session.email = results[0].email;
+                            resolve({
+                                error: {
+                                    code: 200
+                                },
+                                req: req
+                            });
+                        }
                     }
                 });
             }
