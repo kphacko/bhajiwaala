@@ -153,7 +153,7 @@
                                             <div class="row mt-4">
                                                 <div class="col-sm-5 col-12 order-sm-0 order-1">
                                                     <%if (data[0].status!=2) { %>
-                                                        <input id="amount" type="number" name="amount" placeholder="$100" class="mb-4 form-control" required>
+                                                        <input id="amount" type="number" min="1" name="amount" placeholder="$100" class="mb-4 form-control" required>
                                                         <button onclick="update()" class="btn btn-secondary mb-2">
                                                         
                                                        Update</button>

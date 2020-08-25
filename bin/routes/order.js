@@ -29,10 +29,10 @@ router.get('/getHotelOrders/:id', async(req, res) => {
     // console.log(orders);
     if (orders.length === 0) {
 
-        res.render('hotelOrders', { data: orders, status: 'empty' });
+        res.render('hotelOrders', { data: orders, status: 'empty', role: req.session.role });
 
     } else {
-        res.render('hotelOrders', { data: orders, status: 'order' });
+        res.render('hotelOrders', { data: orders, status: 'order', role: req.session.role });
 
 
     }
@@ -44,7 +44,8 @@ router.get('/getHotelOrder', async(req, res) => {
 
     // console.log(orders);
     res.render('viewHotelOrder', {
-        data: orders
+        data: orders,
+        role: req.session.role
     });
 
 });
@@ -56,10 +57,10 @@ router.get('/addOrder', async(req, res) => {
     let product = await productController.getProducts();
     // console.log(product);
     if (req.query.status) {
-        res.render('createOrder', { data: product, status: req.query.status, message: req.query.message, domain: process.env.DOMAIN });
+        res.render('createOrder', { data: product, status: req.query.status, message: req.query.message, domain: process.env.DOMAIN, role: req.session.role });
 
     } else {
-        res.render('createOrder', { data: product, status: 'empty', domain: process.env.DOMAIN });
+        res.render('createOrder', { data: product, status: 'empty', domain: process.env.DOMAIN, role: req.session.role });
 
     }
 
@@ -68,7 +69,7 @@ router.get('/addOrder', async(req, res) => {
 
 //ejs route
 router.get('/totalOrder', (req, res) => {
-    res.render('totalOrder', { domain: process.env.DOMAIN });
+    res.render('totalOrder', { domain: process.env.DOMAIN, role: req.session.role });
 });
 
 
@@ -78,10 +79,10 @@ router.get('/selectOrder', async(req, res) => {
     let orders = await orderController.getOrder();
     // console.log(orders);
     if (req.query.status) {
-        res.render('selectOrder', { data: orders, status: req.query.status, message: req.query.message });
+        res.render('selectOrder', { data: orders, status: req.query.status, message: req.query.message, role: req.session.role });
 
     } else {
-        res.render('selectOrder', { data: orders, status: 'empty' });
+        res.render('selectOrder', { data: orders, status: 'empty', role: req.session.role });
     }
 });
 
@@ -89,7 +90,7 @@ router.get('/editOrder/:id', async(req, res) => {
     let orders = await orderController.getOrderById(req.params.id);
     let product = await productController.getProducts();
     // console.log(orders[0].products);
-    res.render('editOrder', { id: req.params.id, data: orders, data1: product });
+    res.render('editOrder', { id: req.params.id, data: orders, data1: product, role: req.session.role });
 
 });
 
@@ -105,10 +106,10 @@ router.get('/addPurchase', async(req, res) => {
     let product = await productController.getProducts();
     // console.log(product);
     if (req.query.status) {
-        res.render('purchase', { data: product, status: req.query.status, message: req.query.message, domain: process.env.DOMAIN });
+        res.render('purchase', { data: product, status: req.query.status, message: req.query.message, domain: process.env.DOMAIN, role: req.session.role });
 
     } else {
-        res.render('purchase', { data: product, status: 'empty', domain: process.env.DOMAIN });
+        res.render('purchase', { data: product, status: 'empty', domain: process.env.DOMAIN, role: req.session.role });
 
     }
 
@@ -124,7 +125,7 @@ router.get('/getPurchase/:date', async(req, res) => {
         // console.log('sd');
         res.send([]);
     } else {
-        res.render('TotalPurchases', { data: orders });
+        res.render('TotalPurchases', { data: orders, role: req.session.role });
 
     }
 });
@@ -133,17 +134,17 @@ router.post('/addPurchase', orderController.addPurchase);
 
 
 router.get('/totalPurchase', (req, res) => {
-    res.render('totalPurchase', { domain: process.env.DOMAIN });
+    res.render('totalPurchase', { domain: process.env.DOMAIN, role: req.session.role });
 });
 
 router.get('/selectPurchase', async(req, res) => {
     let orders = await orderController.getPurchase();
     // console.log(orders);
     if (req.query.status) {
-        res.render('selectPurchase', { data: orders, status: req.query.status, message: req.query.message });
+        res.render('selectPurchase', { data: orders, status: req.query.status, message: req.query.message, role: req.session.role });
 
     } else {
-        res.render('selectPurchase', { data: orders, status: 'empty' });
+        res.render('selectPurchase', { data: orders, status: 'empty', role: req.session.role });
     }
 });
 
@@ -151,7 +152,7 @@ router.get('/editPurchase/:id', async(req, res) => {
     let orders = await orderController.getPurchaseById(req.params.id);
     let product = await productController.getProducts();
     // console.log(orders);
-    res.render('editPurchase', { id: req.params.id, data: orders, data1: product });
+    res.render('editPurchase', { id: req.params.id, data: orders, data1: product, role: req.session.role });
 
 });
 
@@ -170,10 +171,10 @@ router.get('/getVendorOrders/:id', async(req, res) => {
     // console.log(orders);
     if (orders.length === 0) {
 
-        res.render('vendorOrders', { data: orders, status: 'empty' });
+        res.render('vendorOrders', { data: orders, status: 'empty', role: req.session.role });
 
     } else {
-        res.render('vendorOrders', { data: orders, status: 'order' });
+        res.render('vendorOrders', { data: orders, status: 'order', role: req.session.role });
 
 
     }
@@ -185,49 +186,50 @@ router.get('/getVendorOrder', async(req, res) => {
 
     // console.log(orders);
     res.render('viewVendorOrder', {
-        data: orders
+        data: orders,
+        role: req.session.role
     });
 
 });
 
 
 
-router.post('/addExpense', orderController.addExpense);
+router.post('/addExpense', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, orderController.addExpense);
 
 //ejs route
-router.get('/addExpense', async(req, res) => {
+router.get('/addExpense', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, async(req, res) => {
 
     // console.log(product);
     if (req.query.status) {
-        res.render('createExpense', { status: req.query.status, message: req.query.message, domain: process.env.DOMAIN });
+        res.render('createExpense', { status: req.query.status, message: req.query.message, domain: process.env.DOMAIN, role: req.session.role });
 
     } else {
-        res.render('createExpense', { status: 'empty', domain: process.env.DOMAIN });
+        res.render('createExpense', { status: 'empty', domain: process.env.DOMAIN, role: req.session.role });
 
     }
 
 
 });
 
-router.get('/select', async(req, res) => {
+router.get('/select', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, async(req, res) => {
     let expense = await orderController.getExpense();
     if (req.query.status) {
-        res.render('selectExpense', { data: expense, status: req.query.status, message: req.query.message });
+        res.render('selectExpense', { data: expense, status: req.query.status, message: req.query.message, role: req.session.role });
     } else {
-        res.render('selectExpense', { data: expense, status: 'empty' });
+        res.render('selectExpense', { data: expense, status: 'empty', role: req.session.role });
 
     }
 });
-router.post('/editExpense', orderController.editExpense);
+router.post('/editExpense', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, orderController.editExpense);
 
-router.get('/editexpense/:id', async(req, res) => {
+router.get('/editexpense/:id', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, async(req, res) => {
     let expense = await orderController.getExpenseByID(req.params.id);
     if (req.query.status) {
-        res.render('editExpense', { data: expense, status: req.query.status, message: req.query.message });
+        res.render('editExpense', { data: expense, status: req.query.status, message: req.query.message, role: req.session.role });
     } else {
-        res.render('editExpense', { data: expense, status: 'empty' });
+        res.render('editExpense', { data: expense, status: 'empty', role: req.session.role });
     }
 });
-router.get('/deleteExpense/:id', orderController.deleteExpense);
+router.get('/deleteExpense/:id', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, orderController.deleteExpense);
 
 module.exports = router;

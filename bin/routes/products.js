@@ -13,10 +13,10 @@ router.post('/addProducts', userController.addProducts);
 
 router.get('/addProducts', (req, res) => {
     if (req.query.status) {
-        res.render('addProduct', { status: req.query.status, message: req.query.message });
+        res.render('addProduct', { status: req.query.status, message: req.query.message, role: req.session.role });
 
     } else {
-        res.render('addProduct', { status: 'empty' });
+        res.render('addProduct', { status: 'empty', role: req.session.role });
     }
 });
 
@@ -26,7 +26,7 @@ router.post('/editProducts', userController.editProducts);
 router.get('/editProduct/:id', async(req, res) => {
     if (req.params.id) {
         let products = await userController.getProductById(req.params.id);
-        res.render('editProduct', { product: products })
+        res.render('editProduct', { product: products, role: req.session.role })
     } else {
         res.redirect('/');
     }
@@ -37,10 +37,10 @@ router.get('/editProducts', async(req, res) => {
     let products = await userController.getProducts();
     // console.log(orders);
     if (req.query.status) {
-        res.render('editProducts', { Product: products, status: req.query.status, message: req.query.message });
+        res.render('editProducts', { Product: products, status: req.query.status, message: req.query.message, role: req.session.role });
 
     } else {
-        res.render('editProducts', { Product: products, status: 'empty' });
+        res.render('editProducts', { Product: products, status: 'empty', role: req.session.role });
     }
 });
 

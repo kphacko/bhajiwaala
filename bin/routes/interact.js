@@ -3,75 +3,75 @@ const router = express.Router();
 const userController = require('../controller/interact');
 
 //some action to get hotel
-router.get('/getHotel', userController.getHotels);
+router.get('/getHotel', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, userController.getHotels);
 
 //some action to add hotel
-router.post('/addHotel', userController.addHotel);
-router.get('/addHotel', (req, res) => {
+router.post('/addHotel', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, userController.addHotel);
+router.get('/addHotel', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, (req, res) => {
 
     if (req.query.status) {
-        res.render('addHotel', { status: req.query.status, message: req.query.message });
+        res.render('addHotel', { status: req.query.status, message: req.query.message, role: req.session.role });
 
     } else {
-        res.render('addHotel', { status: 'empty' });
+        res.render('addHotel', { status: 'empty', role: req.session.role });
 
     }
 });
 //some action to edit hotel
-router.post('/editHotel', userController.editHotel);
+router.post('/editHotel', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, userController.editHotel);
 
-router.get('/editHotel/:id', async(req, res) => {
+router.get('/editHotel/:id', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, async(req, res) => {
     let hotels = await userController.getHotelByid(req.params.id);
     // console.log(hotels);
-    res.render('editHotel', { hotels: hotels })
+    res.render('editHotel', { hotels: hotels, role: req.session.role })
 });
-router.get('/editdeleteHotel', async(req, res) => {
+router.get('/editdeleteHotel', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, async(req, res) => {
     let hotels = await userController.getHotel();
     // console.log(hotels);
     if (req.query.status) {
-        res.render('editdeleteHotel', { hotels: hotels, status: req.query.status, message: req.query.message });
+        res.render('editdeleteHotel', { hotels: hotels, status: req.query.status, message: req.query.message, role: req.session.role });
     } else {
-        res.render('editdeleteHotel', { hotels: hotels, status: 'empty' });
+        res.render('editdeleteHotel', { hotels: hotels, status: 'empty', role: req.session.role });
 
     }
 });
 
 //some action to delete hotel 
-router.get('/deleteHotel/:id', userController.deleteHotel);
+router.get('/deleteHotel/:id', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, userController.deleteHotel);
 
 // some action to get vendor
-router.get('/getVendor', userController.getVendor);
-router.get('/getVendors', userController.getVendors);
+router.get('/getVendor', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, userController.getVendor);
+router.get('/getVendors', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, userController.getVendors);
 
 
 //some action to add vendor
-router.post('/addVendor', userController.addVendor);
-router.get('/addVendor', (req, res) => {
+router.post('/addVendor', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, userController.addVendor);
+router.get('/addVendor', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, (req, res) => {
     if (req.query.status) {
-        res.render('addVendor', { status: req.query.status, message: req.query.message });
+        res.render('addVendor', { status: req.query.status, message: req.query.message, role: req.session.role });
     } else {
-        res.render('addVendor', { status: 'empty' });
+        res.render('addVendor', { status: 'empty', role: req.session.role });
 
     }
 });
 
 //some action to edit vendor
-router.post('/editVendor', userController.editVendor);
-router.get('/editdeleteVendor', async(req, res) => {
+router.post('/editVendor', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, userController.editVendor);
+router.get('/editdeleteVendor', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, async(req, res) => {
     let vendors = await userController.getVendor('all');
     if (req.query.status) {
-        res.render('editdeleteVendor', { vendors: vendors, status: req.query.status, message: req.query.message });
+        res.render('editdeleteVendor', { vendors: vendors, status: req.query.status, message: req.query.message, role: req.session.role });
     } else {
-        res.render('editdeleteVendor', { vendors: vendors, status: 'empty' });
+        res.render('editdeleteVendor', { vendors: vendors, status: 'empty', role: req.session.role });
 
     }
 });
-router.get('/editVendor/:id', async(req, res) => {
+router.get('/editVendor/:id', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, async(req, res) => {
     let vendors = await userController.getVendorByid(req.params.id);
     // console.log(hotels);
-    res.render('editVendor', { vendors: vendors })
+    res.render('editVendor', { vendors: vendors, role: req.session.role })
 });
 //some action to delete vendor 
-router.get('/deleteVendor/:id', userController.deleteVendor);
+router.get('/deleteVendor/:id', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, userController.deleteVendor);
 
 module.exports = router;

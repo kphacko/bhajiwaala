@@ -61,12 +61,12 @@
                                                 <%= product.marathi %>
                                             </td>
                                             <td>
-                                                <input name="quantity<%= c %>" type="number" value="<%=product.quantity%>" placeholder=" quantity" aria-label="enter the quantity">
+                                                <input name="quantity<%= c %>" type="number" value="<%=product.quantity%>" min="1" placeholder=" quantity" aria-label="enter the quantity">
                                                 <input name="product_id<%= c %>" value="<%=product.id%>" hidden>
                                                 <% exists.push(product.id);%>
                                             </td>
                                             <td>
-                                                <input name="price<%= c%>" value="<%=product.price%>" type="number" placeholder="price" aria-label="enter the price">
+                                                <input name="price<%= c%>" value="<%=product.price%>" type="number" placeholder="price" min="1" aria-label="enter the price">
 
                                             </td>
                                         </tr>
