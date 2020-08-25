@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controller/interact');
+const { checkAdmin } = require('../middleware/auth');
 
 //some action to get hotel
-router.get('/getHotel', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, userController.getHotels);
+router.get('/getHotel', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, userController.getHotels);
 
 //some action to add hotel
 router.post('/addHotel', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, userController.addHotel);
@@ -40,8 +41,8 @@ router.get('/editdeleteHotel', (req, res, next) => { checkAdmin(req, res, next, 
 router.get('/deleteHotel/:id', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, userController.deleteHotel);
 
 // some action to get vendor
-router.get('/getVendor', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, userController.getVendor);
-router.get('/getVendors', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, userController.getVendors);
+router.get('/getVendor', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, userController.getVendor);
+router.get('/getVendors', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, userController.getVendors);
 
 
 //some action to add vendor

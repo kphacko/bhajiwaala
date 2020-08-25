@@ -51,7 +51,12 @@ exports.login = async(req, res, next) => {
     }
     login(req, res, next).then(message => {
         // console.log(message.data);
+        if (req.session.role==='admin') {
         res.status(message.error.code).redirect('/');
+            
+        }else{
+            res.status(message.error.code).redirect('/order/addOrder');
+        }
     }).catch(error => {
         // console.log(error);
         res.status(error.error.code).redirect(`/user/login?status=invalid`);

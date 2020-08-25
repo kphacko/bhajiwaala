@@ -63,7 +63,13 @@ app.use('/invoice', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 
 
 // app.use('/images', express.static('uploads/images'));
 app.use('/', (req, res, next) => { checkAdmin(req, res, next, ['admin', 'asistant'], 'login') }, (req, res) => {
-    res.render('index');
+    if (req.session.role==='admin') {
+    res.render('index',{role:req.session.role});
+        
+    }else{
+    res.render('createOrder',{role:req.session.role,status:'empty',domain: process.env.DOMAIN,});
+
+    }
 });
 
 
