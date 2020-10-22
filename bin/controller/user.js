@@ -2,6 +2,8 @@ const bcrypt = require('bcryptjs');
 const sql = require('../../connection');
 const customError = require('../custom/errors');
 const Custom = require('../custom/error');
+const functions = require('../custom/function');
+const CustomError = require('../custom/error');
 
 exports.login = async(req, res, next) => {
     function login(req, res, next) {
@@ -17,7 +19,7 @@ exports.login = async(req, res, next) => {
                 })
             } else {
 
-                sql.query(`SELECT * FROM user WHERE phone = '${phone}' OR email = '${phone}'`, async function(err, results) {
+                sql.query(`SELECT * FROM user WHERE phone = '${phone}' OR email = '${phone}' AND status = 0`, async function(err, results) {
                     if (results.length === 0) {
                         reject({
                             error: customError.authFailed
@@ -68,10 +70,10 @@ exports.register = async(req, res, next) => {
     function register(req, res, next) {
         return new Promise((resolve, reject) => {
 
-            const { name, phone, password, privilege, email } = req.body;
-            if (!email || !name || !phone || !password || !privilege || phone.length != 10 || password.length < 5) reject(customError.dataInvalid);
+            const { name, phone, password, privilege } = req.body;
+            if ( !name || !phone || !password || !privilege || phone.length != 10) reject(customError.dataInvalid);
 
-            sql.query(`SELECT * FROM user WHERE phone = ${req.body.phone} OR email= '${req.body.email}'`, (err, results) => {
+            sql.query(`SELECT * FROM user WHERE phone = ${req.body.phone} OR email= '${req.body.email}' AND status = 0`, (err, results) => {
 
                 // console.log(err);
                 // console.log(results);
@@ -114,13 +116,82 @@ exports.register = async(req, res, next) => {
     }
 
     register(req, res, next).then(message => {
-            res.send(message);
+           res.status(200).redirect('/interact/addAsis?status=Added');
         })
         .catch(error => {
             // console.log(error.code);
-            res.status(error.code).json({
-                error: true,
-                details: error
-            });
+             res.status(200).redirect(`/interact/addAsis?status=Error&message=${error}`);
         })
+}
+
+
+exports.getasistant = async(status) => {
+    try {
+
+        let users = await functions.querySingle('SELECT * FROM user WHERE status = 0');
+        
+        return users;
+
+    } catch (error) {
+
+        return error;
+
+    }
+}
+
+
+exports.deleteAsistant = async(req, res) => {
+    try {
+
+        let users = await functions.querySingle(`SELECT * FROM user WHERE id =${req.params.id}`);
+        if(!users) throw CustomError.userNotFound;
+        await functions.querySingle(`UPDATE user SET status=1 WHERE id=${req.params.id}`);
+       res.status(200).redirect('/interact/editdeleteAsistant?status=Deleted');
+
+    } catch (error) {
+
+      res.status(200).redirect(`/interact/editdeleteAsistant?status=Error&message=${error}`);
+
+    }
+}
+
+
+exports.getasistantById = async(id) => {
+    try {
+
+        let users = await functions.querySingle(`SELECT * FROM user WHERE id = ${id}`);
+        
+        return users;
+
+    } catch (error) {
+
+        return error;
+
+    }
+}
+
+exports.updateAsistant = async(req,res) => {
+    try {
+        const { id,name, phone, password, privilege } = req.body;
+        if (!id ||!name || !phone || !password || !privilege || phone.length != 10) reject(customError.dataInvalid);
+        let users = await functions.querySingle(`SELECT * FROM user WHERE id = ${id}`);
+        if (!users) throw CustomError.userNotFound;
+        bcrypt.genSalt(parseInt(process.env.SALT, 10), function(err, salt) {
+        bcrypt.hash(req.body.password, salt,async function(err, hashedPassword) {
+                           let uPassword = hashedPassword; 
+       
+        let UpdateUser = await functions.querySingle(`UPDATE user SET name='${name}',phone=${phone},password='${uPassword}',privilege='${privilege}' WHERE id=${id}`);
+
+
+                        })
+                    })
+
+        res.status(200).redirect('/interact/editdeleteAsistant?status=Updated');
+
+    } catch (error) {
+
+              res.status(200).redirect(`/interact/editdeleteAsistant?status=Error&message=${error}`);
+
+
+    }
 }

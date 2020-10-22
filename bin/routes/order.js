@@ -19,7 +19,7 @@ router.get('/getOrder/:date', async(req, res) => {
         // console.log('sd');
         res.send([]);
     } else {
-        res.render('TotalOrders', { data: orders });
+        res.render('TotalOrders', { data: orders , role: req.session.role});
 
     }
 });

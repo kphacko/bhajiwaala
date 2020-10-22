@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controller/interact');
+const user = require('../controller/user');
+
 const { checkAdmin } = require('../middleware/auth');
 
 //some action to get hotel
@@ -74,5 +76,34 @@ router.get('/editVendor/:id', (req, res, next) => { checkAdmin(req, res, next, [
 });
 //some action to delete vendor 
 router.get('/deleteVendor/:id', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, userController.deleteVendor);
+
+
+router.get('/addAsis', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, (req, res) => {
+    if (req.query.status) {
+        res.render('addAsistant', { status: req.query.status, message: req.query.message, role: req.session.role });
+    } else {
+        res.render('addAsistant', { status: 'empty', role: req.session.role });
+
+    }
+});
+
+router.get('/editdeleteAsistant', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, async(req, res) => {
+    let asistant = await user.getasistant('all');
+  
+    if (req.query.status) {
+        res.render('editdeleteAsis', { asistant:asistant, status: req.query.status, message: req.query.message, role: req.session.role });
+    } else {
+        res.render('editdeleteAsis', { asistant:asistant, status: 'empty', role: req.session.role });
+
+    }
+});
+
+router.get('/deleteAsistant/:id', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, user.deleteAsistant);
+
+router.get('/editAsistant/:id', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, async(req, res) => {
+    let asistant = await user.getasistantById(req.params.id);
+   
+    res.render('updateAsistant', { asistant: asistant, role: req.session.role })
+});
 
 module.exports = router;

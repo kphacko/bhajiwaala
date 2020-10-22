@@ -1,0 +1,70 @@
+<%-include("header")  %>
+
+<div id="content" class="main-content">
+
+    <div class="layout-top-spacing">
+
+        <div id="basic" class="col-lg-12 col-sm-12 col-12 layout-spacing">
+            <div class="statbox widget box box-shadow">
+                <div class="widget-header">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                            <h4><b>Edit Asistant </b></h4>
+                            <div class="mt-4">
+                                <h5>Asistant details</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget-content widget-content-area">
+                    <form method="POST" action="/user/updateAsis">
+                        <input id="t-text" name="id" type="text" name="txt" placeholder="id"
+                            class="form-control" value="<%=asistant[0].id%>" hidden>
+
+                        <p>Asistant name</p>
+                        <div class="form-group">
+                            <input id="t-text" name="name" type="text" name="txt" placeholder="Hotel name."
+                                class="form-control" value="<%=asistant[0].name%>" required>
+
+
+                        </div>
+                        <p>Asistant phone no.</p>
+                        <div class="form-group">
+                            <input id="tel" name="phone" type="tel" name="phone" placeholder="9876543210"
+                                pattern="[0-9]{10}" class="form-control" value="<%=asistant[0].phone%>" required>
+
+
+                        </div>
+                        <p>Password</p>
+                        <div class="form-group">
+                            <input id="input-gst" type="text" name="password" placeholder="27 AAAAA1111A 1 Z F "
+                                class="form-control"  required>
+
+                        </div>
+                        <p>Select Privilege</p>
+                        <div class="form-group">
+                            <select name="privilege" class="custom-select mb-4" required>                        
+                                <option value="asistant">Asistant</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                </div>
+                <div class="container">
+                    <div class="center">
+                        <button class="mt-4 btn btn-primary">Update</button>
+
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+
+
+
+
+<%-include("footer")  %>

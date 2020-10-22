@@ -1,0 +1,93 @@
+<%- include("header") %>
+<%if(status=='empty'){
+
+}else{
+    if (status=='Error') { %>
+<script>
+    swal({
+        title: 'Something is wrong!',
+        text: "<%= message%>",
+        type: 'question',
+        padding: '2em'
+    })
+</script>
+<% }else{%>
+<script>
+    swal({
+        title: 'Asistant added..',
+        text: "Asistant registered successfully",
+        type: 'success',
+        padding: '2em'
+    })
+</script>
+<%}}%>
+
+<div id="content" class="main-content">
+
+    <div class="layout-top-spacing">
+
+        <div id="basic" class="col-lg-12 col-sm-12 col-12 layout-spacing">
+            <div class="statbox widget box box-shadow">
+                <div class="widget-header">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                            <h4><b>Add Asistant </b></h4>
+                            <div class="mt-4 mb-4">
+                                <h5>Enter Asistant details</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget-content widget-content-area">
+                    <form method="POST" action="/user/register">
+
+                        <p>Asistant name </p>
+                        <div class="form-group">
+                            <input id="t-text" type="text" name="name" placeholder="Asistant name." class="form-control"
+                                required>
+
+
+                        </div>
+                        <p>Asistant phone no.</p>
+                        <div class="form-group">
+                            <input id="tel" type="tel" name="phone" placeholder="9876543210" pattern="[0-9]{10}"
+                                class="form-control" required>
+
+
+                        </div>
+                        <p>Asistant Password</p>
+                        <div class="form-group">
+                            <input id="input-gst" type="text" name="password" placeholder="********"
+                                class="form-control" required>
+
+                        </div>
+                        <p>Select Privilege</p>
+                        <div class="form-group">
+                            <select name="privilege" class="custom-select mb-4" required>
+                                
+                                <option value="asistant">Asistant</option>
+                                <option value="admin">Admin</option>                               
+                            </select>
+                        </div>
+                </div>
+                <div class="container">
+                    <div class="center">
+                        <button class="mt-4 btn btn-primary">Register</button>
+
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+
+
+
+
+
+
+<%- include("footer") %>

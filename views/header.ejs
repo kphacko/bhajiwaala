@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>Dada </title>
+    <span class="notranslate"><title>Dada </title> </span>
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="57x57" href="https://daxy.in/img/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="https://daxy.in/img/favicon/apple-icon-60x60.png">
@@ -88,6 +88,9 @@
             top: -1px;
             margin-bottom: -1px;
         }
+        body > .skiptranslate {
+    display: none;
+}
     </style>
 </head>
 
@@ -113,7 +116,7 @@
                     </a>
                 </li>
                 <li class="nav-item theme-text">
-                    <a href="/" class="nav-link"> Dada </a>
+                    <a href="/" class="nav-link"> <span class="notranslate">Dada</span> </a>
                 </li>
             </ul>
 
@@ -122,7 +125,19 @@
             <ul class="navbar-item flex-row ml-md-auto">
 
 
-
+            <li class="nav-item">
+                <div id="google_translate_element"></div>
+                
+                <script type="text/javascript">
+                    function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+                    }
+                </script>
+                
+                <script type="text/javascript"
+                    src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    
+                </li>
 
                 <li class="nav-item dropdown user-profile-dropdown">
                     <a href="javascript:void(0);" class="nav-link dropdown-toggle user" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -130,21 +145,14 @@
                     </a>
                     <div class="dropdown-menu position-absolute" aria-labelledby="userProfileDropdown">
                         <div class="">
-                        <script type="text/javascript">
-                            function googleTranslateElementInit() {
-                                new google.translate.TranslateElement({
-                                    pageLanguage: 'en',
-                                    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-                                }, 'google_translate_element');
-                            }
-                        </script>
                         
-                        <script type="text/javascript"
-                            src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
+                            <div class="dropdown-item">
+                                
+                            </div>
                             <div class="dropdown-item">
                                 <a class="" href="/user/logout"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Sign Out</a>
                             </div>
+
                         </div>
                     </div>
                 </li>
@@ -167,6 +175,7 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
                             </ol>
+                        
                         </nav>
 
                     </div>
@@ -372,7 +381,36 @@
 
                             </ul>
                         </li>
-
+                        <li class="menu">
+                            <a href="#asistant" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                                    <span>Asistant</span>
+                                </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="feather feather-chevron-right">
+                                        <polyline points="9 18 15 12 9 6"></polyline>
+                                    </svg>
+                                </div>
+                            </a>
+                            <ul class="collapse submenu list-unstyled" id="asistant" data-parent="#accordionExample">
+                                <li>
+                                    <a href="/interact/addAsis"> Add Asistant </a>
+                                </li>
+                                <li>
+                                    <a href="/interact/editdeleteAsistant"> Edit & Delete Asistant </a>
+                                </li>
+                        
+                            </ul>
+                        </li>
 
                         <%}%>
 
