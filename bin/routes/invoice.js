@@ -40,7 +40,7 @@ router.get('/expense', (req, res, next) => { checkAdmin(req, res, next, ['admin'
 
     // console.log(invoice);
 
-    res.render('expenseInvoice', { data: invoice, status: 'empty', domain: process.env.DOMAIN });
+    res.render('expenseInvoice', { data: invoice, status: 'empty', domain: process.env.DOMAIN,role: req.session.role });
 });
 router.get('/expense/:id', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, async(req, res) => {
     let invoice = await invoiceController.getExpenseInvoiceByID(req.params.id);

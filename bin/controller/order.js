@@ -35,7 +35,7 @@ exports.getOrder = async(req, res) => {
                 "id": element.order_id,
                 "date": element.date,
                 "hotel": { "hotel_id": element.hotel_id, "hotel_name": element.hotel_name },
-                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price }]
+                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price/element.quantity }]
             }
 
         });
@@ -82,7 +82,7 @@ exports.getOrderByHotel = async(id) => {
                 "id": element.order_id,
                 "date": element.date,
                 "hotel": { "hotel_id": element.hotel_id, "hotel_name": element.hotel_name },
-                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price }]
+                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price/element.quantity}]
             }
 
         });
@@ -130,7 +130,7 @@ exports.getOrderById = async(id) => {
                 "id": element.order_id,
                 "date": element.date,
                 "hotel": { "hotel_id": element.hotel_id, "hotel_name": element.hotel_name },
-                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price }]
+                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price/element.quantity }]
             }
 
         });
@@ -194,7 +194,7 @@ exports.getOrderByDateHotel = async(date, id) => {
                     "id": element.order_id,
                     "date": element.date,
                     "hotel": { "hotel_id": element.hotel_id, "hotel_name": element.hotel_name },
-                    "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price }]
+                    "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price/element.quantity }]
                 }
 
             });
@@ -267,7 +267,7 @@ exports.addOrder = async(req, res, next) => {
                             let id = eval('req.body.product_id' + count);
                             let price = eval('req.body.price' + count);
                             if (qu) {
-                                let dummy = new Array(order_id, id, qu, price);
+                                let dummy = new Array(order_id, id, qu, qu*price);
                                 ordered_products.push(dummy);
                             }
 
@@ -369,7 +369,7 @@ exports.editOrder = async(req, res, next) => {
                             let id = eval('req.body.product_id' + count);
                             let price = eval('req.body.price' + count);
                             if (qu) {
-                                let dummy = new Array(orderID, id, qu, price);
+                                let dummy = new Array(orderID, id, qu, qu*price);
                                 ordered_products.push(dummy);
                             }
 
@@ -485,7 +485,7 @@ exports.addPurchase = async(req, res, next) => {
                             let id = eval('req.body.product_id' + count);
                             let price = eval('req.body.price' + count);
                             if (qu) {
-                                let dummy = new Array(order_id, id, qu, price);
+                                let dummy = new Array(order_id, id, qu, qu*price);
                                 ordered_products.push(dummy);
                             }
 
@@ -584,7 +584,7 @@ exports.editPurchase = async(req, res, next) => {
                             let id = eval('req.body.product_id' + count);
                             let price = eval('req.body.price' + count);
                             if (qu) {
-                                let dummy = new Array(orderID, id, qu, price);
+                                let dummy = new Array(orderID, id, qu, qu*price);
                                 ordered_products.push(dummy);
                             }
 
@@ -659,7 +659,7 @@ exports.getPurchase = async(req, res) => {
                 "id": element.order_id,
                 "date": element.date,
                 "vendor": { "vendor_id": element.vendor_id, "vendor_name": element.vendor_name },
-                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price }]
+                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price/element.quantity }]
             }
 
         });
@@ -706,7 +706,7 @@ exports.getPurchaseById = async(id) => {
                 "id": element.order_id,
                 "date": element.date,
                 "vendor": { "vendor_id": element.vendor_id, "vendor_name": element.vendor_name },
-                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price }]
+                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price/element.quantity }]
             }
 
         });
@@ -788,7 +788,7 @@ exports.getOrderByVendor = async(id) => {
                 "id": element.order_id,
                 "date": element.date,
                 "vendor": { "vendor_id": element.vendor_id, "vendor_name": element.vendor_name },
-                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price }]
+                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price":element.price/element.quantity }]
             }
 
         });
@@ -836,7 +836,7 @@ exports.getOrderByDateVendor = async(date, id) => {
                 "id": element.order_id,
                 "date": element.date,
                 "vendor": { "vendor_id": element.vendor_id, "vendor_name": element.vendor_name },
-                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price }]
+                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price/element.quantity}]
             }
 
         });

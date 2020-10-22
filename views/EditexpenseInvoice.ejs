@@ -154,12 +154,14 @@
                                                 <div class="col-sm-5 col-12 order-sm-0 order-1">
                                                     <%if (data[0].status!=2) { %>
                                                         <input id="amount" type="number"  name="amount" placeholder="$100" class="mb-4 form-control" required>
+                                                        <div class="row ml-1">
                                                         <button onclick="update()" class="btn btn-secondary mb-2">
                                                         
                                                        Update</button>
-                                                        <button onclick="closeInvoice()" class="inb btn btn-danger mb-2">Close invoice</button>
+                                                        <button onclick="closeInvoice()" class="btn btn-danger mb-2">Close invoice</button>
+                                                    </div>
+                                                        
                                                         <%}%>
-
                                                 </div>
                                                 <div class="col-sm-7 col-12 order-sm-1 order-0">
                                                     <div class="inv--total-amounts text-sm-right">

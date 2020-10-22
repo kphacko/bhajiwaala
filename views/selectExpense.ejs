@@ -54,9 +54,10 @@
                                                 <thead>
                                                     <tr>
                                                         <th class=" text-center"> Record Id </th>
+                                                        <th>Date</th>
                                                         <th>Name</th>
                                                         <th>Discription</th>
-                                                        <th>Date</th>
+                                                        
                                                         <th>Amount</th>
                                                         <th class="text-center">Action</th>
 
@@ -73,14 +74,15 @@
                                                                 <%=c%>
                                                             </td>
                                                             <td>
+                                                                <%=expense.date%>
+                                                            </td>
+                                                            <td>
                                                                 <%=expense.name%>
                                                             </td>
                                                             <td>
                                                                 <%=expense.discription%>
                                                             </td>
-                                                            <td>
-                                                                <%=expense.date%>
-                                                            </td>
+                                                           
                                                             <td>
                                                                 <%=expense.amount%>
                                                             </td>

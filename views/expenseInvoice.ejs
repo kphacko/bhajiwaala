@@ -23,9 +23,10 @@
                                 <thead>
                                     <tr>
                                         <th class=" text-center">Invoice ID</th>
+                                        <th>Date</th>
                                         <th>Name</th>
                                         <th>Bill type</th>
-                                        <th>Date</th>
+                                        
                                         <th>Status</th>
                                         <th class="text-center">Action</th>
 
@@ -43,14 +44,15 @@
                                                 <%=invoice.id%>
                                             </td>
                                             <td>
+                                                <%=invoice.date%>
+                                            </td>
+                                            <td>
                                                 <%=invoice.name%>
                                             </td>
                                             <td>
                                                 Expense
                                             </td>
-                                            <td>
-                                                <%=invoice.date%>
-                                            </td>
+                                            
                                             <td>
                                                 <%if(invoice.status==0){ %>
                                                     <span class="badge outline-badge-warning">Unpaid</span>
