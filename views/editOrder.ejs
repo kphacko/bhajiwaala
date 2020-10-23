@@ -66,7 +66,7 @@
                                                 <% exists.push(product.id);%>
                                             </td>
                                             <td>
-                                                <input name="price<%= c%>" value="<%=product.price%>" type="number" placeholder="price" min="1" aria-label="enter the price">
+                                                <input name="price<%= c%>" value="<%=product.price%>" type="number" placeholder="price" min="0" aria-label="enter the price">
 
                                             </td>
                                         </tr>
@@ -92,7 +92,7 @@
 
                                                         </td>
                                                         <td>
-                                                            <input name="price<%= c%>" type="number" placeholder="price" aria-label="enter the price">
+                                                            <input name="price<%= c%>" type="number" placeholder="price" min="0" aria-label="enter the price">
 
                                                         </td>
                                                     </tr>

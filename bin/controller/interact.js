@@ -63,7 +63,7 @@ exports.addHotel = async(req, res, next) => {
 
             const { name, phone, gstin, email } = req.body;
             // console.log(name, phone);
-            if (!email || !name || !phone || !gstin || phone.length != 10) {
+            if ( !name || !phone ||  phone.length != 10) {
 
                 if (phone.length != 10) {
                     reject(mess = new Custom('Data is incorrect', 'Phone number should be 10 digit!!', 401));
@@ -131,7 +131,7 @@ exports.editHotel = async(req, res, next) => {
 
             const { name, phone, gstin, email, id } = req.body;
             // console.log(name, phone);
-            if (!email || !name || !phone || !gstin || phone.length != 10 || !id) {
+            if ( !name || !phone || phone.length != 10 || !id) {
                 if (phone.length != 10) {
                     reject(mess = new Custom('Data is incorrect', 'Phone number should be 10 digit!!', 401));
                 } else {
@@ -295,7 +295,7 @@ exports.addVendor = async(req, res, next) => {
 
             const { name, phone, gstin, email } = req.body;
             // console.log(name, phone);
-            if (!email || !name || !phone || !gstin || phone.length != 10) {
+            if (!name || !phone || phone.length != 10) {
 
                 if (phone.length != 10) {
                     reject(mess = new Custom('Data is incorrect', 'Phone number should be 10 digit!!', 401));
@@ -364,7 +364,7 @@ exports.editVendor = async(req, res, next) => {
 
             const { name, phone, gstin, email, id } = req.body;
             // console.log(name, phone);
-            if (!email || !name || !phone || !gstin || phone.length != 10 || !id) {
+            if ( !name || !phone  || phone.length != 10 || !id) {
                 if (phone.length != 10) {
                     reject(mess = new Custom('Data is incorrect', 'Phone number should be 10 digit!!', 401));
                 } else {
