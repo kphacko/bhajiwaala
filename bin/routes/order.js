@@ -13,13 +13,14 @@ router.get('/getOrder', orderController.getOrder);
 router.get('/getOrder/:date', async(req, res) => {
     // console.log(req.params.date);
     let orders = await orderController.getOrderByDate(req.params.date);
+    let product = await productController.getProducts();
     // console.log(orders.length);
     // res.status(200).send(orders);
     if (orders.length === 0) {
         // console.log('sd');
         res.send([]);
     } else {
-        res.render('TotalOrders', { data: orders , role: req.session.role});
+        res.render('TotalOrders', { data: orders ,product:product, role: req.session.role});
 
     }
 });

@@ -24,42 +24,53 @@
                         <input type="date" name="date" class="form-control" value="<%= data[0].date %>" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy" disabled>
                     </div>
                     <div class="table-responsive mb-4">
-                        <p>Product & Quantity</p>
+                        <p>Hotels-Product & Quantity</p>
 
                         <table id="style-3" class="table style-3  table-hover">
                             <thead>
                                 <tr>
-                                    <th class="checkbox-column text-center"> Record Id </th>
-                                    <th> Name</th>
-                                    <th>Marathi Name</th>
-                                    <th>Total quantity</th>
+                                    <th class="checkbox-column text-center"> Product Name </th>
+                                    <% 
+                                    let hotels = [];
+                                    data.forEach((product)=>{
+                                        if(!hotels.includes(product.hotel_id)){
+                                        %>
+                                    <th><%= product.hotel_name%></th>
+                                 <%
+                                    hotels.push(product.hotel_id)
+                                     } }) %>
+                                  <th>Total Quantity</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <%  let c=1
-                                
-                            data.forEach((product)=>{ %>
+
+                                <%  
+                                product.map((product)=>{
+                                    let unit;
+                               
+                            %>
                                     <tr>
-                                        <td class="checkbox-column text-center">
-                                            <%= c %>
-                                        </td>
-                                        <td>
-                                            <%= product.name %>
-                                        </td>
-                                        <td>
-                                            <%= product.marathi %>
-                                        </td>
-                                        <td>
-                                            <%=product.quantity%> &nbsp;
-                                                <%=product.weight_type%>
-
-                                        </td>
-
+                                        <td  class="checkbox-column text-center"><%=product.name%></td>
+                                        <% let totalPro = 0;%>
+                                    <% hotels.map((hotel)=>{
+                                       
+                                        let total=0;
+                                        data.forEach((data)=>{
+                                            if(data.hotel_id==hotel && data.p_id == product.id){
+                                            total = total + parseInt(data.quantity);
+                                            totalPro = totalPro + parseInt(data.quantity);
+                                            unit = product.weight_type;
+                                            } })
+                                        %>
+                                        <th><%=total%></th>
+                                        <%
+                                        }) %>
+                                        <th><%= totalPro%> <%= unit%></th>
                                     </tr>
                                 
                                     <%
-                                c++;
-                                })%>
+                              
+                                  })%>
 
 
 

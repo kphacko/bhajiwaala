@@ -165,10 +165,8 @@ exports.getOrderById = async(id) => {
 exports.getOrderByDate = async(date) => {
     try {
         // console.log(date);
-        let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,hotel.id AS hotel_id,hotel.name 
-        AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,SUM(ordered_products.quantity) AS quantity ,SUM(ordered_products.price) AS price FROM orders 
-        INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
-        INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id  WHERE orders.date = '${date}' AND orders.status =0 AND orders.type='HOTEL' GROUP BY products.id`);
+        let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,hotel.id AS hotel_id,hotel.name AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity AS quantity ,ordered_products.price AS price FROM orders INNER JOIN ordered_products ON orders.id = ordered_products.order_id INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id WHERE orders.date = '${date}' AND orders.status =0 AND orders.type='HOTEL' `);
+        
 
         return allproduct;
         // res.json(updatedOrders);
