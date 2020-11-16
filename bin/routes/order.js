@@ -120,13 +120,14 @@ router.get('/addPurchase', async(req, res) => {
 router.get('/getPurchase/:date', async(req, res) => {
     // console.log(req.params.date);
     let orders = await orderController.getPurchaseByDate(req.params.date);
+    let product = await productController.getProducts();
     // console.log(orders);
     // res.status(200).send(orders);
     if (orders.length === 0) {
         // console.log('sd');
         res.send([]);
     } else {
-        res.render('TotalPurchases', { data: orders, role: req.session.role });
+        res.render('TotalPurchases', { data: orders,product:product, role: req.session.role });
 
     }
 });
