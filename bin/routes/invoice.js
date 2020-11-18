@@ -10,8 +10,8 @@ const { checkAdmin } = require('../middleware/auth');
 // router.get('/getInvoice', invoiceController.getInvoice);
 
 
-router.get('/getInvoice', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, async(req, res) => {
-    let invoice = await invoiceController.getInvoice();
+router.get('/getInvoice/:type', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, async(req, res) => {
+    let invoice = await invoiceController.getInvoice(req.params.type);
     // console.log(invoice);
     if (req.query.status) {
         res.render('totalInvoice', { data: invoice, status: req.query.status, message: req.query.message, role: req.session.role });

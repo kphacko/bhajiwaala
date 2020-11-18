@@ -6,12 +6,18 @@ const functions = require('../custom/function');
 
 
 
-exports.getInvoice = async() => {
+exports.getInvoice = async(type) => {
     try {
-        // console.log(date);
+        let finalArray;
+        if (type === 'hotel') {
         let hotelInvoices = await functions.querySingle(`SELECT invoice.id AS invoiceID,hotel.id,orders.type,hotel.name,orders.date,orders.u_id AS editedBy,invoice.u_id AS createdBy,invoice.date AS gDate,invoice.status,invoice.paid_amount,invoice.TotalPrice FROM orders INNER JOIN invoice ON invoice.ref_id = orders.id INNER JOIN hotel ON hotel.id = orders.ref_id WHERE orders.status != 1 AND orders.type = 'HOTEL' AND invoice.type= 0`);
+            finalArray = hotelInvoices;
+        }else if (type === 'vendor') {
         let vendorInvoices = await functions.querySingle(`SELECT invoice.id AS invoiceID,vendor.id,orders.type,vendor.name,orders.date,orders.u_id AS editedBy,invoice.u_id AS createdBy,invoice.date AS gDate,invoice.status,invoice.paid_amount,invoice.TotalPrice FROM orders INNER JOIN invoice ON invoice.ref_id = orders.id INNER JOIN vendor ON vendor.id = orders.ref_id WHERE orders.status != 1 AND orders.type = 'VENDOR' AND invoice.type= 1`);
-        let finalArray = hotelInvoices.concat(vendorInvoices);
+            finalArray = vendorInvoices;
+        }
+        // console.log(date);
+        // let finalArray = hotelInvoices.concat(vendorInvoices);
         return finalArray;
         // res.json(finalArray);
     } catch (error) {
@@ -55,7 +61,7 @@ exports.updateInvoice = async(req, res) => {
 
         if (!amount || amount < 0 || !type || !id) throw customError.dataInvalid;
         let invoice = await functions.querySingle(`SELECT * FROM invoice WHERE id = ${id}`);
-        let updateInvoice = await functions.querySingle(`UPDATE invoice SET status = 1,paid_amount =${parseInt(invoice[0].paid_amount) + parseInt(amount)} WHERE id = ${id}`);
+        let updateInvoice = await functions.querySingle(`UPDATE invoice SET status = 1,paid_amount =${parseInt(amount)} WHERE id = ${id}`);
 
         // let updateOrder = await functions.querySingle(`UPDATE orders SET status = 2  WHERE ref_id = ${invoice[0].ref_id} AND type = '${type}'`);
 

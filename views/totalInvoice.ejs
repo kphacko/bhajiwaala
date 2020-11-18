@@ -41,14 +41,28 @@
 
                                     <div class="table-responsive mb-4">
                                         <p><b>Invoice details</b></p>
-
+                                        <% 
+                                        let totalRemain = 0;
+                                        let totalPaid = 0;
+                                       
+                                        data.map((invoice)=>{
+                                            
+                                               totalRemain = totalRemain + parseInt(invoice.TotalPrice) - parseInt(invoice.paid_amount);
+                                               totalPaid = totalPaid +  parseInt(invoice.paid_amount);
+                                              
+                                        })
+                                        
+                                       %>
+                                        <span class="badge outline-badge-danger mt-3">Total Remaining : <%= totalRemain%> </span>
+                                        <span class="badge outline-badge-success mb-3"> Total Paid : <%= totalPaid %> </span>
                                         <table id="style-3" class="table style-3  table-hover">
                                             <thead>
                                                 <tr>
                                                     <th class=" text-center">Invoice ID</th>
                                                     <th>Date</th>
                                                     <th>Name</th>
-                                                    <th>Bill type</th>                                                    
+                                                    <th>Bill type</th>
+                                                    <th>Remaining Amount</th>                                                    
                                                     <th>Status</th>
                                                     <th class="text-center">Action</th>
 
@@ -58,7 +72,7 @@
                                                 <% 
                                    
                                         data.map((invoice)=>{
-
+                                           let rem = parseInt(invoice.TotalPrice) - parseInt(invoice.paid_amount);
                                        %>
                                                     <tr>
                                                         <td class=" text-center">
@@ -74,7 +88,9 @@
                                                         <td>
                                                             <%=invoice.type%>
                                                         </td>
-                                                        
+                                                        <td>
+                                                            <span class="badge badge-danger"><%=  rem %> </span>  
+                                                        </td>
                                                         <td>
                                                             <%if(invoice.status==0){ %>
                                                                 <span class="badge outline-badge-warning">Unpaid</span>
