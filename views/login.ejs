@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>Dada</title>
+    <title>Daxy</title>
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="57x57" href="https://daxy.in/img/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="https://daxy.in/img/favicon/apple-icon-60x60.png">
@@ -45,8 +45,9 @@
                 <div class="form-container">
                     <div class="form-content">
 
-                        <h1 class="">Log In to <a href="index-2.html"><span class="brand-name">DADA</span></a></h1>
-                        <p class="signup-link">New Here? <a href="/user/register">Create an account</a> Login
+                        <h1 class="">Log In to <a href="//daxy.in"><span class="brand-name">DAXY</span></a></h1>
+                        <p class="signup-link"> <span class="fa fa-heart"></span> Hello, we
+                            are Daxy. A Digital Consultancy
 
                         </p>
                         <form class="text-left" action="/user/login" method="POST">
@@ -85,12 +86,12 @@
                                 </div>
 
                                 <div class="field-wrapper">
-                                    <a href="auth_pass_recovery.html" class="forgot-pass-link">Forgot Password?</a>
+                                    <!-- <a href="auth_pass_recovery.html" class="forgot-pass-link">Forgot Password?</a> -->
                                 </div>
 
                             </div>
                         </form>
-                        <p class="terms-conditions">© 2020 All Rights Reserved By <a href="//daxy.in">Daxy</a> </p>
+                        <p class="terms-conditions">© <b id="Dyear"></b> All Rights Reserved By <a href="//daxy.in">Daxy</a> </p>
 
                     </div>
                 </div>
@@ -102,7 +103,10 @@
         </div>
     </div>
 
-
+<script>
+    var d = new Date();
+document.getElementById("Dyear").innerHTML = d.getFullYear();
+</script>
     <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
     <script src="/assets/js/libs/jquery-3.1.1.min.js">
     </script>
