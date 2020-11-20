@@ -10,9 +10,16 @@
 </script>
 <script src="/assets/js/apps/invoice.js"></script>
 
-<script>
-    // $(".disabled-results").select2();
-</script>
+
+
+<script src="/assets/js/scrollspyNav.js"></script>
+<script src="/plugins/flatpickr/flatpickr.js"></script>
+<script src="/plugins/noUiSlider/nouislider.min.js"></script>
+
+<script src="/plugins/flatpickr/custom-flatpickr.js"></script>
+<script src="/plugins/noUiSlider/custom-nouiSlider.js"></script>
+<script src="/plugins/bootstrap-range-Slider/bootstrap-rangeSlider.js"></script>
+
 <script src="/assets/js/custom.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -126,7 +133,14 @@
     checkall('todoAll', 'todochkbox');
     $('[data-toggle="tooltip"]').tooltip()
 </script> 
+<script>
 
+    var f2 = flatpickr(document.getElementById('dateTimeFlatpickr'), {
+        dateFormat: "d-m-Y",
+    });
+    
+        // $(".disabled-results").select2();
+    </script>
 </body>
 
 </html>

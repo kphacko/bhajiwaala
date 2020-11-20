@@ -14,7 +14,7 @@
                                     <div class="input-group mb-4">
                                         <div class="input-group-prepend">
                                         </div>
-                                        <input type="date" id="total" class="form-control" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy">
+                                        <input type="date" id="total"  class="form-control" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy">
                                     </div>
 
                                     <div class="container">
@@ -65,7 +65,9 @@
     <script src="/assets/axios.js"></script>
 
     <script>
+     
         function getTotal() {
+
             let date = document.getElementById("total").value;
             if (!date) {
                 swal({
@@ -131,3 +133,8 @@
         makeGetRequest('<%=domain%>/interact/getHotel');
     </script>
     <%- include("footer") %>
+    <script>
+           flatpickr(document.getElementById('total'), {
+        dateFormat: "d-m-Y",
+    });
+    </script>
