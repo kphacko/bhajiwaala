@@ -39,6 +39,8 @@ exports.login = async(req, res, next) => {
                             req.session.u_id = results[0].id;
                             req.session.role = results[0].privilege;
                             req.session.email = results[0].email;
+                            req.session.org = results[0].orgName;
+
                             resolve({
                                 error: {
                                     code: 200
@@ -172,19 +174,25 @@ exports.getasistantById = async(id) => {
 
 exports.updateAsistant = async(req,res) => {
     try {
-        const { id,name, phone, password, privilege } = req.body;
-        if (!id ||!name || !phone || !password || !privilege || phone.length != 10) reject(customError.dataInvalid);
+        const { id,name, phone, password, privilege ,orgName} = req.body;
+        if (!id ||!name || !phone ||  !privilege || phone.length != 10) reject(customError.dataInvalid);
         let users = await functions.querySingle(`SELECT * FROM user WHERE id = ${id}`);
         if (!users) throw CustomError.userNotFound;
-        bcrypt.genSalt(parseInt(process.env.SALT, 10), function(err, salt) {
-        bcrypt.hash(req.body.password, salt,async function(err, hashedPassword) {
-                           let uPassword = hashedPassword; 
-       
-        let UpdateUser = await functions.querySingle(`UPDATE user SET name='${name}',phone=${phone},password='${uPassword}',privilege='${privilege}' WHERE id=${id}`);
-
-
+        let uPassword; 
+        let UpdateUser;
+        
+        if (password) {
+            bcrypt.genSalt(parseInt(process.env.SALT, 10), function(err, salt) {
+                bcrypt.hash(req.body.password, salt,async function(err, hashedPassword) {
+                     uPassword = hashedPassword;
+                            })
                         })
-                    })
+         UpdateUser = await functions.querySingle(`UPDATE user SET name='${name}',phone=${phone},password='${uPassword}',privilege='${privilege}',orgName='${orgName}' WHERE id=${id}`);
+
+        }else{
+            UpdateUser = await functions.querySingle(`UPDATE user SET name='${name}',phone=${phone},privilege='${privilege}',orgName='${orgName}' WHERE id=${id}`);
+
+        }
 
         res.status(200).redirect('/interact/editdeleteAsistant?status=Updated');
 

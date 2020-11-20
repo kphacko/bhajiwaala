@@ -14,7 +14,7 @@ router.get('/getOrder/:date', async(req, res) => {
     // console.log(req.params.date);
     let orders = await orderController.getOrderByDate(req.params.date);
     let product = await productController.getProducts();
-    // console.log(orders.length);
+    // console.log(orders);
     // res.status(200).send(orders);
     if (orders.length === 0) {
         // console.log('sd');

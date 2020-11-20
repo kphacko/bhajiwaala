@@ -2,6 +2,13 @@
     padding: 30px;
 }
 
+.sticky-col{
+    position: -webkit-sticky;
+    position: sticky !important;
+    background-color: white;
+    left: 0%;
+}
+
 .feather-icon .icon-section h4 {
     color: #3b3f5c;
     font-size: 17px;

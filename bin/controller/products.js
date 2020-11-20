@@ -25,9 +25,9 @@ exports.addProducts = async(req, res, next) => {
 
         return new Promise((resolve, reject) => {
 
-            const { name, marathi, hindi, weight_type } = req.body;
+            const { name,weight_type } = req.body;
             // console.log(name, phone);
-            if (!marathi || !name || !hindi || !weight_type) {
+            if ( !name || !weight_type) {
 
 
                 reject(customError.dataInvalid);
@@ -94,7 +94,7 @@ exports.editProducts = async(req, res, next) => {
 
             const { name, marathi, hindi, weight_type, id } = req.body;
             // console.log(name, phone);
-            if (!marathi || !name || !hindi || !weight_type || !id) {
+            if ( !name || !weight_type || !id) {
                 if (!id) {
                     reject(mess = new Custom('Data is incorrect', 'Send appropriate id!!', 401));
                 } else {

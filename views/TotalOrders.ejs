@@ -26,18 +26,20 @@
                     <div class="table-responsive mb-4">
                         <p>Hotels-Product & Quantity</p>
 
-                        <table id="style-3" class="table style-3  table-hover">
+                        <table id="total-order1" class="table style-3  table-hover">
                             <thead>
                                 <tr>
-                                    <th class="checkbox-column text-center"> Product Name </th>
+                                    <th class="checkbox-column text-center"></th>
                                     <% 
                                     let hotels = [];
+                                    let newH = [];
                                     data.forEach((product)=>{
                                         if(!hotels.includes(product.hotel_id)){
                                         %>
                                     <th><%= product.hotel_name%></th>
                                  <%
                                     hotels.push(product.hotel_id)
+                                    newH.push(product.order_id);
                                      } }) %>
                                   <th>Total Quantity</th>
                                 </tr>
@@ -45,12 +47,37 @@
                             <tbody>
 
                                 <%  
+                                let flag =1;
+                              
                                 product.map((product)=>{
                                     let unit;
                                
                             %>
+                           
+                            <%  if(flag){
+                            %>
+                            <tr>
+                                <td  class="checkbox-column text-center sticky-col"><b></td>
+                            <%
+                            
+                                newH.map((hotel)=>{
+                                  
+                                    %>
+
+                                
+                             <td><a class="btn btn-primary" target="_blank" href="/order/editOrder/<%=hotel%>">Edit</a></td>
+                                       
+                                        <% })  %>
+                                              
+                                            <td  class="checkbox-column text-center sticky-col"><b></td>
+                               
+                                                </tr>
+                                                <% 
+                                                flag=0;                  
+                                                }
+                                                 %>
                                     <tr>
-                                        <td  class="checkbox-column text-center"><%=product.name%></td>
+                                        <td  class="checkbox-column text-center sticky-col"><b><%=product.name%></b></td>
                                         <% let totalPro = 0;%>
                                     <% hotels.map((hotel)=>{
                                        
@@ -86,6 +113,27 @@
     </div>
     </div>
 
-
-
     <%- include("footer") %>
+    <script>
+            c3 = $('#total-order1').DataTable({
+        "order": [[6, "desc"]],
+        "oLanguage": {
+            "oPaginate": {
+                "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
+                "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
+            },
+            "sInfo": "Showing page _PAGE_ of _PAGES_",
+            "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+            "sSearchPlaceholder": "Search...",
+            "sLengthMenu": "Results :  _MENU_",
+        },
+        "stripeClasses": [],
+        "lengthMenu": [5, 10, 20, 50,100],
+       
+        "pageLength": 50,
+        
+       
+    });
+   
+    multiCheck(c3);
+</script>

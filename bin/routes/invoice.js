@@ -27,9 +27,9 @@ router.get('/invoice/:id', (req, res, next) => { checkAdmin(req, res, next, ['ad
     let invoice = await invoiceController.getInvoiceByID(req.params.id);
     // console.log(invoice);
     if (req.query.status) {
-        res.render('invoice', { data: invoice, status: req.query.status, message: req.query.message, domain: process.env.DOMAIN, role: req.session.role });
+        res.render('invoice', { data: invoice, status: req.query.status, message: req.query.message, domain: process.env.DOMAIN, role: req.session.role ,org:req.session.org});
     } else {
-        res.render('invoice', { data: invoice, status: 'empty', domain: process.env.DOMAIN, role: req.session.role });
+        res.render('invoice', { data: invoice, status: 'empty', domain: process.env.DOMAIN, role: req.session.role ,org:req.session.org});
 
     }
 
@@ -47,7 +47,7 @@ router.get('/expense/:id', (req, res, next) => { checkAdmin(req, res, next, ['ad
 
     // console.log(invoice);
 
-    res.render('EditexpenseInvoice', { data: invoice, status: 'empty', domain: process.env.DOMAIN, role: req.session.role });
+    res.render('EditexpenseInvoice', { data: invoice, status: 'empty', domain: process.env.DOMAIN, role: req.session.role ,org:req.session.org});
 });
 router.post('/update', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, invoiceController.updateInvoice);
 router.post('/close', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, invoiceController.closeInvoice);

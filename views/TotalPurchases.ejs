@@ -29,7 +29,7 @@
                         <table id="style-3" class="table style-3  table-hover">
                             <thead>
                                 <tr>
-                                    <th class="checkbox-column text-center"> Product Name </th>
+                                    <th class="checkbox-column text-center"></th>
                                     <% 
                                     let hotels = [];
                                     data.forEach((product)=>{
@@ -50,7 +50,7 @@
                                
                             %>
                                     <tr>
-                                        <td  class="checkbox-column text-center"><%=product.name%></td>
+                                        <td  class="checkbox-column text-center sticky-col"><b><%=product.name%></b></td>
                                         <% let totalPro = 0;%>
                                     <% hotels.map((hotel)=>{
                                        
