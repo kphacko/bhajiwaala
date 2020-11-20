@@ -87,8 +87,8 @@
                                         let total=0;
                                         data.forEach((data)=>{
                                             if(data.vendor_id==hotel && data.p_id == product.id){
-                                            total = total + parseInt(data.quantity);
-                                            totalPro = totalPro + parseInt(data.quantity);
+                                            total = total + parseFloat(data.quantity);
+                                            totalPro = totalPro + parseFloat(data.quantity);
                                             unit = product.weight_type;
                                             } })
                                         %>
