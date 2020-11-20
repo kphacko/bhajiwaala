@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const orderController = require('../controller/order');
 const productController = require('../controller/products');
+const functions = require('../custom/function');
 
 const middleware = require('../middleware/auth');
 const { checkAdmin } = require('../middleware/auth');
@@ -9,6 +10,38 @@ const { checkAdmin } = require('../middleware/auth');
 
 
 //some action to get products
+router.get('/OrderSummary',orderController.getOrderSum);
+router.get('/ViewOrderSummary',async(req,res)=>{
+    try {
+        
+
+        if (!req.query.date1 || !req.query.date2 || !req.query.id ||!req.query.type) {  
+            console.log(req.query.date1+' '+ req.query.date2 +' '+req.query.id +' '+req.query.type);
+            // res.redirect('/order/HotelSummary')
+        }else{
+            let orders = await orderController.getOrderSumby(req.query.date1,req.query.date2,req.query.id,req.query.type);
+            let data;
+           console.log(orders);
+            if (req.query.type === 'HOTEL') {
+            data = await functions.querySingle(`SELECT * FROM hotel WHERE id=${orders[0].ref_id}`);
+            }else if (req.query.type === 'VENDOR') {
+            data = await functions.querySingle(`SELECT * FROM vendor WHERE id=${orders[0].ref_id}`);
+                
+            }else{
+            throw 'Error';
+            }
+            
+            res.render('OrderSum',{orders:orders,data:data,role: req.session.role,org:req.session.org});
+        }
+
+
+    } catch (error) {
+        res.redirect('/order/OrderSummary');
+    }
+  
+
+});
+
 router.get('/getOrder', orderController.getOrder);
 router.get('/getOrder/:date', async(req, res) => {
     // console.log(req.params.date);
@@ -73,7 +106,13 @@ router.get('/totalOrder', (req, res) => {
     res.render('totalOrder', { domain: process.env.DOMAIN, role: req.session.role });
 });
 
+router.get('/HotelSummary', (req, res) => {
+    res.render('HotelSummary', { domain: process.env.DOMAIN, role: req.session.role });
+});
 
+router.get('/VendorSummary', (req, res) => {
+    res.render('VendorSummary', { domain: process.env.DOMAIN, role: req.session.role });
+});
 //ejs route
 
 router.get('/selectOrder', async(req, res) => {

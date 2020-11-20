@@ -3,6 +3,7 @@ const customError = require('../custom/errors');
 const Custom = require('../custom/error');
 const { PerformanceObserver, performance } = require('perf_hooks');
 const functions = require('../custom/function');
+const CustomError = require('../custom/error');
 
 
 const updateInvoice = async(id, type) => {
@@ -950,4 +951,35 @@ exports.getExpenseByID = async(id) => {
 
 
 
+}
+
+exports.getOrderSum = async(req,res)=>{
+    
+    try {
+       
+        if (!req.query.date1 || !req.query.date2 || !req.query.id ||!req.query.type) throw customError.dataInvalid;    
+        let orders = await functions.querySingle(`SELECT invoice.type,orders.ref_id,orders.id,orders.type,orders.date,invoice.status,invoice.paid_amount,invoice.TotalPrice FROM orders INNER JOIN invoice ON invoice.ref_id = orders.id WHERE invoice.type= 0  AND orders.ref_id =${req.query.id} AND orders.type='${req.query.type}' AND ((orders.date BETWEEN '${req.query.date1}'AND '${req.query.date2}') OR (orders.date BETWEEN '${req.query.date1}'AND '${req.query.date2}') OR (orders.date <= '${req.query.date1}' AND orders.date >= '${req.query.date2}')) `);        
+       
+        res.send(orders);            
+      
+    } catch (error) {
+        res.send(error);
+        console.log(error);
+    }
+}
+
+exports.getOrderSumby = async(date1,date2,id,type)=>{
+    
+    try {
+       
+        if (!date1 || !date2 || !id ||!type) throw customError.dataInvalid;    
+        let orders = await functions.querySingle(`SELECT invoice.type,orders.ref_id,orders.id,orders.type,orders.date,invoice.status,invoice.paid_amount,invoice.TotalPrice FROM orders INNER JOIN invoice ON invoice.ref_id = orders.id WHERE invoice.type= 0  AND orders.ref_id =${id} AND orders.type='${type}' AND ((orders.date BETWEEN '${date1}'AND '${date2}') OR (orders.date BETWEEN '${date1}'AND '${date2}') OR (orders.date <= '${date1}' AND orders.date >= '${date2}')) `);        
+       
+            return orders;
+      
+    } catch (error) {
+        console.log(error);
+       return error;
+      
+    }
 }

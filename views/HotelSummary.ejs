@@ -1,0 +1,142 @@
+<%- include("header") %>
+    <div id="content" class="main-content">
+
+        <div class=" layout-top-spacing">
+
+            <div id="basic" class="col-lg-12 col-sm-12 col-12 layout-spacing">
+               
+                <div class="statbox widget box box-shadow" style="margin-top: 2%;">
+
+                    <div class="widget-header">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <div class="widget-content widget-content-area">
+                                    <h3><b>Hotel Order Summary</b></h3>
+
+                                    <div class="input-group mt-4 mb-4">
+                                        <p>Select hotel</p>
+
+                                        <select id="list" class="placeholder js-states form-control">
+                  
+                                         </select>
+                                    </div>
+
+                                    <div class="input-group mt-4 mb-4">
+                                        <input type="date" name="date" id="rangeCalendarFlatpickr" class="form-control" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy" required>
+
+                                    </div>
+
+                                    <div class="container">
+                                        <div class="center">
+                                            <button onclick="getTotal()" class="mt-4 btn btn-primary">Submit</button>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/assets/axios.js"></script>
+
+    <script>
+        
+        function getTotal() {
+            date = document.getElementById('rangeCalendarFlatpickr').value.split(' to '); 
+            console.log(date);
+           const id = document.getElementById("list").value; 
+            if (!date) {
+                swal({
+                    title: 'Select Date ?',
+                    text: "Select a valid date",
+                    type: 'question',
+                    padding: '2em'
+                })
+            }else if(!id){
+                swal({
+                    title: 'Select Hotel ?',
+                    text: "Select a valid Hotel",
+                    type: 'question',
+                    padding: '2em'
+                })
+            } else {
+
+
+                function makeGetRequest(path) {
+                   
+                    axios.get(path).then(
+                        (response) => {
+                            var result = response.data;
+                            
+                            if (result.length === 0) {
+                                swal({
+                                    title: 'No Data available',
+                                    text: "Summary is not placed for this date",
+                                    type: 'question',
+                                    padding: '2em'
+                                })
+                            } else {
+
+                                if (date.length == 1 ) {
+                                  
+                                window.location = `<%=domain%>/order/ViewOrderSummary?date1=${date[0]}&date2=${date[0]}&id=${id}&type=HOTEL`;
+                                    
+                                }else{
+                                 
+                                    console.log(`<%=domain%>/order/ViewOrderSummary?date1=${date[0]}&date2=${date[1]}&id=${id}&type=HOTEL`);
+                                // window.location = `<%=domain%>/order/ViewOrderSummary?date1=${date[0]}&date2=${date[1]}&id=${id}&type=HOTEL`;
+
+                                }
+                            }
+                        },
+                        (error) => {
+                            console.log(error);
+                        }
+                    );
+                }
+                if (date.length == 1 ) {
+                makeGetRequest(`<%=domain%>/order/OrderSummary?date1=${date[0]}&date2=${date[0]}&id=${id}&type=HOTEL`);
+                }else{
+                makeGetRequest(`<%=domain%>/order/OrderSummary?date1=${date[0]}&date2=${date[1]}&id=${id}&type=HOTEL`);
+
+                }
+            }
+        }
+
+
+        function makeGetRequest(path) {
+            axios.get(path).then(
+                (response) => {
+                    var result = response.data;
+
+                    const sb = document.querySelector('#list');
+                  
+                    result.map((users) => {
+                        let option = new Option(users.name, users.id);
+                        // add it to the list
+                        sb.add(option, users.id);
+                    });
+
+                    // console.log(result.details[0].name);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+        }
+        makeGetRequest('<%=domain%>/interact/getHotel');
+    </script>
+    <%- include("footer") %>
+    <script>
+       
+    var f3 = flatpickr(document.getElementById('rangeCalendarFlatpickr'), {
+    mode: "range",
+    // dateFormat: "d-m-Y"
+});
+
+    </script>
