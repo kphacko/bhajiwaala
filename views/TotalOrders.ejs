@@ -46,36 +46,40 @@
                             </thead>
                             <tbody>
 
+                                <%
+                                let flag =1; 
+                                 if(flag){
+                                %>
+                                <tr>
+                                    <td  class="checkbox-column text-center sticky-col"><b></td>
+                                <%
+                                
+                                    newH.map((hotel)=>{
+                                      
+                                        %>
+    
+                                    
+                                 <td><a class="btn btn-primary" target="_blank" href="/order/editOrder/<%=hotel%>">Edit</a></td>
+                                           
+                                            <% })  %>
+                                                  
+                                                <td  class="checkbox-column text-center sticky-col"><b></td>
+                                   
+                                                    </tr>
+                                                    <% 
+                                                    flag=0;                  
+                                                    }
+                                                     %>
+
                                 <%  
-                                let flag =1;
+                                
                               
                                 product.map((product)=>{
                                     let unit;
                                
                             %>
                            
-                            <%  if(flag){
-                            %>
-                            <tr>
-                                <td  class="checkbox-column text-center sticky-col"><b></td>
-                            <%
-                            
-                                newH.map((hotel)=>{
-                                  
-                                    %>
-
-                                
-                             <td><a class="btn btn-primary" target="_blank" href="/order/editOrder/<%=hotel%>">Edit</a></td>
-                                       
-                                        <% })  %>
-                                              
-                                            <td  class="checkbox-column text-center sticky-col"><b></td>
-                               
-                                                </tr>
-                                                <% 
-                                                flag=0;                  
-                                                }
-                                                 %>
+                           
                                     <tr>
                                         <td  class="checkbox-column text-center sticky-col"><b><%=product.name%></b></td>
                                         <% let totalPro = 0;%>
@@ -116,7 +120,7 @@
     <%- include("footer") %>
     <script>
             c3 = $('#total-order1').DataTable({
-        "order": [[6, "desc"]],
+        "order": [[<%=hotels.length + 1%>, "desc"]],
         "oLanguage": {
             "oPaginate": {
                 "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
