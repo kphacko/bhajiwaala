@@ -254,6 +254,7 @@ exports.addOrder = async(req, res, next) => {
                         stamp
                     ]
                 ]
+               
                 sq = 'INSERT INTO orders (u_id,ref_id,type,date) VALUES ?';
                 sql.query(sq, [data], async(err, rows, result) => {
                     if (!err) {
@@ -261,6 +262,7 @@ exports.addOrder = async(req, res, next) => {
                         let ordered_products = [];
                         let count = req.body.count;
                         if (count == 0) reject(customError.dataInvalid);
+                        
                         while (count != 0) {
                             let qu = eval('req.body.quantity' + count);
                             let id = eval('req.body.product_id' + count);
@@ -272,6 +274,10 @@ exports.addOrder = async(req, res, next) => {
 
                             count--;
                             // console.log(ordered_products);
+                        }
+                        if (ordered_products.length ===0) {
+                           await functions.querySingle(`DELETE FROM orders WHERE id =${rows.insertId}`);
+                           reject(customError.dataInvalid); 
                         }
                         let invoice = [
                             [
@@ -330,7 +336,7 @@ exports.addOrder = async(req, res, next) => {
         res.status(message.code).redirect('/order/addOrder?status=added');
     }).catch(error => {
         // console.log(error);
-        res.status(error.code).redirect(`/order/addOrder?status=Error&message=${error}`);
+        res.status(error.code).redirect(`/order/addOrder?status=Error&message=${error.message}`);
     })
 
 }
@@ -473,7 +479,7 @@ exports.addPurchase = async(req, res, next) => {
                     ]
                 ]
                 sq = 'INSERT INTO orders (u_id,ref_id,type,date) VALUES ?';
-                sql.query(sq, [data], (err, rows, result) => {
+                sql.query(sq, [data], async (err, rows, result) => {
                     if (!err) {
                         let order_id = rows.insertId;
                         let ordered_products = [];
@@ -491,6 +497,10 @@ exports.addPurchase = async(req, res, next) => {
                             count--;
                             // console.log(ordered_products);
                         }
+                        if (ordered_products.length ===0) {
+                            await functions.querySingle(`DELETE FROM orders WHERE id =${rows.insertId}`);
+                            reject(customError.dataInvalid); 
+                         }
                         let invoice = [
                             [
                                 req.session.u_id,
@@ -957,8 +967,15 @@ exports.getOrderSum = async(req,res)=>{
     
     try {
        
-        if (!req.query.date1 || !req.query.date2 || !req.query.id ||!req.query.type) throw customError.dataInvalid;    
-        let orders = await functions.querySingle(`SELECT invoice.type,orders.ref_id,orders.id,orders.type,orders.date,invoice.status,invoice.paid_amount,invoice.TotalPrice FROM orders INNER JOIN invoice ON invoice.ref_id = orders.id WHERE invoice.type= 0  AND orders.ref_id =${req.query.id} AND orders.type='${req.query.type}' AND ((orders.date BETWEEN '${req.query.date1}'AND '${req.query.date2}') OR (orders.date BETWEEN '${req.query.date1}'AND '${req.query.date2}') OR (orders.date <= '${req.query.date1}' AND orders.date >= '${req.query.date2}')) `);        
+        if (!req.query.date1 || !req.query.date2 || !req.query.id ||!req.query.type) throw customError.dataInvalid;   
+        let orders;
+        if (req.query.type=='HOTEL') {
+         orders = await functions.querySingle(`SELECT invoice.type,orders.ref_id,orders.id,orders.type,orders.date,invoice.status,invoice.paid_amount,invoice.TotalPrice FROM orders INNER JOIN invoice ON invoice.ref_id = orders.id WHERE invoice.type= 0  AND orders.ref_id =${req.query.id} AND orders.type='${req.query.type}' AND ((orders.date BETWEEN '${req.query.date1}'AND '${req.query.date2}') OR (orders.date BETWEEN '${req.query.date1}'AND '${req.query.date2}') OR (orders.date <= '${req.query.date1}' AND orders.date >= '${req.query.date2}')) `);        
+            
+        }else if (req.query.type='VENDOR') {
+         orders = await functions.querySingle(`SELECT invoice.type,orders.ref_id,orders.id,orders.type,orders.date,invoice.status,invoice.paid_amount,invoice.TotalPrice FROM orders INNER JOIN invoice ON invoice.ref_id = orders.id WHERE invoice.type= 1  AND orders.ref_id =${req.query.id} AND orders.type='${req.query.type}' AND ((orders.date BETWEEN '${req.query.date1}'AND '${req.query.date2}') OR (orders.date BETWEEN '${req.query.date1}'AND '${req.query.date2}') OR (orders.date <= '${req.query.date1}' AND orders.date >= '${req.query.date2}')) `);        
+            
+        }
        
         res.send(orders);            
       
@@ -972,9 +989,13 @@ exports.getOrderSumby = async(date1,date2,id,type)=>{
     
     try {
        
-        if (!date1 || !date2 || !id ||!type) throw customError.dataInvalid;    
-        let orders = await functions.querySingle(`SELECT invoice.type,orders.ref_id,orders.id,orders.type,orders.date,invoice.status,invoice.paid_amount,invoice.TotalPrice FROM orders INNER JOIN invoice ON invoice.ref_id = orders.id WHERE invoice.type= 0  AND orders.ref_id =${id} AND orders.type='${type}' AND ((orders.date BETWEEN '${date1}'AND '${date2}') OR (orders.date BETWEEN '${date1}'AND '${date2}') OR (orders.date <= '${date1}' AND orders.date >= '${date2}')) `);        
-       
+        if (!date1 || !date2 || !id ||!type) throw customError.dataInvalid;
+        let orders;
+        if (type=='HOTEL') {    
+         orders = await functions.querySingle(`SELECT invoice.type,orders.ref_id,orders.id,orders.type,orders.date,invoice.status,invoice.paid_amount,invoice.TotalPrice FROM orders INNER JOIN invoice ON invoice.ref_id = orders.id WHERE invoice.type= 0  AND orders.ref_id =${id} AND orders.type='${type}' AND ((orders.date BETWEEN '${date1}'AND '${date2}') OR (orders.date BETWEEN '${date1}'AND '${date2}') OR (orders.date <= '${date1}' AND orders.date >= '${date2}')) `);        
+    }else if (type='VENDOR') {
+         orders = await functions.querySingle(`SELECT invoice.type,orders.ref_id,orders.id,orders.type,orders.date,invoice.status,invoice.paid_amount,invoice.TotalPrice FROM orders INNER JOIN invoice ON invoice.ref_id = orders.id WHERE invoice.type= 1  AND orders.ref_id =${id} AND orders.type='${type}' AND ((orders.date BETWEEN '${date1}'AND '${date2}') OR (orders.date BETWEEN '${date1}'AND '${date2}') OR (orders.date <= '${date1}' AND orders.date >= '${date2}')) `);        
+    }
             return orders;
       
     } catch (error) {
