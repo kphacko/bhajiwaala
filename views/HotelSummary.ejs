@@ -88,8 +88,8 @@
                                     
                                 }else{
                                  
-                                    console.log(`<%=domain%>/order/ViewOrderSummary?date1=${date[0]}&date2=${date[1]}&id=${id}&type=HOTEL`);
-                                // window.location = `<%=domain%>/order/ViewOrderSummary?date1=${date[0]}&date2=${date[1]}&id=${id}&type=HOTEL`;
+                                    // console.log(`<%=domain%>/order/ViewOrderSummary?date1=${date[0]}&date2=${date[1]}&id=${id}&type=HOTEL`);
+                                window.location = `<%=domain%>/order/ViewOrderSummary?date1=${date[0]}&date2=${date[1]}&id=${id}&type=HOTEL`;
 
                                 }
                             }
@@ -136,7 +136,7 @@
        
     var f3 = flatpickr(document.getElementById('rangeCalendarFlatpickr'), {
     mode: "range",
-    // dateFormat: "d-m-Y"
+    dateFormat: "d-m-Y"
 });
 
     </script>

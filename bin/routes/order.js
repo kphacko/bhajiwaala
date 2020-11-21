@@ -21,7 +21,7 @@ router.get('/ViewOrderSummary',async(req,res)=>{
         }else{
             let orders = await orderController.getOrderSumby(req.query.date1,req.query.date2,req.query.id,req.query.type);
             let data;
-           console.log(orders);
+        //    console.log(orders);
             if (req.query.type === 'HOTEL') {
             data = await functions.querySingle(`SELECT * FROM hotel WHERE id=${orders[0].ref_id}`);
             }else if (req.query.type === 'VENDOR') {
@@ -31,7 +31,7 @@ router.get('/ViewOrderSummary',async(req,res)=>{
             throw 'Error';
             }
             
-            res.render('OrderSum',{orders:orders,data:data,role: req.session.role,org:req.session.org});
+            res.render('OrderSum',{orders:orders,data:data,role: req.session.role,org:req.session.org ,date:`${req.query.date1} To ${req.query.date2}`});
         }
 
 
