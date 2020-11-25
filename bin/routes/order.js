@@ -11,6 +11,27 @@ const { checkAdmin } = require('../middleware/auth');
 
 //some action to get products
 router.get('/OrderSummary',orderController.getOrderSum);
+router.get('/DailySummary',async(req,res)=>{
+    res.render('dailySummary', { domain: process.env.DOMAIN, role: req.session.role });
+
+});
+
+router.get('/DailySummary/:date',async(req,res)=>{
+    try {
+    if (!req.params.date) throw 'Enter valid date';
+    let data = await orderController.getDailySumByDate(req.params.date);
+    // console.log(data);
+    res.render('dailySummaryBydate', { domain: process.env.DOMAIN, role: req.session.role ,data:data});
+        
+    } catch (error) {
+        res.redirect('/order/DailySummary');
+    }
+
+});
+router.get('/CheckDailySummary/:date',orderController.getDailySum);
+
+
+
 router.get('/ViewOrderSummary',async(req,res)=>{
     try {
         

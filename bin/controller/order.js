@@ -166,7 +166,7 @@ exports.getOrderById = async(id) => {
 exports.getOrderByDate = async(date) => {
     try {
         // console.log(date);
-        let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,hotel.id AS hotel_id,hotel.name AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity AS quantity ,ordered_products.price,ordered_products.PerPrice AS price FROM orders INNER JOIN ordered_products ON orders.id = ordered_products.order_id INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id WHERE orders.date = '${date}' AND orders.status =0 AND orders.type='HOTEL' `);
+        let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,hotel.id AS hotel_id,hotel.name AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity AS quantity ,ordered_products.price AS price,ordered_products.PerPrice  FROM orders INNER JOIN ordered_products ON orders.id = ordered_products.order_id INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id WHERE orders.date = '${date}' AND orders.status =0 AND orders.type='HOTEL' `);
 
 
         return allproduct;
@@ -751,7 +751,7 @@ exports.getPurchaseByDate = async(date) => {
     try {
         // console.log(date);
         let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,vendor.id AS vendor_id,vendor.name 
-        AS vendor_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity AS quantity ,ordered_products.price,ordered_products.PerPrice AS price FROM orders 
+        AS vendor_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity AS quantity ,ordered_products.price AS price,ordered_products.PerPrice  FROM orders 
         INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
         INNER JOIN vendor ON orders.ref_id = vendor.id INNER JOIN products ON ordered_products.p_id = products.id  WHERE orders.date = '${date}' AND orders.status =0 AND orders.type='VENDOR'`);
 
@@ -1002,5 +1002,59 @@ exports.getOrderSumby = async(date1,date2,id,type)=>{
         console.log(error);
        return error;
       
+    }
+}
+
+
+exports.getDailySum = async(req,res)=>{
+    
+    try {
+       
+          if (!req.params.date) throw customError.dataInvalid;
+        
+         HotelOrders = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,hotel.id AS hotel_id,hotel.name AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity AS quantity ,SUM(ordered_products.price)  AS price,ordered_products.PerPrice FROM orders INNER JOIN ordered_products ON orders.id = ordered_products.order_id INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id WHERE orders.date = '${req.params.date}' AND orders.status =0 AND orders.type='HOTEL' GROUP BY hotel.name`);        
+  
+         VendorOrders = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,vendor.id AS vendor_id,vendor.name 
+         AS vendor_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity AS quantity ,ordered_products.price AS price,ordered_products.PerPrice  FROM orders 
+         INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
+         INNER JOIN vendor ON orders.ref_id = vendor.id INNER JOIN products ON ordered_products.p_id = products.id  WHERE orders.date = '${req.params.date}' AND orders.status =0 AND orders.type='VENDOR'`);        
+         expense = await functions.querySingle(`SELECT * FROM expense WHERE status = 0 AND date = '${req.params.date}' `);
+       
+        res.send({
+            "hotelOrders":HotelOrders,
+            "vendorOrders":VendorOrders,
+            "expense":expense
+        });            
+      
+    } catch (error) {
+        res.send(error);
+        console.log(error);
+    }
+}
+
+
+exports.getDailySumByDate = async(date)=>{
+    
+    try {
+       
+          if (!date) throw customError.dataInvalid;
+        
+         HotelOrders = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,hotel.id AS hotel_id,hotel.name AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity AS quantity ,SUM(ordered_products.price)  AS price,ordered_products.PerPrice FROM orders INNER JOIN ordered_products ON orders.id = ordered_products.order_id INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id WHERE orders.date = '${date}' AND orders.status =0 AND orders.type='HOTEL' GROUP BY hotel.name`);        
+  
+         VendorOrders = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,vendor.id AS vendor_id,vendor.name 
+         AS vendor_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity AS quantity ,SUM(ordered_products.price) AS price,ordered_products.PerPrice  FROM orders 
+         INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
+         INNER JOIN vendor ON orders.ref_id = vendor.id INNER JOIN products ON ordered_products.p_id = products.id  WHERE orders.date = '${date}' AND orders.status =0 AND orders.type='VENDOR' GROUP BY vendor.name`);        
+         expense = await functions.querySingle(`SELECT * FROM expense WHERE status = 0 AND date = '${date}' `);
+       
+        return ({
+            "hotelOrders":HotelOrders,
+            "vendorOrders":VendorOrders,
+            "expense":expense
+        });            
+      
+    } catch (error) {
+        return (error);
+        
     }
 }

@@ -1,0 +1,98 @@
+<%- include("header") %>
+    <div id="content" class="main-content">
+
+        <div class=" layout-top-spacing">
+
+            <div id="basic" class="col-lg-12 col-sm-12 col-12 layout-spacing">
+               
+                <div class="statbox widget box box-shadow" style="margin-top: 2%;">
+
+                    <div class="widget-header">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <div class="widget-content widget-content-area">
+                                    <h3><b>Daily Summary</b></h3>
+
+                                   
+                                    <p>Select Date</p>
+                                    <div class="input-group mt-4 mb-4">
+                                       
+                                        <input type="date" name="date" id="DDate"  class="form-control flatpickr-input" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy" required>
+
+                                    </div>
+
+                                    <div class="container">
+                                        <div class="center">
+                                            <button onclick="getTotal()" class="mt-4 btn btn-primary">Submit</button>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/assets/axios.js"></script>
+
+    <script>
+        
+        function getTotal() {
+            date = document.getElementById('DDate').value; 
+            console.log(date);
+          
+            if (!date) {
+                swal({
+                    title: 'Select Date ?',
+                    text: "Select a valid date",
+                    type: 'question',
+                    padding: '2em'
+                })
+            } else {
+
+
+                function makeGetRequest(path) {
+                   
+                    axios.get(path).then(
+                        (response) => {
+                            var result = response.data;
+                            
+                            if (result.hotelOrders === 0 && result.vendorOrders===0 && result.expense ===0) {
+                                swal({
+                                    title: 'No Data available',
+                                    text: "Summary is not placed for this date",
+                                    type: 'question',
+                                    padding: '2em'
+                                })
+                            } else {
+                                console.log(result)
+                                window.location = `<%=domain%>/order/DailySummary/${date}`;
+
+                            }
+                        },
+                        (error) => {
+                            console.log(error);
+                        }
+                    );
+                }
+             
+                makeGetRequest(`<%=domain%>/order/CheckDailySummary/${date}`);
+                
+            }
+        }
+
+
+  
+    </script>
+    <%- include("footer") %>
+    <script>
+       
+    var f3 = flatpickr(document.getElementById('DDate'), {   
+    dateFormat: "d-m-Y"
+});
+
+    </script>
