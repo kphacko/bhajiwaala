@@ -24,7 +24,7 @@ exports.getOrder = async(req, res) => {
     try {
 
         let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,hotel.id AS hotel_id,hotel.name 
-        AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity,ordered_products.price FROM orders 
+        AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity,ordered_products.price,ordered_products.PerPrice FROM orders 
         INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
         INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id WHERE orders.status = 0 AND orders.type='HOTEL'  ORDER BY orders.date DESC `);
         // let allOrders = await getAllOrders();
@@ -36,7 +36,7 @@ exports.getOrder = async(req, res) => {
                 "id": element.order_id,
                 "date": element.date,
                 "hotel": { "hotel_id": element.hotel_id, "hotel_name": element.hotel_name },
-                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price/element.quantity }]
+                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price,"PerPrice":element.PerPrice }]
             }
 
         });
@@ -71,7 +71,7 @@ exports.getOrderByHotel = async(id) => {
     try {
 
         let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,hotel.id AS hotel_id,hotel.name 
-        AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity,ordered_products.price FROM orders 
+        AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity,ordered_products.price,ordered_products.PerPrice FROM orders 
         INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
         INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id  WHERE hotel.id = ${id} AND orders.status =0 AND orders.type='HOTEL'`);
         // let allOrders = await getAllOrders();
@@ -83,7 +83,7 @@ exports.getOrderByHotel = async(id) => {
                 "id": element.order_id,
                 "date": element.date,
                 "hotel": { "hotel_id": element.hotel_id, "hotel_name": element.hotel_name },
-                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price/element.quantity}]
+                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price,"PerPrice":element.PerPrice}]
             }
 
         });
@@ -119,7 +119,7 @@ exports.getOrderById = async(id) => {
     try {
 
         let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,hotel.id AS hotel_id,hotel.name 
-        AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity,ordered_products.price FROM orders 
+        AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity,ordered_products.price,ordered_products.PerPrice FROM orders 
         INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
         INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id  WHERE orders.id = ${id} AND orders.status =0 AND orders.type='HOTEL'`);
         // let allOrders = await getAllOrders();
@@ -131,7 +131,7 @@ exports.getOrderById = async(id) => {
                 "id": element.order_id,
                 "date": element.date,
                 "hotel": { "hotel_id": element.hotel_id, "hotel_name": element.hotel_name },
-                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price/element.quantity }]
+                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price,"PerPrice":element.PerPrice }]
             }
 
         });
@@ -166,7 +166,7 @@ exports.getOrderById = async(id) => {
 exports.getOrderByDate = async(date) => {
     try {
         // console.log(date);
-        let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,hotel.id AS hotel_id,hotel.name AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity AS quantity ,ordered_products.price AS price FROM orders INNER JOIN ordered_products ON orders.id = ordered_products.order_id INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id WHERE orders.date = '${date}' AND orders.status =0 AND orders.type='HOTEL' `);
+        let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,hotel.id AS hotel_id,hotel.name AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity AS quantity ,ordered_products.price,ordered_products.PerPrice AS price FROM orders INNER JOIN ordered_products ON orders.id = ordered_products.order_id INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id WHERE orders.date = '${date}' AND orders.status =0 AND orders.type='HOTEL' `);
 
 
         return allproduct;
@@ -181,7 +181,7 @@ exports.getOrderByDateHotel = async(date, id) => {
         try {
 
             let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,hotel.id AS hotel_id,hotel.name 
-            AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,SUM(ordered_products.quantity) AS quantity,SUM(ordered_products.price) AS price FROM orders 
+            AS hotel_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,SUM(ordered_products.quantity) AS quantity,SUM(ordered_products.price)AS price,ordered_products.PerPrice  FROM orders 
             INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
             INNER JOIN hotel ON orders.ref_id = hotel.id INNER JOIN products ON ordered_products.p_id = products.id  WHERE hotel.id = ${id} AND orders.date ='${date}' AND orders.status =0 AND orders.type='HOTEL' GROUP BY ordered_products.p_id`);
             // let allOrders = await getAllOrders();
@@ -193,7 +193,7 @@ exports.getOrderByDateHotel = async(date, id) => {
                     "id": element.order_id,
                     "date": element.date,
                     "hotel": { "hotel_id": element.hotel_id, "hotel_name": element.hotel_name },
-                    "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price/element.quantity }]
+                    "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price,"PerPrice":element.PerPrice }]
                 }
 
             });
@@ -268,7 +268,7 @@ exports.addOrder = async(req, res, next) => {
                             let id = eval('req.body.product_id' + count);
                             let price = eval('req.body.price' + count);
                             if (qu) {
-                                let dummy = new Array(order_id, id, qu, qu*price);
+                                let dummy = new Array(order_id, id, qu, qu*price,price);
                                 ordered_products.push(dummy);
                             }
 
@@ -301,7 +301,7 @@ exports.addOrder = async(req, res, next) => {
                             }
 
                         });
-                        sq = 'INSERT INTO ordered_products (order_id,p_id,quantity,price) VALUES ?';
+                        sq = 'INSERT INTO ordered_products (order_id,p_id,quantity,price,PerPrice) VALUES ?';
                         sql.query(sq, [ordered_products], (err, rows, result) => {
                             if (!err) {
                                 resolve({
@@ -374,7 +374,7 @@ exports.editOrder = async(req, res, next) => {
                             let id = eval('req.body.product_id' + count);
                             let price = eval('req.body.price' + count);
                             if (qu) {
-                                let dummy = new Array(orderID, id, qu, qu*price);
+                                let dummy = new Array(orderID, id, qu, qu*price,price);
                                 ordered_products.push(dummy);
                             }
 
@@ -385,7 +385,7 @@ exports.editOrder = async(req, res, next) => {
                         sq = `DELETE FROM ordered_products WHERE order_id=${orderID}`;
                         sql.query(sq, (err, rows, result) => {
                             if (!err) {
-                                sq1 = 'INSERT INTO ordered_products (order_id,p_id,quantity,price) VALUES ?';
+                                sq1 = 'INSERT INTO ordered_products (order_id,p_id,quantity,price,PerPrice) VALUES ?';
                                 sql.query(sq1, [ordered_products], async(err, rows, result) => {
                                     if (!err) {
                                         let updatedInovice = await updateInvoice(orderID, 0);
@@ -490,7 +490,7 @@ exports.addPurchase = async(req, res, next) => {
                             let id = eval('req.body.product_id' + count);
                             let price = eval('req.body.price' + count);
                             if (qu) {
-                                let dummy = new Array(order_id, id, qu, qu*price);
+                                let dummy = new Array(order_id, id, qu, qu*price,price);
                                 ordered_products.push(dummy);
                             }
 
@@ -524,7 +524,7 @@ exports.addPurchase = async(req, res, next) => {
                             }
 
                         });
-                        sq = 'INSERT INTO ordered_products (order_id,p_id,quantity,price) VALUES ?';
+                        sq = 'INSERT INTO ordered_products (order_id,p_id,quantity,price,PerPrice) VALUES ?';
                         sql.query(sq, [ordered_products], async(err, rows, result) => {
                             if (!err) {
                                 let updatedInovice = await updateInvoice(order_id, 1);
@@ -593,7 +593,7 @@ exports.editPurchase = async(req, res, next) => {
                             let id = eval('req.body.product_id' + count);
                             let price = eval('req.body.price' + count);
                             if (qu) {
-                                let dummy = new Array(orderID, id, qu, qu*price);
+                                let dummy = new Array(orderID, id, qu, qu*price,price);
                                 ordered_products.push(dummy);
                             }
 
@@ -604,7 +604,7 @@ exports.editPurchase = async(req, res, next) => {
                         sq = `DELETE FROM ordered_products WHERE order_id=${orderID}`;
                         sql.query(sq, (err, rows, result) => {
                             if (!err) {
-                                sq1 = 'INSERT INTO ordered_products (order_id,p_id,quantity,price) VALUES ?';
+                                sq1 = 'INSERT INTO ordered_products (order_id,p_id,quantity,price,PerPrice) VALUES ?';
                                 sql.query(sq1, [ordered_products], async(err, rows, result) => {
                                     if (!err) {
                                         let updatedInovice = await updateInvoice(orderID, 1);
@@ -656,7 +656,7 @@ exports.getPurchase = async(req, res) => {
     try {
 
         let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,vendor.id AS vendor_id,vendor.name 
-        AS vendor_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity,ordered_products.price FROM orders 
+        AS vendor_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity,ordered_products.price,ordered_products.PerPrice FROM orders 
         INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
         INNER JOIN vendor ON orders.ref_id = vendor.id INNER JOIN products ON ordered_products.p_id = products.id WHERE orders.status = 0 AND orders.type='VENDOR'  ORDER BY orders.date DESC `);
         // let allOrders = await getAllOrders();
@@ -668,7 +668,7 @@ exports.getPurchase = async(req, res) => {
                 "id": element.order_id,
                 "date": element.date,
                 "vendor": { "vendor_id": element.vendor_id, "vendor_name": element.vendor_name },
-                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price/element.quantity }]
+                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price,"PerPrice":element.PerPrice}]
             }
 
         });
@@ -705,7 +705,7 @@ exports.getPurchaseById = async(id) => {
     try {
 
         let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,vendor.id AS vendor_id,vendor.name 
-        AS vendor_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity,ordered_products.price FROM orders 
+        AS vendor_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity,ordered_products.price,ordered_products.PerPrice FROM orders 
         INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
         INNER JOIN vendor ON orders.ref_id = vendor.id INNER JOIN products ON ordered_products.p_id = products.id  WHERE orders.id = ${id} AND orders.status =0 AND orders.type='VENDOR'`);
 
@@ -715,7 +715,7 @@ exports.getPurchaseById = async(id) => {
                 "id": element.order_id,
                 "date": element.date,
                 "vendor": { "vendor_id": element.vendor_id, "vendor_name": element.vendor_name },
-                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price/element.quantity }]
+                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price,"PerPrice":element.PerPrice }]
             }
 
         });
@@ -751,7 +751,7 @@ exports.getPurchaseByDate = async(date) => {
     try {
         // console.log(date);
         let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,vendor.id AS vendor_id,vendor.name 
-        AS vendor_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity AS quantity ,ordered_products.price AS price FROM orders 
+        AS vendor_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity AS quantity ,ordered_products.price,ordered_products.PerPrice AS price FROM orders 
         INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
         INNER JOIN vendor ON orders.ref_id = vendor.id INNER JOIN products ON ordered_products.p_id = products.id  WHERE orders.date = '${date}' AND orders.status =0 AND orders.type='VENDOR'`);
 
@@ -785,7 +785,7 @@ exports.getOrderByVendor = async(id) => {
     try {
 
         let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,vendor.id AS vendor_id,vendor.name 
-        AS vendor_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity,ordered_products.price FROM orders 
+        AS vendor_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity,ordered_products.price,ordered_products.PerPrice FROM orders 
         INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
         INNER JOIN vendor ON orders.ref_id = vendor.id INNER JOIN products ON ordered_products.p_id = products.id  WHERE vendor.id =${id} AND orders.status =0 AND orders.type='VENDOR'`);
         // let allOrders = await getAllOrders();
@@ -797,7 +797,7 @@ exports.getOrderByVendor = async(id) => {
                 "id": element.order_id,
                 "date": element.date,
                 "vendor": { "vendor_id": element.vendor_id, "vendor_name": element.vendor_name },
-                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price":element.price/element.quantity }]
+                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price":element.price,"PerPrice":element.PerPrice }]
             }
 
         });
@@ -833,7 +833,7 @@ exports.getOrderByDateVendor = async(date, id) => {
     try {
 
         let allproduct = await functions.querySingle(`SELECT orders.date,ordered_products.order_id,vendor.id AS vendor_id,vendor.name 
-        AS vendor_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,SUM(ordered_products.quantity) AS quantity,SUM(ordered_products.price) AS price FROM orders 
+        AS vendor_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,SUM(ordered_products.quantity) AS quantity,SUM(ordered_products.price) AS price,ordered_products.PerPrice  FROM orders 
         INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
         INNER JOIN vendor ON orders.ref_id = vendor.id INNER JOIN products ON ordered_products.p_id = products.id  WHERE vendor.id = ${id} AND orders.date ='${date}' AND orders.status =0 AND orders.type='VENDOR' GROUP BY ordered_products.p_id`);
         // let allOrders = await getAllOrders();
@@ -845,7 +845,7 @@ exports.getOrderByDateVendor = async(date, id) => {
                 "id": element.order_id,
                 "date": element.date,
                 "vendor": { "vendor_id": element.vendor_id, "vendor_name": element.vendor_name },
-                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price/element.quantity}]
+                "products": [{ "id": element.p_id, "name": element.name, "marathi": element.marathi, "hindi": element.hindi, "weight_type": element.weight_type, "quantity": element.quantity, "price": element.price,"PerPrice":element.PerPrice}]
             }
 
         });

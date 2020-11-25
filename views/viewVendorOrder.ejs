@@ -41,8 +41,10 @@
                                     <th class="checkbox-column text-center"> Record Id </th>
                                     <th> Name</th>
                                     <!-- <th>Marathi Name</th> -->
-                                    <th>quantity</th>
-                                    <th>price</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total Price</th>
+
 
                                 </tr>
                             </thead>
@@ -60,6 +62,9 @@
                                        
                                         <td>
                                             <%=product.quantity%> <%= product.weight_type%>
+                                        </td>
+                                        <td>
+                                            <%=product.PerPrice%> ₹
                                         </td>
                                         <td>
                                             <%=product.price%> ₹

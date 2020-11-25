@@ -137,9 +137,10 @@
                                                                 <thead class="">
                                                                     <tr>
                                                                         <th scope="col">S.No</th>
-                                                                        <th scope="col">products</th>
-                                                                        <th class="" scope="col">quantity</th>
-                                                                        <th class="" scope="col">price</th>
+                                                                        <th scope="col">Products</th>
+                                                                        <th class="" scope="col">Quantity</th>
+                                                                        <th class="" scope="col">Price</th>
+                                                                        <th class="" scope="col">Total Price</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -160,9 +161,13 @@
                                                                             <td class="">
                                                                                 <%=pro.quantity%>  <%= pro.weight_type%>
                                                                             </td>
-                                                                            <td class="">
+                                                                            <td class="text-right">
+                                                                                <%=pro.PerPrice%>  ₹
+                                                                            </td>
+                                                                            <td class="text-right">
                                                                                 <%=pro.price%>  ₹
                                                                             </td>
+                                                                            
                                                                         </tr>
     
                                                                         <% c++; 
@@ -267,9 +272,10 @@
                                                                 <thead class="">
                                                                     <tr>
                                                                         <th scope="col">S.No</th>
-                                                                        <th scope="col">products</th>
-                                                                        <th class="" scope="col">quantity</th>
-                                                                        <th class="" scope="col">price</th>
+                                                                        <th scope="col">Products</th>
+                                                                        <th class="" scope="col">Quantity</th>
+                                                                        <th class="" scope="col">Price</th>
+                                                                        <th class="" scope="col">Total Price</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -290,9 +296,13 @@
                                                                             <td class="">
                                                                                 <%=pro.quantity%> <%= pro.weight_type%>
                                                                             </td>
-                                                                            <td class="">
+                                                                            <td class="text-right">
+                                                                                <%=pro.PerPrice%>  ₹
+                                                                            </td>
+                                                                            <td class="text-right">
                                                                                 <%=pro.price%>  ₹
                                                                             </td>
+                                                                            
                                                                         </tr>
     
                                                                         <% c++; 
