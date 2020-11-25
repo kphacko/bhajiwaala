@@ -72,7 +72,9 @@ exports.addHotel = async(req, res, next) => {
                 }
 
             } else {
-                sql.query(`SELECT * FROM hotel WHERE status=0 AND phone = ${req.body.phone} OR email= '${req.body.email}'`, (err, results) => {
+                sql.query(`SELECT * FROM hotel WHERE status=0 AND phone = ${req.body.phone}`, (err, results) => {
+                    // console.log(err);
+                    // console.log(results);
                     if (results[0]) {
                         reject(customError.userExists);
                     } else {
@@ -304,7 +306,7 @@ exports.addVendor = async(req, res, next) => {
                 }
 
             } else {
-                sql.query(`SELECT * FROM vendor WHERE status=0 AND phone = ${req.body.phone} OR email= '${req.body.email}'`, (err, results) => {
+                sql.query(`SELECT * FROM vendor WHERE status=0 AND phone = ${req.body.phone} `, (err, results) => {
                     if (results[0]) {
                         reject(customError.userExists);
                     } else {

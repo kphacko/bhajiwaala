@@ -88,15 +88,28 @@
                                         let total=0;
                                         data.forEach((data)=>{
                                             if(data.hotel_id==hotel && data.p_id == product.id){
-                                            total = total + parseFloat(data.quantity);
-                                            totalPro = totalPro + parseFloat(data.quantity);
+                                            total = parseFloat(total) + parseFloat(data.quantity);
+                                            totalPro = parseFloat(totalPro) + parseFloat(data.quantity);
                                             unit = product.weight_type;
                                             } })
+                                           
                                         %>
-                                        <th><%=total%></th>
+                                        <th><%if(total % 1 != 0){%>
+                                            <%= total.toFixed(2) %>
+                                            <%}else{%>
+                                                <%=total%>
+                                                <%}%>
+                                        </th>
                                         <%
                                         }) %>
-                                        <th><%= totalPro%> <%= unit%></th>
+                                        <th><%if(totalPro % 1 != 0){%>
+                                            <%= totalPro.toFixed(2) %>
+                                            <%}else{%>
+                                                <%=totalPro%>
+                                                <%}%>
+                                                <%= unit%>
+                                        </th>
+                                       
                                     </tr>
                                 
                                     <%
@@ -134,7 +147,7 @@
         "stripeClasses": [],
         "lengthMenu": [5, 10, 20, 50,100],
        
-        "pageLength": 50,
+        "pageLength": 100,
         
        
     });

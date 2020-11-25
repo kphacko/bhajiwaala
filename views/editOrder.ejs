@@ -30,7 +30,7 @@
                         <p>delivery date</p>
 
                         <div class="input-group mb-4">
-                            <input type="date" name="date" id="dateTimeFlatpickr" class="form-control" value="<%= data[0].date %>" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy">
+                            <input type="date" name="date" id="dateTimeFlatpickr" class="form-control" value="<%= data[0].date %>" placeholder="<%= data[0].date %>" aria-label="<%= data[0].date %>" required>
                         </div>
                         <div class="table-responsive mb-4">
                             <p>Product & Quantity</p>
@@ -78,7 +78,7 @@
                                       %>
                                                     <tr>
                                                         <td class="checkbox-column text-center">
-                                                            <%= c %>
+                                                            <%= product.id %>
                                                         </td>
                                                         <td>
                                                             <%= product.name %>
@@ -153,4 +153,7 @@
 });
 
 multiCheck(c3);
+</script>
+<script>
+    f2.value = <%= data[0].date %>
 </script>

@@ -30,17 +30,17 @@
                     <p>delivery date</p>
 
                     <div class="input-group mb-4">
-                        <input type="date" name="date" id="dateTimeFlatpickr" class="form-control" value="<%= data[0].date %>" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy" disabled>
+                        <input type="text" name="date" id="dateTimeFlatpickr" class="form-control" value="<%= data[0].date %>" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy" disabled>
                     </div>
                     <div class="table-responsive mb-4">
                         <p>Product & Quantity</p>
 
-                        <table id="style-3" class="table style-3  table-hover">
+                        <table id="viewVendorOrder" class="table style-3  table-hover">
                             <thead>
                                 <tr>
                                     <th class="checkbox-column text-center"> Record Id </th>
                                     <th> Name</th>
-                                    <th>Marathi Name</th>
+                                    <!-- <th>Marathi Name</th> -->
                                     <th>quantity</th>
                                     <th>price</th>
 
@@ -52,21 +52,17 @@
                             data[0].products.forEach((product)=>{ %>
                                     <tr>
                                         <td class="checkbox-column text-center">
-                                            <%= c %>
+                                            <%= product.id %>
                                         </td>
                                         <td>
                                             <%= product.name %>
                                         </td>
+                                       
                                         <td>
-                                            <%= product.marathi %>
+                                            <%=product.quantity%> <%= product.weight_type%>
                                         </td>
                                         <td>
-                                            <input name="quantity<%= c %>" type="number" value="<%=product.quantity%>" placeholder=" quantity" aria-label="enter the quantity" disabled>
-
-                                        </td>
-                                        <td>
-                                            <input name="price<%= c%>" value="<%=product.price%>" type="number" placeholder="price" aria-label="enter the price" disabled>
-
+                                            <%=product.price%> ₹
                                         </td>
                                     </tr>
                                     <% c++; %>
@@ -89,3 +85,27 @@
 
 
     <%- include("footer") %>
+
+    <script>
+        c3 = $('#viewVendorOrder').DataTable({
+    "order": [[0, "asc"]],
+    "oLanguage": {
+        "oPaginate": {
+            "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
+            "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
+        },
+        "sInfo": "Showing page _PAGE_ of _PAGES_",
+        "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+        "sSearchPlaceholder": "Search...",
+        "sLengthMenu": "Results :  _MENU_",
+    },
+    "stripeClasses": [],
+    "lengthMenu": [5, 10, 20, 50,100],
+   
+    "pageLength": 50,
+    
+   
+});
+
+multiCheck(c3);
+</script>

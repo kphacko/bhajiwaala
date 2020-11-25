@@ -43,9 +43,9 @@ exports.getInvoiceByID = async(id) => {
             }
 
         });
-        let products = await functions.querySingle(`SELECT ordered_products.order_id,ordered_products.p_id,products.name,products.marathi,products.hindi,ordered_products.quantity,ordered_products.price FROM ordered_products INNER JOIN products ON products.id = ordered_products.p_id WHERE ordered_products.order_id = ${invoice[0].orderID}`);
+        let products = await functions.querySingle(`SELECT ordered_products.order_id,ordered_products.p_id,products.name,products.weight_type,products.marathi,products.hindi,ordered_products.quantity,ordered_products.price FROM ordered_products INNER JOIN products ON products.id = ordered_products.p_id WHERE ordered_products.order_id = ${invoice[0].orderID}`);
         invoice[0].products = products;
-
+        // console.log(invoice[0].products);
         return invoice;
         // res.json(invoice);
     } catch (error) {
