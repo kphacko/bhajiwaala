@@ -63,16 +63,16 @@ exports.addHotel = async(req, res, next) => {
 
             const { name, phone, gstin, email } = req.body;
             // console.log(name, phone);
-            if ( !name || !phone ||  phone.length != 10) {
+            if ( !name ) {
 
-                if (phone.length != 10) {
-                    reject(mess = new Custom('Data is incorrect', 'Phone number should be 10 digit!!', 401));
-                } else {
+                // if (phone.length != 10) {
+                    // reject(mess = new Custom('Data is incorrect', 'Phone number should be 10 digit!!', 401));
+                // } else {
                     reject(customError.dataInvalid);
-                }
+                // }
 
             } else {
-                sql.query(`SELECT * FROM hotel WHERE status=0 AND phone = ${req.body.phone}`, (err, results) => {
+                sql.query(`SELECT * FROM hotel WHERE status=0  AND name = '${name}'`, (err, results) => {
                     // console.log(err);
                     // console.log(results);
                     if (results[0]) {
@@ -133,12 +133,12 @@ exports.editHotel = async(req, res, next) => {
 
             const { name, phone, gstin, email, id } = req.body;
             // console.log(name, phone);
-            if ( !name || !phone || phone.length != 10 || !id) {
-                if (phone.length != 10) {
-                    reject(mess = new Custom('Data is incorrect', 'Phone number should be 10 digit!!', 401));
-                } else {
+            if ( !name || !id) {
+                // if (phone.length != 10) {
+                    // reject(mess = new Custom('Data is incorrect', 'Phone number should be 10 digit!!', 401));
+                // } else {
                     reject(customError.dataInvalid);
-                }
+                // }
 
             } else {
                 sql.query(`SELECT * FROM hotel WHERE status=0 AND id = ${req.body.id}`, (err, results) => {
@@ -297,16 +297,16 @@ exports.addVendor = async(req, res, next) => {
 
             const { name, phone, gstin, email } = req.body;
             // console.log(name, phone);
-            if (!name || !phone || phone.length != 10) {
+            if (!name ) {
 
-                if (phone.length != 10) {
-                    reject(mess = new Custom('Data is incorrect', 'Phone number should be 10 digit!!', 401));
-                } else {
+                // if (phone.length != 10) {
+                    // reject(mess = new Custom('Data is incorrect', 'Phone number should be 10 digit!!', 401));
+                // } else {
                     reject(customError.dataInvalid);
-                }
+                // }
 
             } else {
-                sql.query(`SELECT * FROM vendor WHERE status=0 AND phone = ${req.body.phone} `, (err, results) => {
+                sql.query(`SELECT * FROM vendor WHERE status=0 AND  name = '${req.body.name}' `, (err, results) => {
                     if (results[0]) {
                         reject(customError.userExists);
                     } else {
@@ -347,7 +347,7 @@ exports.addVendor = async(req, res, next) => {
         res.status(200).redirect('/interact/addVendor?status=Added');
 
     }).catch(error => {
-        // console.log(error);
+        console.log(error);
         // res.status(error.code).json({
         //     error: true,
         //     details: error
@@ -366,7 +366,7 @@ exports.editVendor = async(req, res, next) => {
 
             const { name, phone, gstin, email, id } = req.body;
             // console.log(name, phone);
-            if ( !name || !phone  || phone.length != 10 || !id) {
+            if ( !name || !id) {
                 if (phone.length != 10) {
                     reject(mess = new Custom('Data is incorrect', 'Phone number should be 10 digit!!', 401));
                 } else {
