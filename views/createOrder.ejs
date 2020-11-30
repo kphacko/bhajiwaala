@@ -65,7 +65,7 @@
                                                     <th> Name</th>
                                                     
                                                     <th>quantity</th>
-                                                    <th>price</th>
+                                                    <!-- <th>price</th> -->
 
                                                 </tr>
                                             </thead>
@@ -81,14 +81,14 @@
                                                         </td>
                                                         
                                                         <td>
-                                                            <input name="quantity<%= c %>" type="number" step="0.1" placeholder=" quantity" aria-label="enter the quantity">
+                                                            <input name="quantity<%= c %>"  class="form-control" type="number" step="0.1" placeholder=" quantity" aria-label="enter the quantity">
                                                             <input name="product_id<%= c %>" value="<%=product.id%>" hidden>
 
                                                         </td>
-                                                        <td>
-                                                            <input name="price<%= c%>" type="number"  placeholder="price" aria-label="enter the price">
+                                                        <!-- <td> -->
+                                                            <input name="price<%= c%>"  class="form-control" type="number" value="0"  placeholder="price" aria-label="enter the price" hidden>
 
-                                                        </td>
+                                                        <!-- </td> -->
                                                     </tr>
                                                     <% c++; %>
                                                         <% }); %>

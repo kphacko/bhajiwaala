@@ -74,7 +74,7 @@ router.get('/getOrder/:date', async(req, res) => {
         // console.log('sd');
         res.send([]);
     } else {
-        res.render('TotalOrders', { data: orders ,product:product, role: req.session.role});
+        res.render('TotalOrders', { data: orders ,domain: process.env.DOMAIN,product:product, role: req.session.role});
 
     }
 });
@@ -193,6 +193,8 @@ router.get('/getPurchase/:date', async(req, res) => {
 });
 
 router.post('/addPurchase', orderController.addPurchase);
+router.post('/addTotalPurchase', orderController.addTotalPurchase);
+
 
 
 router.get('/totalPurchase', (req, res) => {

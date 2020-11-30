@@ -273,7 +273,7 @@ exports.addOrder = async(req, res, next) => {
                             }
 
                             count--;
-                            // console.log(ordered_products);
+                            console.log(ordered_products);
                         }
                         if (ordered_products.length ===0) {
                            await functions.querySingle(`DELETE FROM orders WHERE id =${rows.insertId}`);
@@ -563,6 +563,111 @@ exports.addPurchase = async(req, res, next) => {
         res.status(error.code).redirect(`/order/addPurchase?status=Error&message=${error}`);
     })
 
+}
+exports.addTotalPurchase = async(req, res, next)=>{
+    function addOrder(req, res, next) {
+
+        return new Promise((resolve, reject) => {
+            // if (!req.session.u_id) reject(mess = new Custom('login error', 'please login first then try', 401));
+            const { ref, type, date } = req.body;
+            // console.log(name, phone);
+            if (!ref || !type || !date) {
+
+
+                reject(customError.dataInvalid);
+
+
+            } else {
+                let stamp = date;
+                let data = [
+                    [
+                        req.session.u_id,
+                        ref,
+                        type,
+                        stamp
+                    ]
+                ]
+                sq = 'INSERT INTO orders (u_id,ref_id,type,date) VALUES ?';
+                sql.query(sq, [data], async (err, rows, result) => {
+                    if (!err) {
+                        let order_id = rows.insertId;
+                        let ordered_products = [];
+                      
+                       
+                            let qu = req.body.quantity;
+                            let id = req.body.id
+                            let price = req.body.price
+                            if (qu) {
+                                let dummy = new Array(order_id, id, qu, qu*price,price);
+                                ordered_products.push(dummy);
+                            }
+
+                            
+                        if (ordered_products.length ===0) {
+                            await functions.querySingle(`DELETE FROM orders WHERE id =${rows.insertId}`);
+                            reject(customError.dataInvalid); 
+                         }
+                        let invoice = [
+                            [
+                                req.session.u_id,
+                                rows.insertId,
+                                new Date(),
+                                1
+                            ]
+                        ]
+                        sq = 'INSERT INTO invoice (u_id,ref_id,date,type) VALUES ?';
+                        sql.query(sq, [invoice], (err, rows, result) => {
+                            if (!err) {
+                                resolve({
+                                    error: false,
+                                    details: rows
+                                });
+                            } else {
+                                reject(
+                                    // console.log(err),
+                                    mess = new Custom('Database error', err.code, 401)
+                                );
+                            }
+
+                        });
+                        sq = 'INSERT INTO ordered_products (order_id,p_id,quantity,price,PerPrice) VALUES ?';
+                        sql.query(sq, [ordered_products], async(err, rows, result) => {
+                            if (!err) {
+                                let updatedInovice = await updateInvoice(order_id, 1);
+
+                                resolve({
+                                    error: false,
+                                    details: rows
+                                });
+                            } else {
+                                reject(
+                                    console.log(err),
+                                    mess = new Custom('Database error', err.code, 401)
+                                );
+                            }
+                        });
+
+
+                    } else {
+                        reject(
+                            console.log(err),
+                            mess = new Custom('Database error', err.code, 401)
+
+                        );
+                    }
+                });
+
+            }
+
+
+        })
+    }
+    addOrder(req, res, next).then(message => {
+        res.status(200).send(message);
+    }).catch(error => {
+        // console.log(error);
+        res.status(error.code).send(error);
+    })
 }
 exports.editPurchase = async(req, res, next) => {
 
