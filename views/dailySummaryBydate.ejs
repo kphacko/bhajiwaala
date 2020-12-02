@@ -97,7 +97,9 @@
                                                             <tr>
                                                                 <th scope="col">Date</th>
                                                                 <th scope="col">Name</th>
-                                                                <th class="" scope="col">Amount</th>                                                              
+                                                                <th class="" scope="col">Total Amount</th>
+                                                                <th scope="col">Diffrence</th>
+                                                                <th>Paid Amount</th>                                                              
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -110,7 +112,9 @@
                                                                 
                                                                 <td><%=hotel.date%></td>
                                                                 <td><%=hotel.hotel_name%></td>
-                                                                <td class=""><%= hotel.price %>  ₹</td>                                                               
+                                                                <td class=""><%= hotel.price %>  ₹</td>
+                                                                <td><%= parseInt(hotel.price) - parseInt(hotel.paid_amount) %></td>
+                                                                <td><%= hotel.paid_amount%></td>                                                               
                                                             </tr>
                                                       <%
                                                       HotelTot =  HotelTot + parseInt(hotel.price);
@@ -221,7 +225,9 @@
                                                             <tr>
                                                                 <th scope="col">Date</th>
                                                                 <th scope="col">Name</th>
-                                                                <th class="" scope="col">Amount</th>                                                              
+                                                                <th class="" scope="col">Total Amount</th>
+                                                                <th>Diffrence</th>
+                                                                <th> Paid Amount </th>                                                              
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -234,7 +240,9 @@
                                                                 
                                                                 <td><%=vendor.date%></td>
                                                                 <td><%=vendor.vendor_name%></td>
-                                                                <td class=""><%= vendor.price %>  ₹</td>                                                               
+                                                                <td class=""><%= vendor.price %>  ₹</td>
+                                                                <td><%= parseInt(vendor.price) - parseInt(vendor.paid_amount) %></td>
+                                                                <td><%= vendor.paid_amount %></td>                                                             
                                                             </tr>
                                                       <%
                                                       VendorTot = VendorTot + parseInt(vendor.price);
@@ -426,8 +434,62 @@
                                             </div>
     
                                         </div>
-                                         </div>
-
+                                     </div>
+                                    <div class="row">
+                                        <div class="row mt-4">
+                                            <div class="col-sm-5 col-12 order-sm-0 order-1">
+                                                <div class="inv--payment-info">
+                                                    <div class="row">
+                                                        <!-- <div class="col-sm-12 col-12">
+                                                            <h6 class=" inv-title">Payment Info:</h6>
+                                                        </div>
+                                                        <div class="col-sm-4 col-12">
+                                                            <p class=" inv-subtitle">Bank Name: </p>
+                                                        </div>
+                                                        <div class="col-sm-8 col-12">
+                                                            <p class="">Bank of America</p>
+                                                        </div>
+                                                        <div class="col-sm-4 col-12">
+                                                            <p class=" inv-subtitle">Account Number : </p>
+                                                        </div>
+                                                        <div class="col-sm-8 col-12">
+                                                            <p class="">1234567890</p>
+                                                        </div> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-7 col-12 order-sm-1 order-0">
+                                                <div class="inv--total-amounts text-sm-right">
+                                                    <div class="row">
+                                                        <!-- <div class="col-sm-8 col-7">
+                                                            <p class="">Sub Total: </p>
+                                                        </div>
+                                                        <div class="col-sm-4 col-5">
+                                                            <p class=""> ₹</p>
+                                                        </div> -->
+                                                        <!-- <div class="col-sm-8 col-7">
+                                                            <p class="">Tax Amount: </p>
+                                                        </div>
+                                                        <div class="col-sm-4 col-5">
+                                                            <p class="">$700</p>
+                                                        </div>
+                                                        <div class="col-sm-8 col-7">
+                                                            <p class=" discount-rate">Discount : <span class="discount-percentage">5%</span> </p>
+                                                        </div>
+                                                        <div class="col-sm-4 col-5">
+                                                            <p class="">$700</p>
+                                                        </div> -->
+                                                        <div class="col-sm-8 col-7 grand-total-title">
+                                                            <h4 class=""> Total: </h4>
+                                                        </div>
+                                                        <div class="col-sm-4 col-5 grand-total-amount">
+                                                            <h4 class=""><%=  HotelTot%> ₹ </h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> 
                              </div> 
 
                             </div>
