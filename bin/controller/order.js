@@ -237,7 +237,7 @@ exports.addOrder = async(req, res, next) => {
         return new Promise((resolve, reject) => {
             // if (!req.session.u_id) reject(mess = new Custom('login error', 'please login first then try', 401));
             const { ref, type, date, count } = req.body;
-            // console.log(name, phone);
+            // console.log( ref, type, date, count);
             if (!ref || !type || !count || !date) {
 
 
@@ -273,7 +273,7 @@ exports.addOrder = async(req, res, next) => {
                             }
 
                             count--;
-                            console.log(ordered_products);
+                            // console.log(ordered_products);
                         }
                         if (ordered_products.length ===0) {
                            await functions.querySingle(`DELETE FROM orders WHERE id =${rows.insertId}`);
@@ -859,7 +859,7 @@ exports.getPurchaseByDate = async(date) => {
         AS vendor_name,ordered_products.p_id,products.name,products.marathi,products.hindi,products.weight_type,ordered_products.quantity AS quantity ,ordered_products.price AS price,ordered_products.PerPrice  FROM orders 
         INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
         INNER JOIN vendor ON orders.ref_id = vendor.id INNER JOIN products ON ordered_products.p_id = products.id  WHERE orders.date = '${date}' AND orders.status =0 AND orders.type='VENDOR'`);
-
+        
         return allproduct;
         // res.json(updatedOrders);
     } catch (error) {

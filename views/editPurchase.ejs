@@ -59,12 +59,12 @@
                                             </td>
                                            
                                             <td>
-                                                <input name="quantity<%= c %>" type="number" step="0.0001" value="<%=product.quantity%>" placeholder=" quantity" aria-label="enter the quantity">
+                                                <input name="quantity<%= c %>" class="form-control" type="number" step="0.0001" value="<%=product.quantity%>" placeholder=" quantity" aria-label="enter the quantity">
                                                 <input name="product_id<%= c %>" value="<%=product.id%>" hidden>
                                                 <% exists.push(product.id);%>
                                             </td>
                                             <td>
-                                                <input name="price<%= c%>" value="<%=product.PerPrice%>" type="number" min="0" placeholder="price" aria-label="enter the price">
+                                                <input name="price<%= c%>" class="form-control" value="<%=product.PerPrice%>" type="number" min="0" placeholder="price" aria-label="enter the price">
 
                                             </td>
                                         </tr>
@@ -76,19 +76,19 @@
                                       %>
                                                     <tr>
                                                         <td class="checkbox-column text-center">
-                                                            <%= c %>
+                                                            <%= product.id %>
                                                         </td>
                                                         <td>
                                                             <%= product.name %>
                                                         </td>
                                                        
                                                         <td>
-                                                            <input name="quantity<%= c %>" type="number" step="0.0001" placeholder=" quantity" aria-label="enter the quantity">
+                                                            <input name="quantity<%= c %>" class="form-control" type="number" step="0.0001" placeholder=" quantity" aria-label="enter the quantity">
                                                             <input name="product_id<%= c %>" value="<%=product.id%>" hidden>
 
                                                         </td>
                                                         <td>
-                                                            <input name="price<%= c%>" type="number" min="0" placeholder="price" aria-label="enter the price">
+                                                            <input name="price<%= c%>" class="form-control" type="number" min="0" placeholder="price" aria-label="enter the price">
 
                                                         </td>
                                                     </tr>
