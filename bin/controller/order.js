@@ -11,7 +11,15 @@ const updateInvoice = async(id, type) => {
         let totalPrice = await functions.querySingle(`SELECT orders.id,SUM(ordered_products.price) AS price FROM orders 
         INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
          INNER JOIN products ON ordered_products.p_id = products.id  WHERE orders.id = ${id}`);
-        let updatedInvoice = await functions.querySingle(`UPDATE invoice SET TotalPrice = ${totalPrice[0].price} WHERE ref_id=${totalPrice[0].id} AND type= ${type}`);
+         let updatedInvoice;
+         if (type===1) {
+             updatedInvoice = await functions.querySingle(`UPDATE invoice SET TotalPrice = ${totalPrice[0].price},paid_amount = ${totalPrice[0].price},status = 2 WHERE ref_id=${totalPrice[0].id} AND type= ${type}`);
+            // await functions.querySingle(`UPDATE orders SET status = 2  WHERE id =${id}`);
+             
+         }else if (type===0) {
+             updatedInvoice = await functions.querySingle(`UPDATE invoice SET TotalPrice = ${totalPrice[0].price} WHERE ref_id=${totalPrice[0].id} AND type= ${type}`);
+             
+         }
         return updatedInvoice;
     } catch (error) {
         return error;

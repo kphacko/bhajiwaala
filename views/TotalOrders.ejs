@@ -29,6 +29,7 @@
                         <table id="total-order1" class="table style-3  table-hover">
                             <thead>
                                 <tr>
+                                    <th>No</th>
                                     <th class="checkbox-column text-center"></th>
                                     <% 
                                     let hotels = [];
@@ -53,6 +54,7 @@
                                  if(flag){
                                 %>
                                 <tr>
+                                    <td></td>
                                     <td  class="checkbox-column text-center sticky-col"><b></td>
                                 <%
                                 
@@ -87,6 +89,7 @@
                            
                            
                                     <tr>
+                                        <td><%=product.id%></td>
                                         <td  class="checkbox-column text-center sticky-col"><b><%=product.name%></b></td>
                                         <% let totalPro = 0;%>
                                     <% hotels.map((hotel)=>{
@@ -277,7 +280,7 @@ async function addpurchase(){
     <%- include("footer") %>
     <script>
             c3 = $('#total-order1').DataTable({
-        "order": [[<%=hotels.length + 1%>, "desc"]],
+        "order": [[0, "asc"]],
         "oLanguage": {
             "oPaginate": {
                 "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',

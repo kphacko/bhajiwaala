@@ -52,7 +52,7 @@
                                 
                                 <div class="invoice-00001">
                                     <div class="row">
-                                    <div class="content-section  animated animatedFadeInUp fadeInUp col-md-6 col-sm-6 col-6">
+                                    <div class="content-section  animated animatedFadeInUp fadeInUp col-md-12 col-sm-12 col-12">
 
                                         <div class="row inv--head-section">
 
@@ -180,7 +180,131 @@
                                         </div>
 
                                     </div>
-                                    <div class="content-section  animated animatedFadeInUp fadeInUp col-md-6 col-sm-6 col-6">
+                                    <div class="content-section  animated animatedFadeInUp fadeInUp col-md-12 col-sm-12 col-12">
+
+                                        <div class="row inv--head-section">
+
+                                            <div class="col-sm-6 col-12">
+                                                <h3 class="in-heading"></h3>
+                                            </div>
+                                            <div class="col-sm-6 col-12 align-self-center text-sm-right">
+                                                <div class="company-info">
+                                                  
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+
+                                        <div class="row inv--detail-section">
+
+                                            <div class="col-sm-7 align-self-center">
+                                                <p class="inv-to">Expense Summary</p>
+                                            </div>
+                                            <div class="col-sm-5 align-self-center  text-sm-right order-sm-0 order-1">
+                                                <p class="inv-detail-title"></p>
+                                            </div>
+                                            
+                                            <div class="col-sm-7 align-self-center">
+                                                <p class="inv-customer-name"></p>
+                                                
+                                                <p class="inv-email-address"></p>
+                                            </div>
+                                            <div class="col-sm-5 align-self-center  text-sm-right order-2">
+                                               
+                                                <!-- <p class="inv-list-number"><span class="inv-title">Invoice Number : </span> <span class="inv-number">[invoice number]</span></p>
+                                                <p class="inv-created-date"><span class="inv-title">Invoice Date : </span> <span class="inv-date">20 Aug 2019</span></p>
+                                                <p class="inv-due-date"><span class="inv-title">Due Date : </span> <span class="inv-date">26 Aug 2019</span></p> -->
+                                            </div>
+                                        </div>
+
+                                        <div class="row inv--product-table-section">
+                                            <div class="col-12 col-sm-12">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead class="">
+                                                            <tr>
+                                                                <th scope="col">Date</th>
+                                                                <th scope="col">Name</th>
+                                                                <th class="" scope="col">Amount</th>                                                              
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <%
+                                                            let expenseTot = 0;
+                                                            data.expense.map((expense)=>{ %>
+
+                                                            
+                                                            <tr>
+                                                                
+                                                                <td><%=expense.date%></td>
+                                                                <td><%=expense.name%></td>
+                                                                <td class=""><%= expense.amount%>  ₹</td>                                                               
+                                                            </tr>
+                                                      <%
+                                                      expenseTot = expenseTot + parseInt(expense.amount);
+                                                    })%>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-4">
+                                            <div class="col-sm-5 col-12 order-sm-0 order-1">
+                                                <div class="inv--payment-info">
+                                                    <div class="row">
+                                                        <!-- <div class="col-sm-12 col-12">
+                                                            <h6 class=" inv-title">Payment Info:</h6>
+                                                        </div>
+                                                        <div class="col-sm-4 col-12">
+                                                            <p class=" inv-subtitle">Bank Name: </p>
+                                                        </div>
+                                                        <div class="col-sm-8 col-12">
+                                                            <p class="">Bank of America</p>
+                                                        </div>
+                                                        <div class="col-sm-4 col-12">
+                                                            <p class=" inv-subtitle">Account Number : </p>
+                                                        </div>
+                                                        <div class="col-sm-8 col-12">
+                                                            <p class="">1234567890</p>
+                                                        </div> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-7 col-12 order-sm-1 order-0">
+                                                <div class="inv--total-amounts text-sm-right">
+                                                    <div class="row">
+                                                        <!-- <div class="col-sm-8 col-7">
+                                                            <p class="">Sub Total: </p>
+                                                        </div>
+                                                        <div class="col-sm-4 col-5">
+                                                            <p class=""> ₹</p>
+                                                        </div> -->
+                                                        <!-- <div class="col-sm-8 col-7">
+                                                            <p class="">Tax Amount: </p>
+                                                        </div>
+                                                        <div class="col-sm-4 col-5">
+                                                            <p class="">$700</p>
+                                                        </div>
+                                                        <div class="col-sm-8 col-7">
+                                                            <p class=" discount-rate">Discount : <span class="discount-percentage">5%</span> </p>
+                                                        </div>
+                                                        <div class="col-sm-4 col-5">
+                                                            <p class="">$700</p>
+                                                        </div> -->
+                                                        <div class="col-sm-8 col-7 grand-total-title">
+                                                            <h4 class=""> Total: </h4>
+                                                        </div>
+                                                        <div class="col-sm-4 col-5 grand-total-amount">
+                                                            <h4 class=""><%=  expenseTot%> ₹ </h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="content-section  animated animatedFadeInUp fadeInUp col-md-12 col-sm-12 col-12">
 
                                         <div class="row inv--head-section">
 
@@ -258,17 +382,18 @@
                                                                 <td class="">
                                                                 <% nflag =1;
                                                             }%>
-                                                                <%= vendor.name%> : <%=vendor.quantity%> * <%= parseInt(vendor.price)%> = <%= parseInt(vendor.price)*parseInt(vendor.quantity)%> ₹ <br>
+                                                                <%= vendor.name%> : <%=vendor.quantity%> * <%= parseInt(vendor.PerPrice)%> = <%= parseInt(vendor.PerPrice)*parseInt(vendor.quantity)%> ₹ <br>
                                                                 
-                                                                <%  VendorTot = VendorTot + parseInt(vendor.price)*parseInt(vendor.quantity)   
-                                                             tmpTotal =  tmpTotal + parseInt(vendor.price)*parseInt(vendor.quantity) 
+                                                                <%  VendorTot = VendorTot + parseInt(vendor.PerPrice)*parseInt(vendor.quantity)   
+                                                             tmpTotal =  tmpTotal + parseInt(vendor.PerPrice)*parseInt(vendor.quantity) 
                                                             }%>
                                                               <%  
                                                              }) %>
                                                               </td>
-                                                             <td></td>
+                                                             <td><%=tmpTotal%> ₹ </td>
                                                             </tr>
-                                                           <% }) %>
+                                                           <% tmpTotal = 0;
+                                                        }) %>
 
                                                             
                                                             
@@ -337,188 +462,8 @@
                                         </div>
 
                                     </div>
-                                     </div>
-                                    <div class="row">
-                                        <div class="content-section  animated animatedFadeInUp fadeInUp col-md-6 col-sm-6 col-6">
-
-                                            <div class="row inv--head-section">
-    
-                                                <div class="col-sm-6 col-12">
-                                                    <h3 class="in-heading"></h3>
-                                                </div>
-                                                <div class="col-sm-6 col-12 align-self-center text-sm-right">
-                                                    <div class="company-info">
-                                                      
-                                                    </div>
-                                                </div>
-                                                
-                                            </div>
-    
-                                            <div class="row inv--detail-section">
-    
-                                                <div class="col-sm-7 align-self-center">
-                                                    <p class="inv-to">Expense Summary</p>
-                                                </div>
-                                                <div class="col-sm-5 align-self-center  text-sm-right order-sm-0 order-1">
-                                                    <p class="inv-detail-title"></p>
-                                                </div>
-                                                
-                                                <div class="col-sm-7 align-self-center">
-                                                    <p class="inv-customer-name"></p>
-                                                    
-                                                    <p class="inv-email-address"></p>
-                                                </div>
-                                                <div class="col-sm-5 align-self-center  text-sm-right order-2">
-                                                   
-                                                    <!-- <p class="inv-list-number"><span class="inv-title">Invoice Number : </span> <span class="inv-number">[invoice number]</span></p>
-                                                    <p class="inv-created-date"><span class="inv-title">Invoice Date : </span> <span class="inv-date">20 Aug 2019</span></p>
-                                                    <p class="inv-due-date"><span class="inv-title">Due Date : </span> <span class="inv-date">26 Aug 2019</span></p> -->
-                                                </div>
-                                            </div>
-    
-                                            <div class="row inv--product-table-section">
-                                                <div class="col-12 col-sm-12">
-                                                    <div class="table-responsive">
-                                                        <table class="table">
-                                                            <thead class="">
-                                                                <tr>
-                                                                    <th scope="col">Date</th>
-                                                                    <th scope="col">Name</th>
-                                                                    <th class="" scope="col">Amount</th>                                                              
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <%
-                                                                let expenseTot = 0;
-                                                                data.expense.map((expense)=>{ %>
-    
-                                                                
-                                                                <tr>
-                                                                    
-                                                                    <td><%=expense.date%></td>
-                                                                    <td><%=expense.name%></td>
-                                                                    <td class=""><%= expense.amount%>  ₹</td>                                                               
-                                                                </tr>
-                                                          <%
-                                                          expenseTot = expenseTot + parseInt(expense.amount);
-                                                        })%>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-    
-                                            <div class="row mt-4">
-                                                <div class="col-sm-5 col-12 order-sm-0 order-1">
-                                                    <div class="inv--payment-info">
-                                                        <div class="row">
-                                                            <!-- <div class="col-sm-12 col-12">
-                                                                <h6 class=" inv-title">Payment Info:</h6>
-                                                            </div>
-                                                            <div class="col-sm-4 col-12">
-                                                                <p class=" inv-subtitle">Bank Name: </p>
-                                                            </div>
-                                                            <div class="col-sm-8 col-12">
-                                                                <p class="">Bank of America</p>
-                                                            </div>
-                                                            <div class="col-sm-4 col-12">
-                                                                <p class=" inv-subtitle">Account Number : </p>
-                                                            </div>
-                                                            <div class="col-sm-8 col-12">
-                                                                <p class="">1234567890</p>
-                                                            </div> -->
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-7 col-12 order-sm-1 order-0">
-                                                    <div class="inv--total-amounts text-sm-right">
-                                                        <div class="row">
-                                                            <!-- <div class="col-sm-8 col-7">
-                                                                <p class="">Sub Total: </p>
-                                                            </div>
-                                                            <div class="col-sm-4 col-5">
-                                                                <p class=""> ₹</p>
-                                                            </div> -->
-                                                            <!-- <div class="col-sm-8 col-7">
-                                                                <p class="">Tax Amount: </p>
-                                                            </div>
-                                                            <div class="col-sm-4 col-5">
-                                                                <p class="">$700</p>
-                                                            </div>
-                                                            <div class="col-sm-8 col-7">
-                                                                <p class=" discount-rate">Discount : <span class="discount-percentage">5%</span> </p>
-                                                            </div>
-                                                            <div class="col-sm-4 col-5">
-                                                                <p class="">$700</p>
-                                                            </div> -->
-                                                            <div class="col-sm-8 col-7 grand-total-title">
-                                                                <h4 class=""> Total: </h4>
-                                                            </div>
-                                                            <div class="col-sm-4 col-5 grand-total-amount">
-                                                                <h4 class=""><%=  expenseTot%> ₹ </h4>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-    
-                                        </div>
-                                     </div>
-                                    <div class="row">
-                                        <div class="row mt-4">
-                                            <div class="col-sm-5 col-12 order-sm-0 order-1">
-                                                <div class="inv--payment-info">
-                                                    <div class="row">
-                                                        <!-- <div class="col-sm-12 col-12">
-                                                            <h6 class=" inv-title">Payment Info:</h6>
-                                                        </div>
-                                                        <div class="col-sm-4 col-12">
-                                                            <p class=" inv-subtitle">Bank Name: </p>
-                                                        </div>
-                                                        <div class="col-sm-8 col-12">
-                                                            <p class="">Bank of America</p>
-                                                        </div>
-                                                        <div class="col-sm-4 col-12">
-                                                            <p class=" inv-subtitle">Account Number : </p>
-                                                        </div>
-                                                        <div class="col-sm-8 col-12">
-                                                            <p class="">1234567890</p>
-                                                        </div> -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-7 col-12 order-sm-1 order-0">
-                                                <div class="inv--total-amounts text-sm-right">
-                                                    <div class="row">
-                                                        <!-- <div class="col-sm-8 col-7">
-                                                            <p class="">Sub Total: </p>
-                                                        </div>
-                                                        <div class="col-sm-4 col-5">
-                                                            <p class=""> ₹</p>
-                                                        </div> -->
-                                                        <!-- <div class="col-sm-8 col-7">
-                                                            <p class="">Tax Amount: </p>
-                                                        </div>
-                                                        <div class="col-sm-4 col-5">
-                                                            <p class="">$700</p>
-                                                        </div>
-                                                        <div class="col-sm-8 col-7">
-                                                            <p class=" discount-rate">Discount : <span class="discount-percentage">5%</span> </p>
-                                                        </div>
-                                                        <div class="col-sm-4 col-5">
-                                                            <p class="">$700</p>
-                                                        </div> -->
-                                                        <div class="col-sm-8 col-7 grand-total-title">
-                                                            <h4 class=""> Total: </h4>
-                                                        </div>
-                                                        <div class="col-sm-4 col-5 grand-total-amount">
-                                                            <h4 class=""><%=  HotelTot%> ₹ </h4>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> 
+                                     </div>                                   
+                                  
                              </div> 
 
                             </div>
