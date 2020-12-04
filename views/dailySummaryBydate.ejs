@@ -225,28 +225,57 @@
                                                             <tr>
                                                                 <th scope="col">Date</th>
                                                                 <th scope="col">Name</th>
-                                                                <th class="" scope="col">Total Amount</th>
-                                                                <th>Diffrence</th>
-                                                                <th> Paid Amount </th>                                                              
+                                                                <th class="" scope="col">Products</th>                                                                
+                                                                <th> Total </th>                                                              
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <%
                                                             let VendorTot = 0;
-                                                            data.vendorOrders.map((vendor)=>{ %>
-
+                                                            let tmpTotal = 0;
+                                                            let nflag;
                                                             
-                                                            <tr>
-                                                                
+                                                            let vendors = []
+
+                                                             data.vendorOrders.map((c) => {
+                                                               if(!vendors.includes(c.vendor_id)){
+                                                                  
+                                                                   vendors.push(c.vendor_id);
+                                                                   
+                                                               }
+                                                            }); %>
+                                                            
+                                                           <% vendors.map((v)=>{
+                                                                nflag = 0; %>
+                                                                <tr>
+                                                           <% data.vendorOrders.map((vendor)=>{ %>
+                                                           
+
+                                                            <%if(vendor.vendor_id === v){%>
+                                                                <%if(nflag===0){%>
                                                                 <td><%=vendor.date%></td>
                                                                 <td><%=vendor.vendor_name%></td>
-                                                                <td class=""><%= vendor.price %>  ₹</td>
-                                                                <td><%= parseInt(vendor.price) - parseInt(vendor.paid_amount) %></td>
-                                                                <td><%= vendor.paid_amount %></td>                                                             
+                                                                <td class="">
+                                                                <% nflag =1;
+                                                            }%>
+                                                                <%= vendor.name%> : <%=vendor.quantity%> * <%= parseInt(vendor.price)%> = <%= parseInt(vendor.price)*parseInt(vendor.quantity)%> ₹ <br>
+                                                                
+                                                                <%  VendorTot = VendorTot + parseInt(vendor.price)*parseInt(vendor.quantity)   
+                                                             tmpTotal =  tmpTotal + parseInt(vendor.price)*parseInt(vendor.quantity) 
+                                                            }%>
+                                                              <%  
+                                                             }) %>
+                                                              </td>
+                                                             <td></td>
                                                             </tr>
-                                                      <%
-                                                      VendorTot = VendorTot + parseInt(vendor.price);
-                                                    })%>
+                                                           <% }) %>
+
+                                                            
+                                                            
+                                                                
+                                                                                                                           
+                                                            
+                                                      
                                                         </tbody>
                                                     </table>
                                                 </div>
