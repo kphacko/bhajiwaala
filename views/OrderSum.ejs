@@ -45,6 +45,8 @@
                                 <h4 class="inv-number"></h4>
                                 <div class="invoice-action">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-printer action-print" data-toggle="tooltip" data-placement="top" data-original-title="Reply"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" onclick="toggleInv()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sidebar"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+                                
                                 </div>
                             </div>
                             
@@ -52,7 +54,7 @@
                                 
                                 <div class="invoice-00001">
                                     <div class="row">
-                                    <div class="content-section  animated animatedFadeInUp fadeInUp col-md-6 col-sm-6 col-6">
+                                    <div class="content-section  animated animatedFadeInUp fadeInUp col-md-6 col-sm-6 col-6" id="Inv1">
 
                                         <div class="row inv--head-section">
 
@@ -180,7 +182,7 @@
                                         </div>
 
                                     </div>
-                                    <div class="content-section  animated animatedFadeInUp fadeInUp col-md-6 col-sm-6 col-6">
+                                    <div class="content-section  animated animatedFadeInUp fadeInUp col-md-6 col-sm-6 col-6" id="Inv2">
 
                                         <div class="row inv--head-section">
 
@@ -342,3 +344,21 @@
 </div>
 
     <%- include("footer") %>
+    <script>
+          let Iflag =0;
+        function toggleInv(){
+          Inv1 = document.getElementById('Inv1');
+          Inv2 = document.getElementById('Inv2');
+        if (Iflag ===0) {
+        Inv1.className = 'content-section  animated animatedFadeInUp fadeInUp col-sm-6 col-md-6 col-6';
+        Inv2.className = 'content-section  animated animatedFadeInUp fadeInUp col-sm-6 col-md-6 col-6';
+       
+        Iflag++;        
+        }else{
+        Inv1.className = 'content-section  animated animatedFadeInUp fadeInUp col-sm-12 col-md-12 col-12';
+        Inv2.className = 'content-section  animated animatedFadeInUp fadeInUp col-sm-0 col-md-0 col-0 d-none';
+        
+        Iflag--;
+        }
+        }
+    </script>

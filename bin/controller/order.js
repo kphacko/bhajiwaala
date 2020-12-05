@@ -372,23 +372,29 @@ exports.editOrder = async(req, res, next) => {
 
 
                 sq = `UPDATE orders SET ref_id=${ref},u_id=${req.session.u_id},type='${type}', date='${date}' WHERE id=${orderID}`;
-                sql.query(sq, [data], (err, rows, result) => {
+                sql.query(sq, [data], async (err, rows, result) => {
                     if (!err) {
                         let ordered_products = [];
                         let count = req.body.count;
                         if (count == 0) reject(customError.dataInvalid);
-                        while (count != 0) {
-                            let qu = eval('req.body.quantity' + count);
-                            let id = eval('req.body.product_id' + count);
-                            let price = eval('req.body.price' + count);
-                            if (qu) {
-                                let dummy = new Array(orderID, id, qu, qu*price,price);
-                                ordered_products.push(dummy);
-                            }
+                        let pro = await functions.querySingle(`SELECT * FROM products`);
 
-                            count--;
-                            // console.log(ordered_products);
+                       pro.map((count)=>{
+                         qu = eval('req.body.quantity' + count.id);
+                         id = eval('req.body.product_id' + count.id);
+                         price = eval('req.body.price' + count.id);
+                        // console.log(id);
+                        if (qu) {
+                            let dummy = new Array(orderID, id, qu, qu*price,price);
+                            ordered_products.push(dummy);
                         }
+
+                        
+                        // console.log(ordered_products);
+
+                       })
+                            
+                        
                         // console.log(orderID);
                         sq = `DELETE FROM ordered_products WHERE order_id=${orderID}`;
                         sql.query(sq, (err, rows, result) => {
@@ -696,23 +702,27 @@ exports.editPurchase = async(req, res, next) => {
 
 
                 sq = `UPDATE orders SET ref_id=${ref},u_id=${req.session.u_id},type='${type}', date='${date}' WHERE id=${orderID}`;
-                sql.query(sq, [data], (err, rows, result) => {
+                sql.query(sq, [data], async (err, rows, result) => {
                     if (!err) {
                         let ordered_products = [];
                         let count = req.body.count;
                         if (count == 0) reject(customError.dataInvalid);
-                        while (count != 0) {
-                            let qu = eval('req.body.quantity' + count);
-                            let id = eval('req.body.product_id' + count);
-                            let price = eval('req.body.price' + count);
-                            if (qu) {
-                                let dummy = new Array(orderID, id, qu, qu*price,price);
-                                ordered_products.push(dummy);
-                            }
+                        let pro = await functions.querySingle(`SELECT * FROM products`);
 
-                            count--;
-                            // console.log(ordered_products);
-                        }
+                        pro.map((count)=>{
+                          qu = eval('req.body.quantity' + count.id);
+                          id = eval('req.body.product_id' + count.id);
+                          price = eval('req.body.price' + count.id);
+                        //  console.log(id);
+                         if (qu) {
+                             let dummy = new Array(orderID, id, qu, qu*price,price);
+                             ordered_products.push(dummy);
+                         }
+ 
+                         
+                        //  console.log(ordered_products);
+ 
+                        })
                         // console.log(orderID);
                         sq = `DELETE FROM ordered_products WHERE order_id=${orderID}`;
                         sql.query(sq, (err, rows, result) => {

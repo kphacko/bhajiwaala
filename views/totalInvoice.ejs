@@ -53,8 +53,8 @@
                                         })
                                         
                                        %>
-                                        <span class="badge outline-badge-danger mt-3">Total Remaining : <%= totalRemain%> </span>
-                                        <span class="badge outline-badge-success mb-3"> Total Paid : <%= totalPaid %> </span>
+                                        <span class="badge outline-badge-danger mt-3">Total Remaining : <%= totalRemain%> ₹</span>
+                                        <span class="badge outline-badge-success mb-3"> Total Paid : <%= totalPaid %> ₹</span>
                                         <table id="style-3" class="table style-3  table-hover">
                                             <thead>
                                                 <tr>
@@ -89,7 +89,7 @@
                                                             <%=invoice.type%>
                                                         </td>
                                                         <td>
-                                                            <span class="badge badge-danger"><%=  rem %> </span>  
+                                                            <span class="badge badge-danger"><%=  rem %> ₹</span>  
                                                         </td>
                                                         <td>
                                                             <%if(invoice.status==0){ %>
