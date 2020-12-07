@@ -92,7 +92,7 @@
 
                                                         </td>
                                                         <td>
-                                                            <input name="price<%= product.id %>" class="form-control" type="number" placeholder="price" min="0" aria-label="enter the price">
+                                                            <input name="price<%= product.id %>" class="form-control" type="number" step="0.01" placeholder="price" min="0" aria-label="enter the price">
 
                                                         </td>
                                                     </tr>
@@ -133,6 +133,7 @@
 
     <script>
         c3 = $('#editOrder1').DataTable({
+            "searching": false,
     "order": [[0, "asc"]],
     "oLanguage": {
         "oPaginate": {
@@ -147,7 +148,7 @@
     "stripeClasses": [],
     "lengthMenu": [5, 10, 20, 50,100],
    
-    "pageLength": 50,
+    "pageLength": 150,
     
    
 });

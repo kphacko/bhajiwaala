@@ -347,7 +347,7 @@
                                                     <table class="table">
                                                         <thead class="">
                                                             <tr>
-                                                                <th scope="col">Date</th>
+                                                                <th scope="col">Invoice Id</th>
                                                                 <th scope="col">Name</th>
                                                                 <th class="" scope="col">Products</th>                                                                
                                                                 <th> Total </th>                                                              
@@ -377,7 +377,7 @@
 
                                                             <%if(vendor.vendor_id === v){%>
                                                                 <%if(nflag===0){%>
-                                                                <td><%=vendor.date%></td>
+                                                                <td><%=vendor.order_id%></td>
                                                                 <td><%=vendor.vendor_name%></td>
                                                                 <td class="">
                                                                 <% nflag =1;

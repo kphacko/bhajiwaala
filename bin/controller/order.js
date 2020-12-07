@@ -13,7 +13,7 @@ const updateInvoice = async(id, type) => {
          INNER JOIN products ON ordered_products.p_id = products.id  WHERE orders.id = ${id}`);
          let updatedInvoice;
          if (type===1) {
-             updatedInvoice = await functions.querySingle(`UPDATE invoice SET TotalPrice = ${totalPrice[0].price},paid_amount = ${totalPrice[0].price},status = 2 WHERE ref_id=${totalPrice[0].id} AND type= ${type}`);
+             updatedInvoice = await functions.querySingle(`UPDATE invoice SET TotalPrice = ${totalPrice[0].price},paid_amount = ${totalPrice[0].price}  WHERE ref_id=${totalPrice[0].id} AND type= ${type}`);
             // await functions.querySingle(`UPDATE orders SET status = 2  WHERE id =${id}`);
              
          }else if (type===0) {
@@ -581,7 +581,7 @@ exports.addPurchase = async(req, res, next) => {
 exports.addTotalPurchase = async(req, res, next)=>{
     function addOrder(req, res, next) {
 
-        return new Promise((resolve, reject) => {
+        return new Promise( async(resolve, reject) => {
             // if (!req.session.u_id) reject(mess = new Custom('login error', 'please login first then try', 401));
             const { ref, type, date } = req.body;
             // console.log(name, phone);
@@ -601,18 +601,54 @@ exports.addTotalPurchase = async(req, res, next)=>{
                         stamp
                     ]
                 ]
+             let check =   await functions.querySingle(`SELECT * FROM orders WHERE type = 'VENDOR' AND date = '${date}' AND ref_id = ${ref}`);
+            //  console.log(check.length+' '+ref);  
+             if (check.length > 0  ) {
+
+                    order_id = check[0].id;
+                    ordered_products = [];
+                 
+                  
+                        qu = req.body.quantity;
+                        id = req.body.id
+                        price = req.body.price
+                       if (qu) {
+                            dummy = new Array(order_id, id, qu, qu*price,price);
+                           ordered_products.push(dummy);
+                       }
+
+                       sq = 'INSERT INTO ordered_products (order_id,p_id,quantity,price,PerPrice) VALUES ?';
+                       sql.query(sq, [ordered_products], async(err, rows, result) => {
+                           if (!err) {
+                               let updatedInovice = await updateInvoice(order_id, 1);
+
+                               resolve({
+                                   error: false,
+                                   details: rows
+                               });
+                           } else {
+                               reject(
+                                   console.log(err),
+                                   mess = new Custom('Database error', err.code, 401)
+                               );
+                           }
+                       });
+                   
+
+                    
+                }else{
                 sq = 'INSERT INTO orders (u_id,ref_id,type,date) VALUES ?';
                 sql.query(sq, [data], async (err, rows, result) => {
                     if (!err) {
-                        let order_id = rows.insertId;
-                        let ordered_products = [];
+                         order_id = rows.insertId;
+                         ordered_products = [];
                       
                        
-                            let qu = req.body.quantity;
-                            let id = req.body.id
-                            let price = req.body.price
+                             qu = req.body.quantity;
+                             id = req.body.id
+                             price = req.body.price
                             if (qu) {
-                                let dummy = new Array(order_id, id, qu, qu*price,price);
+                                 dummy = new Array(order_id, id, qu, qu*price,price);
                                 ordered_products.push(dummy);
                             }
 
@@ -670,7 +706,7 @@ exports.addTotalPurchase = async(req, res, next)=>{
                         );
                     }
                 });
-
+            }
             }
 
 

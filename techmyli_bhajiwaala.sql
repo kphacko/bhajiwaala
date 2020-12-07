@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 04, 2020 at 11:20 AM
+-- Generation Time: Dec 07, 2020 at 03:03 AM
 -- Server version: 10.3.25-MariaDB
 -- PHP Version: 7.3.6
 
@@ -85,6 +85,15 @@ CREATE TABLE `invoice` (
   `hell` int(12) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `invoice`
+--
+
+INSERT INTO `invoice` (`id`, `u_id`, `ref_id`, `status`, `type`, `date`, `paid_amount`, `TotalPrice`, `hell`) VALUES
+(1, 19, 1, 0, 0, '2020-12-07 15:14:40.415', '0', 0, 0),
+(2, 19, 2, 0, 0, '2020-12-07 15:19:12.604', '0', 0, 0),
+(3, 19, 3, 0, 0, '2020-12-07 15:20:49.678', '0', 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -100,6 +109,64 @@ CREATE TABLE `ordered_products` (
   `PerPrice` int(12) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `ordered_products`
+--
+
+INSERT INTO `ordered_products` (`id`, `order_id`, `p_id`, `quantity`, `price`, `PerPrice`) VALUES
+(18, 1, 2, '0.5', '0', 0),
+(19, 1, 9, '1', '0', 0),
+(20, 1, 12, '0.25', '0', 0),
+(21, 1, 13, '0.5', '0', 0),
+(22, 1, 14, '10', '0', 0),
+(23, 1, 19, '2', '0', 0),
+(24, 1, 22, '1', '0', 0),
+(25, 1, 26, '0.5', '0', 0),
+(26, 1, 32, '1', '0', 0),
+(27, 1, 39, '1', '0', 0),
+(28, 1, 40, '2', '0', 0),
+(29, 1, 41, '1', '0', 0),
+(30, 1, 60, '0.5', '0', 0),
+(31, 1, 63, '0.5', '0', 0),
+(32, 1, 70, '4', '0', 0),
+(33, 1, 77, '5', '0', 0),
+(34, 1, 78, '1', '0', 0),
+(55, 3, 76, '3', '0', 0),
+(56, 3, 74, '3', '0', 0),
+(57, 3, 71, '0.25', '0', 0),
+(58, 3, 70, '4', '0', 0),
+(59, 3, 49, '20', '0', 0),
+(60, 3, 47, '12', '0', 0),
+(61, 3, 35, '1', '0', 0),
+(62, 3, 22, '12', '0', 0),
+(63, 3, 21, '1.5', '0', 0),
+(64, 3, 15, '4', '0', 0),
+(65, 3, 13, '4', '0', 0),
+(66, 3, 11, '17', '0', 0),
+(67, 3, 9, '3', '0', 0),
+(68, 3, 7, '2', '0', 0),
+(69, 3, 1, '3', '0', 0),
+(91, 2, 1, '0.5', '0', 0),
+(92, 2, 2, '1', '0', 0),
+(93, 2, 3, '0.5', '0', 0),
+(94, 2, 9, '1', '0', 0),
+(95, 2, 12, '6', '0', 0),
+(96, 2, 13, '2', '0', 0),
+(97, 2, 14, '1', '0', 0),
+(98, 2, 15, '2', '0', 0),
+(99, 2, 19, '1', '0', 0),
+(100, 2, 22, '7', '0', 0),
+(101, 2, 35, '3', '0', 0),
+(102, 2, 39, '25', '0', 0),
+(103, 2, 40, '25', '0', 0),
+(104, 2, 70, '3', '0', 0),
+(105, 2, 71, '0.25', '0', 0),
+(106, 2, 72, '20', '0', 0),
+(107, 2, 74, '2', '0', 0),
+(108, 2, 76, '10', '0', 0),
+(109, 2, 77, '2', '0', 0),
+(110, 2, 78, '1', '0', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -114,6 +181,15 @@ CREATE TABLE `orders` (
   `date` varchar(256) NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `u_id`, `ref_id`, `type`, `date`, `status`) VALUES
+(1, 19, 6, 'HOTEL', '01-12-2020', 0),
+(2, 19, 5, 'HOTEL', '01-12-2020', 0),
+(3, 19, 4, 'HOTEL', '01-12-2020', 0);
 
 -- --------------------------------------------------------
 
@@ -364,19 +440,19 @@ ALTER TABLE `hotel`
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ordered_products`
 --
 ALTER TABLE `ordered_products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `products`
