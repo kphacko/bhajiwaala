@@ -280,6 +280,8 @@ async function addpurchase(){
     <%- include("footer") %>
     <script>
             c3 = $('#total-order1').DataTable({
+            "searching": false,
+
         "order": [[0, "asc"]],
         "oLanguage": {
             "oPaginate": {

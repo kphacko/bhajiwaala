@@ -3,7 +3,7 @@ const router = express.Router();
 const orderController = require('../controller/order');
 const productController = require('../controller/products');
 const functions = require('../custom/function');
-
+const invoiceController = require('../controller/invoice');
 const middleware = require('../middleware/auth');
 const { checkAdmin } = require('../middleware/auth');
 // const superagent = require('superagent');
@@ -150,8 +150,10 @@ router.get('/selectOrder', async(req, res) => {
 router.get('/editOrder/:id', async(req, res) => {
     let orders = await orderController.getOrderById(req.params.id);
     let product = await productController.getProducts();
+    let invoice = await functions.querySingle(`SELECT * FROM invoice WHERE ref_id = ${req.params.id} AND type = 0`);
+
     // console.log(orders[0].products);
-    res.render('editOrder', { id: req.params.id, data: orders, data1: product, role: req.session.role });
+    res.render('editOrder', { id: req.params.id, data: orders, data1: product, role: req.session.role,invoice:invoice});
 
 });
 

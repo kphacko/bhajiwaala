@@ -2,14 +2,14 @@ const mysql = require('mysql');
 
 const mysqlConnection =  mysql.createPool({
     connectionLimit : 100,
-    // host : 'localhost',
-    // user : 'root',
-    // password : '',
-    // database : 'bhajiwaala',
-    host: '107.178.108.59',
-    user: 'techmyli_new',
-    password: 'DX7@karan',
-    database: 'techmyli_bhajiwaala',
+    host : 'localhost',
+    user : 'root',
+    password : '',
+    database : 'bhajiwaala',
+    // host: '107.178.108.59',
+    // user: 'techmyli_new',
+    // password: 'DX7@karan',
+    // database: 'techmyli_bhajiwaala',
 
     multipleStatements: true
 });

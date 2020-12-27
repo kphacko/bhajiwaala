@@ -30,7 +30,7 @@
                         <p>delivery date</p>
 
                         <div class="input-group mb-4">
-                            <input type="date" name="date"  id="dateTimeFlatpickr" class="form-control" value="<%= data[0].date %>" placeholder="dd/mm/yyyy" aria-label="dd/mm/yyyy" required>
+                            <input type="date" name="date"  id="dateTimeFlatpickr" class="form-control" value="<%= data[0].date %>" placeholder="<%= data[0].date %>" aria-label="dd/mm/yyyy" required>
                         </div>
                         <div class="table-responsive mb-4">
                             <p>Product & Quantity</p>
@@ -64,7 +64,7 @@
                                                 <% exists.push(product.id);%>
                                             </td>
                                             <td>
-                                                <input name="price<%=product.id%>" class="form-control" value="<%=product.PerPrice%>" type="number" min="0" placeholder="price" aria-label="enter the price">
+                                                <input name="price<%=product.id%>" class="form-control" value="<%=product.PerPrice%>" type="number" step="0.0001" placeholder="price" aria-label="enter the price">
 
                                             </td>
                                         </tr>
@@ -88,7 +88,7 @@
 
                                                         </td>
                                                         <td>
-                                                            <input name="price<%= product.id%>" class="form-control" type="number" step="0.01" placeholder="price" aria-label="enter the price">
+                                                            <input name="price<%= product.id%>" class="form-control" type="number" step="0.0001" placeholder="price" aria-label="enter the price">
 
                                                         </td>
                                                     </tr>
@@ -151,5 +151,5 @@
 multiCheck(c3);
 </script>
     <script>
-        f2.value = <%= data[0].date %>
+        f2.value = '<%= data[0].date %>'
     </script>

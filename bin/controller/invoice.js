@@ -30,9 +30,10 @@ exports.getInvoice = async(type) => {
 exports.getInvoiceByID = async(id) => {
     try {
         // console.log(id);
+
         let hotelInvoices = await functions.querySingle(`SELECT invoice.id AS invoiceID,orders.id AS orderID,hotel.id,orders.type,hotel.name,hotel.email,hotel.phone,orders.date,orders.u_id AS editedBy,invoice.u_id AS createdBy,invoice.date AS gDate,invoice.status,invoice.paid_amount,invoice.TotalPrice,invoice.hell FROM orders INNER JOIN invoice ON invoice.ref_id = orders.id INNER JOIN hotel ON hotel.id = orders.ref_id WHERE orders.status != 1 AND orders.type = 'HOTEL' AND invoice.type= 0`);
         let vendorInvoices = await functions.querySingle(`SELECT invoice.id AS invoiceID,orders.id AS orderID,vendor.id,orders.type,vendor.name,vendor.email,vendor.phone,orders.date,orders.u_id AS editedBy,invoice.u_id AS createdBy,invoice.date AS gDate,invoice.status,invoice.paid_amount,invoice.TotalPrice,invoice.hell FROM orders INNER JOIN invoice ON invoice.ref_id = orders.id INNER JOIN vendor ON vendor.id = orders.ref_id WHERE orders.status != 1 AND orders.type = 'VENDOR' AND invoice.type= 1`);
-
+        
         let finalArray = hotelInvoices.concat(vendorInvoices);
 
         let invoice = finalArray.filter((inv) => {
@@ -45,7 +46,7 @@ exports.getInvoiceByID = async(id) => {
         });
         let products = await functions.querySingle(`SELECT ordered_products.order_id,ordered_products.p_id,products.name,products.weight_type,products.marathi,products.hindi,ordered_products.quantity,ordered_products.price,ordered_products.PerPrice FROM ordered_products INNER JOIN products ON products.id = ordered_products.p_id WHERE ordered_products.order_id = ${invoice[0].orderID}`);
         invoice[0].products = products;
-        // console.log(invoice[0].products);
+        console.log(invoice[0]);
         return invoice;
         // res.json(invoice);
     } catch (error) {
@@ -57,11 +58,11 @@ exports.getInvoiceByID = async(id) => {
 exports.updateInvoice = async(req, res) => {
     try {
         // console.log(date);
-        const { amount, type, id ,hell} = req.body;
+        const { amount, type, id } = req.body;
 
-        if (!hell || hell < 0 ||!amount || amount < 0 || !type || !id) throw customError.dataInvalid;
+        if (!amount || amount < 0 || !type || !id) throw customError.dataInvalid;
         let invoice = await functions.querySingle(`SELECT * FROM invoice WHERE id = ${id}`);
-        let updateInvoice = await functions.querySingle(`UPDATE invoice SET status = 1,paid_amount =${parseInt(amount)+parseInt(hell)},hell=${parseInt(hell)} WHERE id = ${id}`);
+        let updateInvoice = await functions.querySingle(`UPDATE invoice SET status = 1,paid_amount =${parseInt(amount)} WHERE id = ${id}`);
 
         // let updateOrder = await functions.querySingle(`UPDATE orders SET status = 2  WHERE ref_id = ${invoice[0].ref_id} AND type = '${type}'`);
 

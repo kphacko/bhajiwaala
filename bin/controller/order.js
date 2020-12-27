@@ -6,20 +6,44 @@ const functions = require('../custom/function');
 const CustomError = require('../custom/error');
 
 
-const updateInvoice = async(id, type) => {
+const updateInvoice = async(id, type,hell) => {
     try {
         let totalPrice = await functions.querySingle(`SELECT orders.id,SUM(ordered_products.price) AS price FROM orders 
         INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
          INNER JOIN products ON ordered_products.p_id = products.id  WHERE orders.id = ${id}`);
+        //  console.log(totalPrice);
          let updatedInvoice;
          if (type===1) {
-             updatedInvoice = await functions.querySingle(`UPDATE invoice SET TotalPrice = ${totalPrice[0].price},paid_amount = ${totalPrice[0].price}  WHERE ref_id=${totalPrice[0].id} AND type= ${type}`);
-            // await functions.querySingle(`UPDATE orders SET status = 2  WHERE id =${id}`);
+             updatedInvoice = await functions.querySingle(`UPDATE invoice SET TotalPrice = ${totalPrice[0].price} WHERE ref_id=${totalPrice[0].id} AND type= ${type}`);
+            // await functions.querySingle(`UPDATE orders SET status = 2  WHERE id =${id}`); ,paid_amount = ${totalPrice[0].price} 
              
          }else if (type===0) {
-             updatedInvoice = await functions.querySingle(`UPDATE invoice SET TotalPrice = ${totalPrice[0].price} WHERE ref_id=${totalPrice[0].id} AND type= ${type}`);
+             updatedInvoice = await functions.querySingle(`UPDATE invoice SET TotalPrice = ${parseFloat(totalPrice[0].price)+parseFloat(hell) },hell=${hell} WHERE ref_id=${totalPrice[0].id} AND type= ${type}`);
              
          }
+        return updatedInvoice;
+    } catch (error) {
+        return error;
+    }
+
+
+}
+exports.updateDInvoice = async(id, type,hell) => {
+    try {
+        let totalPrice = await functions.querySingle(`SELECT orders.id,SUM(ordered_products.price) AS price FROM orders 
+        INNER JOIN ordered_products ON orders.id = ordered_products.order_id 
+         INNER JOIN products ON ordered_products.p_id = products.id  WHERE orders.id = ${id}`);
+        //  console.log(totalPrice);
+         let updatedInvoice;
+         if (type===1) {
+             updatedInvoice = await functions.querySingle(`UPDATE invoice SET TotalPrice = ${totalPrice[0].price} WHERE ref_id=${totalPrice[0].id} AND type= ${type}`);
+            // await functions.querySingle(`UPDATE orders SET status = 2  WHERE id =${id}`); ,paid_amount = ${totalPrice[0].price} 
+             
+         }else if (type===0) {
+             updatedInvoice = await functions.querySingle(`UPDATE invoice SET TotalPrice = ${parseFloat(totalPrice[0].price)+parseFloat(hell) },hell=${hell} WHERE ref_id=${totalPrice[0].id} AND type= ${type}`);
+             
+         }
+        //  console.log(updatedInvoice);
         return updatedInvoice;
     } catch (error) {
         return error;
@@ -240,6 +264,7 @@ exports.getOrderByDateHotel = async(date, id) => {
 exports.addOrder = async(req, res, next) => {
     let order_id;
 
+
     function addOrder(req, res, next) {
 
         return new Promise((resolve, reject) => {
@@ -253,6 +278,7 @@ exports.addOrder = async(req, res, next) => {
 
 
             } else {
+                nhell = hell;
                 let stamp = date;
                 let data = [
                     [
@@ -359,17 +385,17 @@ exports.editOrder = async(req, res, next) => {
 
         return new Promise((resolve, reject) => {
             // if (!req.session.u_id) reject(mess = new Custom('login error', 'please login first then try', 401));
-            const { ref, type, orderID, date, count } = req.body;
+            const { ref, type, orderID, date, count ,hell} = req.body;
             // console.log(name, phone);
             // console.log(`ref ${ref} ${type} ${orderID} ${date} ${count}`);
 
-            if (!ref || !type || !orderID || !date || !count) {
+            if (!ref || !type || !orderID || !date || !count || !hell) {
 
                 reject(customError.dataInvalid);
 
 
             } else {
-
+                
 
                 sq = `UPDATE orders SET ref_id=${ref},u_id=${req.session.u_id},type='${type}', date='${date}' WHERE id=${orderID}`;
                 sql.query(sq, [data], async (err, rows, result) => {
@@ -402,7 +428,7 @@ exports.editOrder = async(req, res, next) => {
                                 sq1 = 'INSERT INTO ordered_products (order_id,p_id,quantity,price,PerPrice) VALUES ?';
                                 sql.query(sq1, [ordered_products], async(err, rows, result) => {
                                     if (!err) {
-                                        let updatedInovice = await updateInvoice(orderID, 0);
+                                        let updatedInovice = await updateInvoice(orderID, 0,hell);
 
                                         resolve({
                                             error: false,
@@ -580,6 +606,7 @@ exports.addPurchase = async(req, res, next) => {
 }
 exports.addTotalPurchase = async(req, res, next)=>{
     function addOrder(req, res, next) {
+       let order_id;
 
         return new Promise( async(resolve, reject) => {
             // if (!req.session.u_id) reject(mess = new Custom('login error', 'please login first then try', 401));
@@ -620,11 +647,12 @@ exports.addTotalPurchase = async(req, res, next)=>{
                        sq = 'INSERT INTO ordered_products (order_id,p_id,quantity,price,PerPrice) VALUES ?';
                        sql.query(sq, [ordered_products], async(err, rows, result) => {
                            if (!err) {
-                               let updatedInovice = await updateInvoice(order_id, 1);
-
+                               
+                            
                                resolve({
                                    error: false,
-                                   details: rows
+                                   details: rows,
+                                   order_id:order_id
                                });
                            } else {
                                reject(
@@ -670,7 +698,8 @@ exports.addTotalPurchase = async(req, res, next)=>{
                             if (!err) {
                                 resolve({
                                     error: false,
-                                    details: rows
+                                    details: rows,
+                                    order_id:order_id
                                 });
                             } else {
                                 reject(
@@ -683,11 +712,11 @@ exports.addTotalPurchase = async(req, res, next)=>{
                         sq = 'INSERT INTO ordered_products (order_id,p_id,quantity,price,PerPrice) VALUES ?';
                         sql.query(sq, [ordered_products], async(err, rows, result) => {
                             if (!err) {
-                                let updatedInovice = await updateInvoice(order_id, 1);
-
+                             
                                 resolve({
                                     error: false,
-                                    details: rows
+                                    details: rows,
+                                    order_id:order_id
                                 });
                             } else {
                                 reject(
@@ -709,10 +738,12 @@ exports.addTotalPurchase = async(req, res, next)=>{
             }
             }
 
-
         })
     }
-    addOrder(req, res, next).then(message => {
+    addOrder(req, res, next).then(async(message) => {
+        // console.log(message)
+        await updateInvoice(message.order_id, 1,0);
+
         res.status(200).send(message);
     }).catch(error => {
         // console.log(error);
@@ -727,7 +758,7 @@ exports.editPurchase = async(req, res, next) => {
             // if (!req.session.u_id) reject(mess = new Custom('login error', 'please login first then try', 401));
             const { ref, type, orderID, date, count } = req.body;
             // console.log(name, phone);
-            // console.log(`ref ${ref} ${type} ${orderID} ${date} ${count}`);
+            console.log(`ref ${ref} ${type} ${orderID} ${date} ${count}`);
 
             if (!ref || !type || !orderID || !date || !count) {
 
@@ -767,7 +798,7 @@ exports.editPurchase = async(req, res, next) => {
                                 sql.query(sq1, [ordered_products], async(err, rows, result) => {
                                     if (!err) {
                                         let updatedInovice = await updateInvoice(orderID, 1);
-
+                                        console.log(updatedInovice);
                                         resolve({
                                             error: false,
                                             details: rows

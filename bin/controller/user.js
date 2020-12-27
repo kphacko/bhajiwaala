@@ -20,6 +20,8 @@ exports.login = async(req, res, next) => {
             } else {
 
                 sql.query(`SELECT * FROM user WHERE phone = '${phone}' OR email = '${phone}' AND status = 0`, async function(err, results) {
+                    // console.log(resul);
+                    // console.log(err);
                     if (results.length === 0) {
                         reject({
                             error: customError.authFailed

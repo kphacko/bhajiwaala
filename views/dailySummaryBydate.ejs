@@ -382,10 +382,10 @@
                                                                 <td class="">
                                                                 <% nflag =1;
                                                             }%>
-                                                                <%= vendor.name%> : <%=vendor.quantity%> * <%= parseInt(vendor.PerPrice)%> = <%= parseInt(vendor.PerPrice)*parseInt(vendor.quantity)%> ₹ <br>
+                                                                <%= vendor.name%> : <%=vendor.quantity%> <%=vendor.weight_type%> * <%= parseFloat(vendor.PerPrice)%> ₹ = <%= parseFloat(vendor.PerPrice)*parseFloat(vendor.quantity)%> ₹ <br>
                                                                 
-                                                                <%  VendorTot = VendorTot + parseInt(vendor.PerPrice)*parseInt(vendor.quantity)   
-                                                             tmpTotal =  tmpTotal + parseInt(vendor.PerPrice)*parseInt(vendor.quantity) 
+                                                                <%  VendorTot = VendorTot + parseFloat(vendor.PerPrice)*parseFloat(vendor.quantity)   
+                                                             tmpTotal =  tmpTotal + parseFloat(vendor.PerPrice)*parseFloat(vendor.quantity) 
                                                             }%>
                                                               <%  
                                                              }) %>

@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const invoiceController = require('../controller/invoice');
 const productController = require('../controller/products');
-
+const orderController = require('../controller/order');
 const middleware = require('../middleware/auth');
 const { checkAdmin } = require('../middleware/auth');
+
 
 
 // router.get('/getInvoice', invoiceController.getInvoice);
@@ -13,6 +14,7 @@ const { checkAdmin } = require('../middleware/auth');
 router.get('/getInvoice/:type', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, async(req, res) => {
     let invoice = await invoiceController.getInvoice(req.params.type);
     // console.log(invoice);
+
     if (req.query.status) {
         res.render('totalInvoice', { data: invoice, status: req.query.status, message: req.query.message, role: req.session.role });
     } else {
@@ -26,6 +28,10 @@ router.get('/getInvoice/:type', (req, res, next) => { checkAdmin(req, res, next,
 router.get('/invoice/:id', (req, res, next) => { checkAdmin(req, res, next, ['admin'], 'login') }, async(req, res) => {
     let invoice = await invoiceController.getInvoiceByID(req.params.id);
     // console.log(invoice);
+if (invoice[0].type==='VENDOR') {
+  await orderController.updateDInvoice(invoice[0].orderID, 1,0);    
+   
+}
     if (req.query.status) {
         res.render('invoice', { data: invoice, status: req.query.status, message: req.query.message, domain: process.env.DOMAIN, role: req.session.role ,org:req.session.org});
     } else {

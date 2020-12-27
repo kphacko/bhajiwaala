@@ -66,7 +66,7 @@
                                                 <% exists.push(product.id);%>
                                             </td>
                                             <td>
-                                                <input name="price<%= product.id %>" class="form-control" value="<%=product.PerPrice%>" type="number" placeholder="price" min="0" aria-label="enter the price">
+                                                <input name="price<%= product.id %>" class="form-control" value="<%=product.PerPrice%>" type="number" placeholder="price" step="0.001" aria-label="enter the price">
 
                                             </td>
                                         </tr>
@@ -112,10 +112,13 @@
                                 </tbody>
                             </table>
                         </div>
-
+                        
+                       
                         <div class="container">
                             <div class="center">
-                                <button class="mt-4 btn btn-primary">Submit</button>
+                            <input name="hell" class="form-control" value="<%= invoice[0].hell%>" type="number" step="0.01" placeholder="price" step="0.001" aria-label="enter the Hell amount" required>
+
+                                <button class="mt-1 btn btn-primary">Submit</button>
 
                             </div>
                         </div>
