@@ -278,7 +278,6 @@ exports.addOrder = async(req, res, next) => {
 
 
             } else {
-                nhell = hell;
                 let stamp = date;
                 let data = [
                     [
@@ -366,10 +365,10 @@ exports.addOrder = async(req, res, next) => {
         })
     }
     addOrder(req, res, next).then(async(message) => {
-        let updatedInovice = await updateInvoice(order_id, 0);
+        let updatedInovice = await updateInvoice(order_id, 0,0);
         res.status(message.code).redirect('/order/addOrder?status=added');
     }).catch(error => {
-        // console.log(error);
+        console.log(error);
         res.status(error.code).redirect(`/order/addOrder?status=Error&message=${error.message}`);
     })
 
