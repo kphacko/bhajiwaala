@@ -49,9 +49,20 @@ const orderRoutes = require('./bin/routes/order');
 const invoiceRoutes = require('./bin/routes/invoice');
 
 const { checkAdmin } = require('./bin/middleware/auth');
+const { connect } = require('./bin/routes/user');
 
 
 
+mysqlConnection.getConnection(function(err, connection) {
+connection.query('SHOW DATABASES;',(err,result)=>{
+    if(result){
+        console.log('Database is connected');
+
+    }else{
+        console.log('Database connection error ' + err);
+    }
+});
+  });
 
 
 //******* USING THE IMPORTED ROUTES *******\\
